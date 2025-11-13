@@ -118,7 +118,7 @@ class CommandHandler:
         "move" : "to do",
         "ren" : "to do",
         "export" : "to do",
-        "man" : "to do",
+        "man" : "Realy! Are you serious",
     }
 
     PATH_LIKE = {
