@@ -12,16 +12,74 @@ It's somthing that already exist but this is just a small project idea that i wa
 
 ## 🚀 Features
 
-### Commands at version 1.0
+## Commands
 
-|Command|Description                                                                                                        |Use                |
-|-------|-------------------------------------------------------------------------------------------------------------------|-------------------|
-|ls     |List the files and directory in the current or specified directory, with -a show the hidden files and directory    |ls [-a/-l] [path]  |
-|cd     |Move to the specified directory                                                                                    |cd [dir]           |
-|pwd    |Print the current wworking directory                                                                               |pwd                |
-|cat    |Print the content of the specified file                                                                            |cat [path]         |
-|head   |Print the first 10 lines or the specified amount of the specified file                                             |head [path/file]   |
+<details>
+    <summary>File & Directory Operations</summary>
 
+| Command | Description                                                                       | Usage                                            |
+| ------- | --------------------------------------------------------------------------------- | ------------------------------------------------ |
+| ls      | List files and directories. `-a` shows hidden files, `-l` shows detailed listing. | ls [-a/-l] [path]                                |
+| cd      | Change to the specified directory.                                                | cd [dir]                                         |
+| pwd     | Print the current working directory.                                              | pwd                                              |
+| cat     | Print the content of a file.                                                      | cat [file]                                       |
+| head    | Show the first 10 lines (or specified number) of a file.                          | head [-n N] [file]                               |
+| tail    | Show the last 10 lines (or specified number) of a file.                           | tail [-n N] [file]                               |
+| rm      | Remove a file.                                                                    | rm [file]                                        |
+| rmdir   | Remove an empty directory.                                                        | rmdir [directory]                                |
+| mkdir   | Create a new directory.                                                           | mkdir [directory]                                |
+| touch   | Create an empty file or update a timestamp.                                       | touch [file]                                     |
+| cp      | Copy a file or directory.                                                         | cp [source] [dest]                               |
+| mv      | Move or rename a file or directory.                                               | mv [source] [dest]                               |
+| rename  | Rename files using patterns.                                                      | rename [options] [pattern] [replacement] [files] |
+| tree    | Display files and directories as a tree.                                          | tree [path]                                      |
+</details>
+
+<details>
+    <summary>Search & Information Commands</summary>
+
+| Command | Description                                   | Usage            |
+| ------- | --------------------------------------------- | ---------------- |
+| search  | Search for files (system dependent).          | search [pattern] |
+| info    | Show detailed documentation (GNU info pages). | info [command]   |
+| man     | Show a command’s manual pages.                | man [command]    |
+</details>
+
+<details>
+    <summary>Viewing, Editing, and System Interaction</summary>
+
+| Command | Description                | Usage          |
+| ------- | -------------------------- | -------------- |
+| preview | Preview file content.      | preview [file] |
+| edit    | Open a file in an editor.  | edit [file]    |
+| echo    | Print text to terminal.    | echo [text]    |
+| clear   | Clear the terminal screen. | clear          |
+| cls     | Windows version of clear.  | cls            |
+| history | Show command history.      | history        |
+</details>
+
+<details>
+    <summary>Cross-Platform Command Equivalents</summary>
+
+| Unix/Linux | Windows | Description              |
+| ---------- | ------- | ------------------------ |
+| ls         | dir     | List directory contents. |
+| rm         | del     | Delete files.            |
+| cp         | copy    | Copy files.              |
+| mv         | move    | Move files.              |
+| rename     | ren     | Rename files.            |
+</details>
+
+<details>
+    <summary>Session & Environment Commands</summary>
+
+| Command | Description                    | Usage            |
+| ------- | ------------------------------ | ---------------- |
+| export  | Set environment variables.     | export VAR=value |
+| exit    | Exit the shell session.        | exit             |
+| quit    | Alias of exit in some systems. | quit             |
+</details>
+ 
 ---
 
 ## 🛠️ Intallation
