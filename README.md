@@ -201,13 +201,15 @@ This project is licensed under the MIT License
 
 ### Inspiration
 
-A
+A linux shell. 
 
 ### References
 
 Went on my own.
 
 ### Contributors
+
+No one.
 
 ## 📞 Contact
 
