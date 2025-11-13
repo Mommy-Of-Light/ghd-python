@@ -136,7 +136,7 @@ pip --version
 #### Launch Docker - Important
 
 ```bash
-git clone [https://github.com/Mommy-Of-Light/gdh-python.git](https://github.com/Mommy-Of-Light/gdh-python.git)
+git clone https://github.com/Mommy-Of-Light/gdh-python.git
 cd file-manager
 ```
 
@@ -267,7 +267,7 @@ Went on my own.
 
 ### Contributors
 
-No one.
+Working alone on this project
 
 ## 📞 Contact
 
