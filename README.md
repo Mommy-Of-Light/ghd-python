@@ -10,7 +10,7 @@ It's somthing that already exist but this is just a small project idea that i wa
 
 ---
 
-## Features
+## 🚀 Features
 
 ### Commands at version 1.0
 
@@ -24,7 +24,7 @@ It's somthing that already exist but this is just a small project idea that i wa
 
 ---
 
-## Intallation
+## 🛠️ Intallation
 
 ### Prerequisites
 
@@ -73,7 +73,7 @@ pip --version
 
 ---
 
-### Set Up
+### ⚙️ Set Up
 
 #### Launch Docker - Important
 
@@ -90,7 +90,7 @@ chmod +x run.sh
 
 ---
 
-## Usage
+## 💡 Usage
 
 ### Linux/Mac
 
@@ -118,15 +118,21 @@ bash run.sh
 
 ---
 
-## Configuration
+## ⚙️ Configuration
 
 No configuration needed for this project
 
 ---
 
-## Project structure
+## 🧪 Tests
 
-```└ ├ ─ │
+There is no test set up other than using the app for now
+
+---
+
+## 📁 Project structure
+
+```text
 file-manager/
 ├── src/
 │    ├── classes/
@@ -148,8 +154,65 @@ file-manager/
 
 ---
 
-## Built with 
+## 📦 Built with 
 
- - Python
- - Docker
+- Python
+- Docker
 
+---
+
+## 🤝 Contributing
+
+### 1. Fork the repository (Click the "Fork" button on the top right of the repo page)
+
+### 2. Clone your fork
+```bash
+git clone git@github.com:your-username/ghd-python.git
+cd ghd-python
+```
+
+### 3. Create your feature branch
+```bash
+git checkout -b feature/fooBar
+```
+
+### 4. Commit your changes
+```bash
+git commit -m "Add some fooBar"
+```
+
+### 5. Push to the branch
+```bash
+git push origin feature/fooBar
+```
+
+### 6. Open a Pull Request
+Go to: [https://github.com/Mommy-Of-Light/ghd-python/pulls](https://github.com/Mommy-Of-Light/ghd-python/pulls) and click "New Pull Request"
+
+---
+
+## 📜 Licence 
+
+This project is licensed under the MIT License
+
+---
+
+## 🙌 Acknowledgements
+
+### Inspiration
+
+A
+
+### References
+
+Went on my own.
+
+### Contributors
+
+## 📞 Contact
+
+Mommy of light — no twitter at the time 
+
+Email: empress.mommy.of.light@gmail.com
+
+Project Link: [https://github.com/Mommy-Of-Light/ghd-python/pulls](https://github.com/Mommy-Of-Light/ghd-python/pulls)
