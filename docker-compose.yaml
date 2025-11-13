@@ -1,0 +1,8 @@
+services:
+  fm:
+    image: console-file-manager:latest
+    build: .
+    volumes:
+      - .:/workspace   # ✅ Mount current project folder to /workspace
+    tty: true
+    stdin_open: true
