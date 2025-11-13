@@ -124,6 +124,30 @@ No configuration needed for this project
 
 ---
 
+## Project structure
+
+```└ ├ ─ │
+file-manager/
+├── src/
+│    ├── classes/
+│    │    ├── __init__.py
+│    │    ├── cli.py
+│    │    ├── commands.py
+│    │    ├── utils.py
+│    │    └── venv_manager.py
+│    ├── __init__.py
+│    └── main.py.py
+├── .gitignore
+├── dockercompose.yaml
+├── Dockerfile
+├── README.md
+├── run.bat
+├── run.ps1
+└── run.sh
+```
+
+---
+
 ## Built with 
 
  - Python
