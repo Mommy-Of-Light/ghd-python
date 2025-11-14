@@ -285,8 +285,22 @@ class CommandHandler:
     def cmd_tail(self, args):
         print("not implemented")
 
-    def cmd_del(self, args):
-        self.cmd_rm(args)
+    def cmd_rm(self, args):
+        if not args:
+            print("Usage: rm <file>")
+            return
+        path = make_abs_path(args[0])
+        if not path.exists():
+            print("No such file:", path)
+            return
+        if path.is_dir():
+            print("Use rmdir for directories.")
+            return
+        try:
+            path.unlink()
+            print("Deleted", path)
+        except Exception as e:
+            print("rm error:", e)
 
     def cmd_rmdir(self, args):
         if not args:
@@ -462,22 +476,8 @@ class CommandHandler:
     def cmd_dir(self, args):
         self.cmd_ls(args)
 
-    def cmd_rm(self, args):
-        if not args:
-            print("Usage: rm <file>")
-            return
-        path = make_abs_path(args[0])
-        if not path.exists():
-            print("No such file:", path)
-            return
-        if path.is_dir():
-            print("Use rmdir for directories.")
-            return
-        try:
-            path.unlink()
-            print("Deleted", path)
-        except Exception as e:
-            print("rm error:", e)
+    def cmd_del(self, args):
+        self.cmd_rm(args)
 
     def cmd_copy(self, args):
         self.cmd_cp(args)
