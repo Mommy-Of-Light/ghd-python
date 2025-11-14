@@ -43,6 +43,7 @@ It's somthing that already exist but this is just a small project idea that i wa
 | search  | Search for files (system dependent).          | search [pattern] |
 | info    | Show detailed documentation (GNU info pages). | info [command]   |
 | man     | Show a command’s manual pages.                | man [command]    |
+| help    | Show the help for all commands                | help / ?         |
 </details>
 
 <details>

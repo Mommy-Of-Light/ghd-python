@@ -49,76 +49,76 @@ class CommandHandler:
         "ren",
         "export",
         "man",
-    ]    
-    
-    COMMANDS_LIST_HELP = [
-        "ls       - ",
-        "cd       - ",
-        "pwd      - ",
-        "cat      - ",
-        "head     - ",
-        "tail     - ",
-        "rm       - ",
-        "rmdir    - ",
-        "mkdir    - ",
-        "touch    - ",
-        "cp       - ",
-        "mv       - ",
-        "rename   - ",
-        "search   - ",
-        "tree     - ",
-        "info     - ",
-        "help     - ",
-        "preview  - ",
-        "edit     - ",
-        "clear    - ",
-        "cls      - ",
-        "echo     - ",
-        "history  - ",
-        "exit     - ",
-        "quit     - ",
-        "dir      - ",
-        "del      - ",
-        "copy     - ",
-        "move     - ",
-        "ren      - ",
-        "export   - ",
-        "man      - ",
     ]
-    
+
+    COMMANDS_LIST_HELP = [
+        "ls       - ls [-a/-l] [path] ",
+        "cd       - cd [dir] ",
+        "pwd      - pwd ",
+        "cat      - cat [file] ",
+        "head     - head [-n N] [file] ",
+        "tail     - tail [-n N] [file] ",
+        "rm       - rm [file] ",
+        "rmdir    - rmdir [directory] ",
+        "mkdir    - mkdir [directory] ",
+        "touch    - touch [file] ",
+        "cp       - cp [source] [dest] ",
+        "mv       - mv [source] [dest] ",
+        "rename   - rename [options] [pattern] [replacement] [files] ",
+        "search   - search [pattern] ",
+        "tree     -	tree [path] ",
+        "info     - info [command] ",
+        "help     - help / ?",
+        "preview  - preview [file] ",
+        "edit     - edit [file] ",
+        "clear    - clear ",
+        "cls      - cls ",
+        "echo     - echo [text] ",
+        "history  - history ",
+        "exit     - exit ",
+        "quit     - quit ",
+        "dir      - dir ",
+        "del      - del [file]",
+        "copy     - copy [source] [dest] ",
+        "move     - move [source] [dest]",
+        "ren      - ren [pattern] [replacement] [files] ",
+        "export   - export VAR=value ",
+        "man      - man [command] ",
+    ]
+
     COMMANDS_LIST_MAN = {
-        "ls" : "to do",
-        "cd" : "to do",
-        "pwd" : "to do",
-        "cat" : "to do",
-        "head" : "to do",
-        "tail" : "to do",
-        "rm" : "to do",
-        "rmdir" : "to do",
-        "mkdir" : "to do",
-        "touch" : "to do",
-        "cp" : "to do",
-        "mv" : "to do",
-        "rename" : "to do",
-        "search" : "to do",
-        "tree" : "to do",
-        "info" : "to do",
-        "help" : "to do",
-        "preview" : "to do",
-        "edit" : "to do",
-        "clear" : "to do",
-        "cls" : "to do",
-        "echo" : "to do",
-        "history" : "to do",
-        "exit" : "to do",
-        "quit" : "to do",
-        "dir" : "to do",
-        "del" : "to do",
-        "copy" : "to do",
-        "move" : "to do",
-        "ren" : "to do",
-        "export" : "to do",
-        "man" : "Realy! Are you serious",
+        "ls": "to do",
+        "cd": "to do",
+        "pwd": "to do",
+        "cat": "to do",
+        "head": "to do",
+        "tail": "to do",
+        "rm": "to do",
+        "rmdir": "to do",
+        "mkdir": "to do",
+        "touch": "to do",
+        "cp": "to do",
+        "mv": "to do",
+        "rename": "to do",
+        "search": "to do",
+        "tree": "to do",
+        "info": "to do",
+        "help": "to do",
+        "preview": "to do",
+        "edit": "to do",
+        "clear": "to do",
+        "cls": "to do",
+        "echo": "to do",
+        "history": "to do",
+        "exit": "to do",
+        "quit": "to do",
+        "dir": "to do",
+        "del": "to do",
+        "copy": "to do",
+        "move": "to do",
+        "ren": "to do",
+        "export": "to do",
+        "man": "Realy! Are you serious",
     }
 
     PATH_LIKE = {
@@ -235,7 +235,6 @@ class CommandHandler:
     # -------------------------------
     # Commands
     # -------------------------------
-
     def cmd_ls(self, args):
         import argparse
 
@@ -279,13 +278,13 @@ class CommandHandler:
 
     def cmd_cat(self, args):
         print("not implemented")
-    
+
     def cmd_head(self, args):
         print("not implemented")
-    
+
     def cmd_tail(self, args):
         print("not implemented")
-    
+
     def cmd_del(self, args):
         self.cmd_rm(args)
 
@@ -409,10 +408,10 @@ class CommandHandler:
 
     def cmd_help(self, args):
         print("Available commands:")
-        
+
         for cmd in self.COMMANDS_LIST_HELP:
             print(f" - {cmd}")
-            
+
     def cmd_preview(self, args):
         if not args:
             print("Usage: preview <file> [lines]")
@@ -525,4 +524,3 @@ class CommandHandler:
                 print(self.COMMANDS_LIST_MAN[cmd_name])
             else:
                 print(f"No manual entry for '{cmd_name}'.")
-
