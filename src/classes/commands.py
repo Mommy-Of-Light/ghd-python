@@ -52,38 +52,38 @@ class CommandHandler:
     ]    
     
     COMMANDS_LIST_HELP = [
-        "ls",
-        "cd",
-        "pwd",
-        "cat",
-        "head",
-        "tail",
-        "rm",
-        "rmdir",
-        "mkdir",
-        "touch",
-        "cp",
-        "mv",
-        "rename",
-        "search",
-        "tree",
-        "info",
-        "help",
-        "preview",
-        "edit",
-        "clear",
-        "cls",
-        "echo",
-        "history",
-        "exit",
-        "quit",
-        "dir",
-        "del",
-        "copy",
-        "move",
-        "ren",
-        "export",
-        "man",
+        "ls       - ",
+        "cd       - ",
+        "pwd      - ",
+        "cat      - ",
+        "head     - ",
+        "tail     - ",
+        "rm       - ",
+        "rmdir    - ",
+        "mkdir    - ",
+        "touch    - ",
+        "cp       - ",
+        "mv       - ",
+        "rename   - ",
+        "search   - ",
+        "tree     - ",
+        "info     - ",
+        "help     - ",
+        "preview  - ",
+        "edit     - ",
+        "clear    - ",
+        "cls      - ",
+        "echo     - ",
+        "history  - ",
+        "exit     - ",
+        "quit     - ",
+        "dir      - ",
+        "del      - ",
+        "copy     - ",
+        "move     - ",
+        "ren      - ",
+        "export   - ",
+        "man      - ",
     ]
     
     COMMANDS_LIST_MAN = {
@@ -236,7 +236,6 @@ class CommandHandler:
     # Commands
     # -------------------------------
 
-    # --- Navigation ---
     def cmd_ls(self, args):
         import argparse
 
@@ -268,9 +267,6 @@ class CommandHandler:
             for e in sorted(entries, key=lambda x: x.name.lower()):
                 print(e.name + ("/" if e.is_dir() else ""))
 
-    def cmd_dir(self, args):
-        self.cmd_ls(args)
-
     def cmd_cd(self, args):
         target = make_abs_path(args[0]) if args else self.cli.workspace
         try:
@@ -281,24 +277,15 @@ class CommandHandler:
     def cmd_pwd(self, args):
         print(Path.cwd())
 
-    # --- File operations ---
-    def cmd_rm(self, args):
-        if not args:
-            print("Usage: rm <file>")
-            return
-        path = make_abs_path(args[0])
-        if not path.exists():
-            print("No such file:", path)
-            return
-        if path.is_dir():
-            print("Use rmdir for directories.")
-            return
-        try:
-            path.unlink()
-            print("Deleted", path)
-        except Exception as e:
-            print("rm error:", e)
-
+    def cmd_cat(self, args):
+        print("not implemented")
+    
+    def cmd_head(self, args):
+        print("not implemented")
+    
+    def cmd_tail(self, args):
+        print("not implemented")
+    
     def cmd_del(self, args):
         self.cmd_rm(args)
 
@@ -355,9 +342,6 @@ class CommandHandler:
         except Exception as e:
             print("cp error:", e)
 
-    def cmd_copy(self, args):
-        self.cmd_cp(args)
-
     def cmd_mv(self, args):
         if len(args) < 2:
             print("Usage: mv <src> <dst>")
@@ -368,9 +352,6 @@ class CommandHandler:
             print("Moved")
         except Exception as e:
             print("mv error:", e)
-
-    def cmd_move(self, args):
-        self.cmd_mv(args)
 
     def cmd_rename(self, args):
         if len(args) < 2:
@@ -383,39 +364,6 @@ class CommandHandler:
         except Exception as e:
             print("rename error:", e)
 
-    def cmd_ren(self, args):
-        self.cmd_rename(args)
-
-    # --- Preview/Edit ---
-    def cmd_preview(self, args):
-        if not args:
-            print("Usage: preview <file> [lines]")
-            return
-        path = make_abs_path(args[0])
-        n = int(args[1]) if len(args) > 1 else 25
-        try:
-            with path.open("r", encoding="utf-8", errors="replace") as f:
-                pager_lines(f.readlines(), n)
-        except Exception as e:
-            print("preview error:", e)
-
-    def cmd_edit(self, args):
-        if not args:
-            print("Usage: edit <file>")
-            return
-        path = make_abs_path(args[0])
-        path.parent.mkdir(parents=True, exist_ok=True)
-        editor = (
-            os.environ.get("EDITOR")
-            or os.environ.get("VISUAL")
-            or ("notepad" if platform.system() == "Windows" else "nano")
-        )
-        try:
-            subprocess.run([editor, str(path)])
-        except Exception as e:
-            print("edit error:", e)
-
-    # --- Search/Tree/Info ---
     def cmd_search(self, args):
         if not args:
             print("Usage: search <pattern> [path]")
@@ -459,7 +407,88 @@ class CommandHandler:
         except Exception as e:
             print("info error:", e)
 
-    # --- Export ---
+    def cmd_help(self, args):
+        print("Available commands:")
+        
+        for cmd in self.COMMANDS_LIST_HELP:
+            print(f" - {cmd}")
+            
+    def cmd_preview(self, args):
+        if not args:
+            print("Usage: preview <file> [lines]")
+            return
+        path = make_abs_path(args[0])
+        n = int(args[1]) if len(args) > 1 else 25
+        try:
+            with path.open("r", encoding="utf-8", errors="replace") as f:
+                pager_lines(f.readlines(), n)
+        except Exception as e:
+            print("preview error:", e)
+
+    def cmd_edit(self, args):
+        if not args:
+            print("Usage: edit <file>")
+            return
+        path = make_abs_path(args[0])
+        path.parent.mkdir(parents=True, exist_ok=True)
+        editor = (
+            os.environ.get("EDITOR")
+            or os.environ.get("VISUAL")
+            or ("notepad" if platform.system() == "Windows" else "nano")
+        )
+        try:
+            subprocess.run([editor, str(path)])
+        except Exception as e:
+            print("edit error:", e)
+
+    def cmd_clear(self, args):
+        os.system("cls" if os.name == "nt" else "clear")
+
+    def cmd_cls(self, args):
+        self.cmd_clear(args)
+
+    def cmd_echo(self, args):
+        print(" ".join(args))
+
+    def cmd_history(self, args):
+        for i in range(1, readline.get_current_history_length() + 1):
+            print(f"{i:4}: {readline.get_history_item(i)}")
+
+    def cmd_exit(self, args):
+        sys.exit(0)
+
+    def cmd_quit(self, args):
+        sys.exit(0)
+
+    def cmd_dir(self, args):
+        self.cmd_ls(args)
+
+    def cmd_rm(self, args):
+        if not args:
+            print("Usage: rm <file>")
+            return
+        path = make_abs_path(args[0])
+        if not path.exists():
+            print("No such file:", path)
+            return
+        if path.is_dir():
+            print("Use rmdir for directories.")
+            return
+        try:
+            path.unlink()
+            print("Deleted", path)
+        except Exception as e:
+            print("rm error:", e)
+
+    def cmd_copy(self, args):
+        self.cmd_cp(args)
+
+    def cmd_move(self, args):
+        self.cmd_mv(args)
+
+    def cmd_ren(self, args):
+        self.cmd_rename(args)
+
     def cmd_export(self, args):
         if not args:
             print("Usage: export <output.zip|tar.gz>")
@@ -483,26 +512,6 @@ class CommandHandler:
         except Exception as e:
             print("Export error:", e)
 
-    # --- Misc ---
-    def cmd_clear(self, args):
-        os.system("cls" if os.name == "nt" else "clear")
-
-    def cmd_cls(self, args):
-        self.cmd_clear(args)
-
-    def cmd_echo(self, args):
-        print(" ".join(args))
-
-    def cmd_history(self, args):
-        for i in range(1, readline.get_current_history_length() + 1):
-            print(f"{i:4}: {readline.get_history_item(i)}")
-
-    def cmd_help(self, args):
-        print("Available commands:")
-        
-        for cmd in self.COMMANDS_LIST_HELP:
-            print(f" - {cmd}")
-            
     def cmd_man(self, args):
         if not args:
             print("Available commands:")
@@ -517,8 +526,3 @@ class CommandHandler:
             else:
                 print(f"No manual entry for '{cmd_name}'.")
 
-    def cmd_quit(self, args):
-        sys.exit(0)
-
-    def cmd_exit(self, args):
-        sys.exit(0)
