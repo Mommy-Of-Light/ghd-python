@@ -136,9 +136,10 @@ pip --version
 
 #### Launch Docker - Important
 
+#### Clone the project
 ```bash
 git clone https://github.com/Mommy-Of-Light/gdh-python.git
-cd file-manager
+cd ghd-python
 ```
 
 ### Linux/Mac (additional steps)
