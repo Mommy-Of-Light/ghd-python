@@ -137,7 +137,7 @@ pip --version
 #### Launch Docker - Important
 
 ```bash
-git clone git@github.com:Mommy-Of-Light/ghd-python.git
+git clone https://github.com/Mommy-Of-Light/gdh-python.git
 cd file-manager
 ```
 
