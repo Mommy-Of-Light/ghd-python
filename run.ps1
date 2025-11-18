@@ -26,7 +26,6 @@ function Show-Menu {
     for ($i = $start; $i -le $end; $i++) {
         $slot = $i - $start + 1
         Write-Host " $slot. $($saves[$i].Name)"
-        Write-Host ""
     }
 
     Write-Host " 0. Run empty workspace"

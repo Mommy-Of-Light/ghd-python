@@ -31,9 +31,8 @@ show_menu() {
     for ((i=START; i<=END; i++)); do
         echo " $SLOT. ${SAVES[$i]}"
         ((SLOT++))
-        echo
     done
-    
+
     echo " 0. Run empty workspace"
 
     if [ $TOTAL -gt $PER_PAGE ]; then
