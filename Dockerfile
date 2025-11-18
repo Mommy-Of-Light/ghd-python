@@ -11,6 +11,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN mkdir -p /home/user
 WORKDIR /home/user
 
+# Copy extracted data into container
+COPY container_root/home/user/ /home/user/
+
 # Create protected folder for main app files
 RUN mkdir -p /usr/local/fm
 
