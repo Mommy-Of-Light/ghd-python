@@ -23,12 +23,12 @@ function Show-Menu {
     Write-Host "Page $page ($($start+1) - $($end+1) of $total)"
     Write-Host ""
 
+    Write-Host " 0. Run empty workspace"
+
     for ($i = $start; $i -le $end; $i++) {
         $slot = $i - $start + 1
         Write-Host " $slot. $($saves[$i].Name)"
     }
-
-    Write-Host " 0. Run empty workspace"
 
     if ($total -gt $per_page) {
         Write-Host ""

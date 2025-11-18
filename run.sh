@@ -27,13 +27,13 @@ show_menu() {
     echo "Page $PAGE ($((START+1)) - $((END+1)) of $TOTAL)"
     echo
 
+    echo " 0. Run empty workspace"
+
     SLOT=1
     for ((i=START; i<=END; i++)); do
         echo " $SLOT. ${SAVES[$i]}"
         ((SLOT++))
     done
-
-    echo " 0. Run empty workspace"
 
     if [ $TOTAL -gt $PER_PAGE ]; then
         echo
