@@ -10,6 +10,7 @@ import shlex
 import zipfile
 import sys
 import tarfile
+import argparse
 from pathlib import Path
 import readline
 from classes.utils import make_abs_path, human_size, pager_lines, HISTFILE
@@ -277,13 +278,50 @@ class CommandHandler:
         print(Path.cwd())
 
     def cmd_cat(self, args):
-        print("not implemented")
+        if not args:
+            print("Usage: cat <file>")
+            return
+        path = make_abs_path(args[0])
+        try:
+            with path.open("r", encoding="utf-8", errors="replace") as f:
+                print(f.read())
+        except Exception as e:
+            print("cat error:", e)
 
     def cmd_head(self, args):
-        print("not implemented")
+        parser = argparse.ArgumentParser(prog="head", add_help=False)
+        parser.add_argument("file")
+        parser.add_argument("-n", type=int, default=10)
+        try:
+            ns = parser.parse_args(args)
+        except SystemExit:
+            return
+        path = make_abs_path(ns.file)
+        try:
+            with path.open("r", encoding="utf-8", errors="replace") as f:
+                for i, line in enumerate(f):
+                    if i >= ns.n:
+                        break
+                    print(line, end="")
+        except Exception as e:
+            print("head error:", e)
 
     def cmd_tail(self, args):
-        print("not implemented")
+        parser = argparse.ArgumentParser(prog="tail", add_help=False)
+        parser.add_argument("file")
+        parser.add_argument("-n", type=int, default=10)
+        try:
+            ns = parser.parse_args(args)
+        except SystemExit:
+            return
+        path = make_abs_path(ns.file)
+        try:
+            with path.open("r", encoding="utf-8", errors="replace") as f:
+                lines = f.readlines()[-ns.n :]
+                for line in lines:
+                    print(line, end="")
+        except Exception as e:
+            print("tail error:", e)
 
     def cmd_rm(self, args):
         if not args:
@@ -333,13 +371,21 @@ class CommandHandler:
         if not args:
             print("Usage: touch <file>")
             return
-        path = make_abs_path(args[0])
+
+        name = args[0]
+
+        # Add default .txt if no extension is present
+        if "." not in name:
+            name += ".txt"
+
+        path = make_abs_path(name)
+
         try:
             path.touch(exist_ok=True)
             print("Touched", path)
         except Exception as e:
             print("touch error:", e)
-
+            
     def cmd_cp(self, args):
         if len(args) < 2:
             print("Usage: cp <src> <dst>")
@@ -393,13 +439,33 @@ class CommandHandler:
         max_depth = int(args[1]) if len(args) > 1 else 3
 
         def _tree(p, prefix="", is_last=True, depth=0):
-            connector = "└── " if is_last else "├── "
-            print(prefix + connector + p.name + ("/" if p.is_dir() else ""))
+            if depth == 0:
+                # Root: no connector
+                print(p.name + ("/" if p.is_dir() else ""))
+            else:
+                connector = "└── " if is_last else "├── "
+                print(prefix + connector + p.name + ("/" if p.is_dir() else ""))
+
             if p.is_dir() and depth < max_depth:
-                entries = sorted(list(p.iterdir()), key=lambda x: x.name.lower())
-                for i, e in enumerate(entries):
-                    last = i == len(entries) - 1
-                    new_prefix = prefix + ("    " if is_last else "│   ")
+                # Separate dirs and files, both sorted
+                entries = list(p.iterdir())
+                dirs = sorted(
+                    [e for e in entries if e.is_dir()], key=lambda x: x.name.lower()
+                )
+                files = sorted(
+                    [e for e in entries if not e.is_dir()], key=lambda x: x.name.lower()
+                )
+                ordered = dirs + files
+
+                for i, e in enumerate(ordered):
+                    last = i == len(ordered) - 1
+
+                    if depth == 0:
+                        # Direct children of root: no leading "│   "
+                        new_prefix = ""
+                    else:
+                        new_prefix = prefix + ("    " if is_last else "│   ")
+
                     _tree(e, new_prefix, last, depth + 1)
 
         _tree(start, "", True, 0)
@@ -490,37 +556,51 @@ class CommandHandler:
 
     def cmd_export(self, args):
         if not args:
-            print("Usage: export <output.zip|tar.gz>")
+            print("Usage: export <name>.<zip|tar.gz>")
             return
-        out_file = Path("/workspace/exports") / args[0]
+
+        base_name = args[0]
+
+        # Split name and extension safely
+        if base_name.endswith(".tar.gz"):
+            name = base_name[:-7]  # strip .tar.gz
+            ext = ".tar.gz"
+        else:
+            name = Path(base_name).stem
+            ext = Path(base_name).suffix
+
+        # Create timestamp
+        from datetime import datetime
+        timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+
+        # Create final output filename: name_YYYYMMDD-HHMMSS.ext
+        final_name = f"{name}_{timestamp}{ext}"
+
+        out_file = Path("/workspace/exports") / final_name
         workspace = self.cli.workspace
         out_file.parent.mkdir(parents=True, exist_ok=True)
+
         try:
-            if out_file.suffix == ".zip":
+            # ZIP export
+            if ext == ".zip":
+                import zipfile
                 with zipfile.ZipFile(out_file, "w", zipfile.ZIP_DEFLATED) as zf:
                     for f in workspace.rglob("*"):
                         zf.write(f, f.relative_to(workspace))
-            elif out_file.suffix in (".tar", ".gz", ".tgz"):
-                mode = "w:gz" if out_file.suffix in (".gz", ".tgz") else "w"
+
+            # TAR / TAR.GZ export
+            elif ext in (".tar", ".tar.gz"):
+                import tarfile
+                mode = "w:gz" if ext == ".tar.gz" else "w"
                 with tarfile.open(out_file, mode) as tf:
                     tf.add(workspace, arcname=workspace.name)
+
             else:
                 print("Unsupported format. Use .zip or .tar.gz")
                 return
+
             print(f"Workspace exported to {out_file}")
+
         except Exception as e:
             print("Export error:", e)
 
-    def cmd_man(self, args):
-        if not args:
-            print("Available commands:")
-            for cmd in self.COMMANDS_LIST:
-                print(f" - {cmd}")
-            print("\nUse 'man <command>' to learn more about a specific command.")
-        else:
-            cmd_name = args[0]
-            if cmd_name in self.COMMANDS_LIST_MAN:
-                print(f"Manual for '{cmd_name}':\n")
-                print(self.COMMANDS_LIST_MAN[cmd_name])
-            else:
-                print(f"No manual entry for '{cmd_name}'.")
