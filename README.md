@@ -170,12 +170,6 @@ bash run.sh
 .\run.ps1
 ```
 
-### Windows - CMD
-
-```powershell
-.\run.bat
-```
-
 ---
 
 ## ⚙️ Configuration
@@ -207,7 +201,6 @@ file-manager/
 ├── dockercompose.yaml
 ├── Dockerfile
 ├── README.md
-├── run.bat
 ├── run.ps1
 └── run.sh
 ```
