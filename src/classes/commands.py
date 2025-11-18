@@ -556,51 +556,50 @@ class CommandHandler:
 
     def cmd_export(self, args):
         if not args:
-            print("Usage: export <name>.<zip|tar.gz>")
+            print("Usage: export <zip|tar|tar.gz>")
             return
 
-        base_name = args[0]
+        # User provides extension only
+        user_ext = args[0].lower()
 
-        # Split name and extension safely
-        if base_name.endswith(".tar.gz"):
-            name = base_name[:-7]  # strip .tar.gz
+        # Normalize extension
+        if user_ext in ("zip", ".zip"):
+            ext = ".zip"
+        elif user_ext in ("tar", ".tar"):
+            ext = ".tar"
+        elif user_ext in ("gz", "tgz", "tar.gz", ".tar.gz", ".tgz"):
             ext = ".tar.gz"
         else:
-            name = Path(base_name).stem
-            ext = Path(base_name).suffix
+            print("Unsupported format. Use zip, tar, or tar.gz")
+            return
 
-        # Create timestamp
+        # Timestamp
         from datetime import datetime
         timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
 
-        # Create final output filename: name_YYYYMMDD-HHMMSS.ext
-        final_name = f"{name}_{timestamp}{ext}"
+        # Final output name (always 'data_timestamp.ext')
+        final_name = f"data_{timestamp}{ext}"
 
         out_file = Path("/workspace/exports") / final_name
         workspace = self.cli.workspace
         out_file.parent.mkdir(parents=True, exist_ok=True)
 
         try:
-            # ZIP export
+            # ZIP
             if ext == ".zip":
                 import zipfile
                 with zipfile.ZipFile(out_file, "w", zipfile.ZIP_DEFLATED) as zf:
                     for f in workspace.rglob("*"):
                         zf.write(f, f.relative_to(workspace))
 
-            # TAR / TAR.GZ export
-            elif ext in (".tar", ".tar.gz"):
+            # TAR or TAR.GZ
+            else:
                 import tarfile
                 mode = "w:gz" if ext == ".tar.gz" else "w"
                 with tarfile.open(out_file, mode) as tf:
                     tf.add(workspace, arcname=workspace.name)
 
-            else:
-                print("Unsupported format. Use .zip or .tar.gz")
-                return
-
             print(f"Workspace exported to {out_file}")
 
         except Exception as e:
             print("Export error:", e)
-
