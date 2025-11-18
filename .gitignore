@@ -205,3 +205,30 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Ignore exported archives (host-side)
+# exports/
+exports/*
+
+# Ignore container build staging area
+# container_root/home/user/
+container_root/home/user/*
+
+# Ignore logs
+# logs/
+logs/*
+
+# OS junk files
+.DS_Store
+Thumbs.db
+
+# Python cache
+__pycache__/
+*.pyc
+
+# IDE stuff
+.vscode/
+.idea/
+
+# Shell history (optional)
+*.history
