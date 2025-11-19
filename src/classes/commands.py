@@ -124,6 +124,7 @@ class CommandHandler:
         "move": "to do",
         "ren": "to do",
         "export": "to do",
+        "python": "to do",
         "man": "Realy! Are you serious",
     }
 
@@ -145,6 +146,7 @@ class CommandHandler:
         "info",
         "preview",
         "edit",
+        "python",
     }
 
     def __init__(self, cli):
@@ -609,51 +611,92 @@ class CommandHandler:
         except Exception as e:
             print("Export error:", e)
     
-    def cmd_python(self, args):
-        # Case B: No arguments → start interactive REPL
-        if not args:
-            print("Entering Python interactive mode. Type exit() to leave.\n")
+    def cmd_python(self, args):# Case B: Enter REPL if no arguments
+        # ---------- Case A: run python file ----------
+        if args:
+            first = args[0]
+            full_path = self.cli.workspace / first
 
-            # Variables available inside REPL
-            local_vars = {
-                "workspace": self.cli.workspace,
-                "fm": self,  # optional access to file manager
-            }
+            if full_path.exists() and full_path.is_file() and full_path.suffix == ".py":
+                try:
+                    print(f"Running script: {full_path}")
+                    runpy.run_path(str(full_path), run_name="__main__")
+                except Exception as e:
+                    print("Python script error:", e)
+                return
 
+            # Case C: evaluate expression / exec
+            expr = " ".join(args)
             try:
-                code.interact(local=local_vars)
-            except SystemExit:
-                # Prevent exit() from closing the entire CLI
+                result = eval(expr, {}, {})
+                if result is not None:
+                    print(result)
+                return
+            except SyntaxError:
+                try:
+                    exec(expr, {}, {})
+                    return
+                except Exception as e:
+                    print("Python execution error:", e)
+                    return
+            except Exception as e:
+                print("Python evaluation error:", e)
+                return
+
+        # ---------- Case B: Interactive REPL ----------
+        print("Entering Python shell. Type exit() to leave.\n")
+
+        ctx = {
+            "workspace": self.cli.workspace,
+            "fm": self,
+        }
+
+        buffer = ""
+        stdin = sys.__stdin__   # <-- BYPASS CLI history completely
+
+        while True:
+            try:
+                # manual prompt without history tracking
+                prompt = ">>> " if buffer == "" else "... "
+                print(prompt, end="", flush=True)
+
+                line = stdin.readline()
+                if not line:
+                    print("\nExited Python shell.\n")
+                    return
+
+                line = line.rstrip("\n")
+
+            except KeyboardInterrupt:
+                print("\nKeyboardInterrupt")
+                buffer = ""
+                continue
+
+            # exit command
+            if line.strip() in ("exit", "exit()", "quit", "quit()"):
                 print("Exited Python shell.\n")
-            return
+                return
 
-        # Case A: Run script file
-        first = args[0]
-        full_path = self.cli.workspace / first
+            buffer += line + "\n"
 
-        if full_path.exists() and full_path.is_file() and full_path.suffix == ".py":
+            # Try to compile the buffer
             try:
-                print(f"Running script: {full_path}")
-                runpy.run_path(str(full_path), run_name="__main__")
-            except Exception as e:
-                print("Python script error:", e)
-            return
+                code_obj = compile(buffer, "<pyshell>", "single")
+            except SyntaxError as e:
+                if "unexpected EOF" in str(e):
+                    continue
+                print(e)
+                buffer = ""
+                continue
 
-        # Case C: Evaluate expression or exec
-        expr = " ".join(args)
-
-        try:
-            result = eval(expr, {}, {})
-            if result is not None:
-                print(result)
-        except SyntaxError:
+            # Execute
             try:
-                exec(expr, {}, {})
+                exec(code_obj, ctx, ctx)
             except Exception as e:
-                print("Python execution error:", e)
-        except Exception as e:
-            print("Python evaluation error:", e)
-        
+                print(e)
+
+            buffer = ""
+  
     def cmd_man(self, args):
         if not args:
             print("Available commands:")
