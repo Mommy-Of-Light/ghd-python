@@ -11,6 +11,9 @@ import zipfile
 import sys
 import tarfile
 import argparse
+import code
+import runpy
+from pathlib import Path
 from pathlib import Path
 import readline
 from classes.utils import make_abs_path, human_size, pager_lines, HISTFILE
@@ -49,6 +52,7 @@ class CommandHandler:
         "move",
         "ren",
         "export",
+        "python",
         "man",
     ]
 
@@ -84,6 +88,7 @@ class CommandHandler:
         "move     - move [source] [dest]",
         "ren      - ren [pattern] [replacement] [files] ",
         "export   - export VAR=value ",
+        "python   - python [file] "
         "man      - man [command] ",
     ]
 
@@ -603,7 +608,52 @@ class CommandHandler:
 
         except Exception as e:
             print("Export error:", e)
-            
+    
+    def cmd_python(self, args):
+        # Case B: No arguments → start interactive REPL
+        if not args:
+            print("Entering Python interactive mode. Type exit() to leave.\n")
+
+            # Variables available inside REPL
+            local_vars = {
+                "workspace": self.cli.workspace,
+                "fm": self,  # optional access to file manager
+            }
+
+            try:
+                code.interact(local=local_vars)
+            except SystemExit:
+                # Prevent exit() from closing the entire CLI
+                print("Exited Python shell.\n")
+            return
+
+        # Case A: Run script file
+        first = args[0]
+        full_path = self.cli.workspace / first
+
+        if full_path.exists() and full_path.is_file() and full_path.suffix == ".py":
+            try:
+                print(f"Running script: {full_path}")
+                runpy.run_path(str(full_path), run_name="__main__")
+            except Exception as e:
+                print("Python script error:", e)
+            return
+
+        # Case C: Evaluate expression or exec
+        expr = " ".join(args)
+
+        try:
+            result = eval(expr, {}, {})
+            if result is not None:
+                print(result)
+        except SyntaxError:
+            try:
+                exec(expr, {}, {})
+            except Exception as e:
+                print("Python execution error:", e)
+        except Exception as e:
+            print("Python evaluation error:", e)
+        
     def cmd_man(self, args):
         if not args:
             print("Available commands:")
