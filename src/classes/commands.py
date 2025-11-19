@@ -603,3 +603,17 @@ class CommandHandler:
 
         except Exception as e:
             print("Export error:", e)
+            
+    def cmd_man(self, args):
+        if not args:
+            print("Available commands:")
+            for cmd in self.COMMANDS_LIST:
+                print(f" - {cmd}")
+            print("\nUse 'man <command>' to learn more about a specific command.")
+        else:
+            cmd_name = args[0]
+            if cmd_name in self.COMMANDS_LIST_MAN:
+                print(f"Manual for '{cmd_name}':\n")
+                print(self.COMMANDS_LIST_MAN[cmd_name])
+            else:
+                print(f"No manual entry for '{cmd_name}'.")
