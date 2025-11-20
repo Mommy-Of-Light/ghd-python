@@ -1,5 +1,5 @@
 ﻿$Exports = Join-Path $PSScriptRoot "exports"
-$Dest    = Join-Path $PSScriptRoot "container_root/home/user"
+$Dest = Join-Path $PSScriptRoot "container_root/home/user"
 
 Write-Host "`nPreparing workspace..." -ForegroundColor Cyan
 New-Item -ItemType Directory -Force -Path $Dest | Out-Null
@@ -93,92 +93,112 @@ function Show-BoxTitle {
     Write-Host ("└" + ("─" * $width) + "┘") -ForegroundColor $Theme.TitleFG
 }
 
+# Add new menu option in Show-Menu
 function Show-Menu {
     Clear-Host
 
-    # HEADER
     Show-Header "AVAILABLE SAVES"
-    Show-BoxTitle "Select a workspace to load"
+    Show-BoxTitle "Select a workspace to load or delete a save"
 
     $start = ($page - 1) * $per_page
-    $end   = [Math]::Min($start + $per_page - 1, $total - 1)
+    $end = [Math]::Min($start + $per_page - 1, $total - 1)
 
-    # Page info
     Write-Host " Page $page  ($($start+1) - $($end+1) of $total )" -ForegroundColor Cyan
     Write-Host ""
 
-    # Default option
     Write-Host "  0. Run empty workspace" -ForegroundColor Green
 
-    # Menu entries
     for ($i = $start; $i -le $end; $i++) {
         $slot = $i - $start + 1
         Write-Host ("  $slot. " + $saves[$i].Name) -ForegroundColor $Theme.MenuFG
     }
 
-    # Navigation
+    Write-Host ""
+    Write-Host "  d <number>  Delete save file" -ForegroundColor Red
+
     if ($total -gt $per_page) {
         Write-Host ""
-        Write-Host "Commands:  n=next page,  p=previous page,  number=select" -ForegroundColor Yellow
+        Write-Host "Commands:  n=next page,  p=previous page,  number=select, d <num|" -ForegroundColor Yellow
     }
 
-    # FOOTER
     Show-Footer "Press Enter to continue"
 }
 
-# --- MAIN MENU LOOP ---
+# MAIN LOOP MODIFICATION
 while ($true) {
     Show-Menu
     $choice = Read-Host "Select option"
 
-    # --- AUTO-EXIT WHEN NO SAVES AND USER PRESSES ENTER ---
     if ($total -eq 0 -and [string]::IsNullOrWhiteSpace($choice)) {
         $choice = "0"
     }
 
-    if ($choice -eq "0") { break }
-
-    if ($choice -eq "n") {
-        $maxpage = [Math]::Ceiling($total / $per_page)
-        if ($page -lt $maxpage) { $page++ }
+    # Handle deletion: d <numbers> or da (delete all)
+    if ($choice -match "^da$") {
+        Write-Host "Deleting ALL saves..." -ForegroundColor Red
+        Get-ChildItem $Exports -File | Remove-Item -Force
+        $saves = @()
+        $total = 0
         continue
     }
 
-    if ($choice -eq "p") {
-        if ($page -gt 1) { $page-- }
-        continue
-    }
-
-    if ($choice -match '^[1-9]$') {
-        $global = ($page - 1) * $per_page + [int]$choice - 1
-        if ($global -lt $total) {
-
-            $selected = $saves[$global]
-            Write-Host "`nSelected: $($selected.Name)" -ForegroundColor Cyan
-
-            Copy-Item $selected.FullName $Dest -Force
-
-            Push-Location $Dest
-            if ($selected.Extension -eq ".zip") {
-                Expand-Archive -Path $selected.Name -DestinationPath . -Force
+    # Multi or single deletion: d 1,2,5
+    if ($choice -match "^d\s+(.+)$") {
+        $items = $Matches[1] -split "," | ForEach-Object { $_.Trim() } | Where-Object { $_ -match '^[0-9]+$' }
+        foreach ($n in $items) {
+            $global = ($page - 1) * $per_page + ([int]$n) - 1
+            if ($global -lt $total -and $global -ge 0) {
+                $target = $saves[$global]
+                Write-Host "Deleting save: $($target.Name)" -ForegroundColor Red
+                Remove-Item $target.FullName -Force
             }
-            else {
-                try {
-                    tar -xf $selected.Name
-                }
-                catch {
-                    Write-Host "ERROR extracting file with tar." -ForegroundColor Red
-                    pause
-                    exit 1
-                }
-            }
-            Remove-Item $selected.Name -Force
-            Pop-Location
-
-            break
         }
+        # Reload
+        $saves = Get-ChildItem $Exports -File | Sort-Object Name -Descending
+        $total = $saves.Count
+        continue
     }
 }
+
+if ($choice -eq "0") { break }
+if ($choice -eq "n") {
+    $maxpage = [Math]::Ceiling($total / $per_page)
+    if ($page -lt $maxpage) { $page++ }
+    continue
+}
+if ($choice -eq "p") {
+    if ($page -gt 1) { $page-- }
+    continue
+}
+
+if ($choice -match '^[1-9]$') {
+    $global = ($page - 1) * $per_page + [int]$choice - 1
+    if ($global -lt $total) {
+        $selected = $saves[$global]
+        Write-Host "`nSelected: $($selected.Name)" -ForegroundColor Cyan
+
+        Copy-Item $selected.FullName $Dest -Force
+
+        Push-Location $Dest
+        if ($selected.Extension -eq ".zip") {
+            Expand-Archive -Path $selected.Name -DestinationPath . -Force
+        }
+        else {
+            try { tar -xf $selected.Name }
+            catch {
+                Write-Host "ERROR extracting file with tar." -ForegroundColor Red
+                pause
+                exit 1
+            }
+        }
+        Remove-Item $selected.Name -Force
+        Pop-Location
+
+        break
+    }
+}
+
+
 
 Clear-Host
 Write-Host "`nBuilding Docker image..." -ForegroundColor Cyan
