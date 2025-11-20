@@ -1,4 +1,4 @@
-$Exports = Join-Path $PSScriptRoot "exports"
+﻿$Exports = Join-Path $PSScriptRoot "exports"
 $Dest    = Join-Path $PSScriptRoot "container_root/home/user"
 
 Write-Host "`nPreparing workspace..." -ForegroundColor Cyan
@@ -20,39 +20,110 @@ if (-not (Get-Command docker-compose -ErrorAction SilentlyContinue)) {
 # Load save files
 $saves = @()
 if (Test-Path $Exports) {
-    $saves = Get-ChildItem $Exports -File | Sort-Object Name
+    $saves = Get-ChildItem $Exports -File | Sort-Object Name -Descending
 }
 
 $total = $saves.Count
 $per_page = 9
 $page = 1
 
+# ===== THEME =====
+$Theme = @{
+    HeaderFG = "White"
+    HeaderBG = "DarkRed"
+
+    TitleFG  = "Yellow"
+    TitleBG  = "DarkBlue"
+
+    MenuFG   = "White"
+    MenuBG   = "Black"
+
+    FooterFG = "Magenta"
+    FooterBG = "DarkBlue"
+}
+
+function Write-FullLine {
+    param(
+        [string] $Text = "",
+        [ConsoleColor] $Foreground = "White",
+        [ConsoleColor] $Background = "Black"
+    )
+
+    $width = $Host.UI.RawUI.WindowSize.Width
+    $padded = $Text.PadRight($width).Substring(0, $width)
+
+    Write-Host $padded -ForegroundColor $Foreground -BackgroundColor $Background
+}
+
+function Show-Header {
+    param([string]$Title = "")
+
+    Write-FullLine "" -Foreground $Theme.HeaderFG -Background $Theme.HeaderBG
+    Write-FullLine (" $Title ") -Foreground $Theme.HeaderFG -Background $Theme.HeaderBG
+    Write-FullLine "" -Foreground $Theme.HeaderFG -Background $Theme.HeaderBG
+}
+
+function Show-Footer {
+    param([string]$Text = "")
+
+    Write-FullLine "" -Foreground $Theme.FooterFG -Background $Theme.FooterBG
+    Write-FullLine (" $Text ") -Foreground $Theme.FooterFG -Background $Theme.FooterBG
+    Write-FullLine "" -Foreground $Theme.FooterFG -Background $Theme.FooterBG
+}
+
+function Write-BoxLine {
+    param(
+        [string] $Text,
+        [ConsoleColor] $Foreground = "White",
+        [ConsoleColor] $Background = "Black"
+    )
+
+    $width = $Host.UI.RawUI.WindowSize.Width - 2
+    $padded = $Text.PadRight($width).Substring(0, $width)
+
+    Write-Host "│$padded│" -ForegroundColor $Foreground -BackgroundColor $Background
+}
+
+function Show-BoxTitle {
+    param([string]$Title)
+
+    $width = $Host.UI.RawUI.WindowSize.Width - 2
+    Write-Host ("┌" + ("─" * $width) + "┐") -ForegroundColor $Theme.TitleFG
+    Write-BoxLine $Title -Foreground $Theme.TitleFG
+    Write-Host ("└" + ("─" * $width) + "┘") -ForegroundColor $Theme.TitleFG
+}
+
 function Show-Menu {
     Clear-Host
-    Write-Host ""
-    Write-Host "===============================" -ForegroundColor Yellow
-    Write-Host "         AVAILABLE SAVES       " -ForegroundColor Yellow
-    Write-Host "===============================" -ForegroundColor Yellow
-    Write-Host ""
+
+    # HEADER
+    Show-Header "AVAILABLE SAVES"
+    Show-BoxTitle "Select a workspace to load"
 
     $start = ($page - 1) * $per_page
-    $end = [Math]::Min($start + $per_page - 1, $total - 1)
+    $end   = [Math]::Min($start + $per_page - 1, $total - 1)
 
-    Write-Host "Page $page ($($start+1) - $($end+1) of $total)"
+    # Page info
+    Write-Host " Page $page  ($($start+1) - $($end+1) of $total )" -ForegroundColor Cyan
     Write-Host ""
-    Write-Host " 0. Run empty workspace" -ForegroundColor Green
 
+    # Default option
+    Write-Host "  0. Run empty workspace" -ForegroundColor Green
+
+    # Menu entries
     for ($i = $start; $i -le $end; $i++) {
         $slot = $i - $start + 1
-        Write-Host " $slot. $($saves[$i].Name)"
+        Write-Host ("  $slot. " + $saves[$i].Name) -ForegroundColor $Theme.MenuFG
     }
 
+    # Navigation
     if ($total -gt $per_page) {
         Write-Host ""
-        Write-Host "Commands: n=next page, p=previous page, number=select"
+        Write-Host "Commands:  n=next page,  p=previous page,  number=select" -ForegroundColor Yellow
     }
 
-    Write-Host ""
+    # FOOTER
+    Show-Footer "Press Enter to continue"
 }
 
 # --- MAIN MENU LOOP ---
@@ -112,17 +183,18 @@ while ($true) {
 Clear-Host
 Write-Host "`nBuilding Docker image..." -ForegroundColor Cyan
 docker build -t console-file-manager:latest .
+Clear-Host
 
 Clear-Host
 Write-Host "`nRunning container..." -ForegroundColor Cyan
 docker-compose run --rm fm
+Clear-Host
 
 Clear-Host
 Write-Host "`nCleaning workspace..." -ForegroundColor Cyan
 Get-ChildItem $Dest -Recurse -Force | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
+Clear-Host
 
 Clear-Host
 Write-Host "`nDone." -ForegroundColor Green
-pause
-
 Clear-Host
