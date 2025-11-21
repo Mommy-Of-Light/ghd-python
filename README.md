@@ -36,6 +36,14 @@ It's somthing that already exist but this is just a small project idea that i wa
 </details>
 
 <details>
+    <summary>Execution commands</summary>
+
+| Command | Description                        | Usage         |
+| ------- | ---------------------------------- | ------------- |
+| python  | Launch the default shell or a file | python [file] |
+</details>
+
+<details>
     <summary>Search & Information Commands</summary>
 
 | Command | Description                                   | Usage            |
