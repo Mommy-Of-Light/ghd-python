@@ -180,7 +180,7 @@ bash run.sh
 
 ## ⚙️ Configuration
 
-No configuration needed for this project
+No configuration needed for this project for now
 
 ---
 
