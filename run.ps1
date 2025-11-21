@@ -84,6 +84,32 @@ function Write-BoxLine {
     Write-Host "│$padded│" -ForegroundColor $Foreground -BackgroundColor $Background
 }
 
+function Display-Delay {
+    param(
+        [string[]] $DelayText,
+        [int] $DelayTime,
+        [ScriptBlock] $CallbackDisplayer = { param($t) Write-Host $t },
+        [int] $LoopCount = 1,
+        [bool] $InMillisecond = $true
+    )
+
+    $loops = $LoopCount * $DelayText.Count
+
+    for ($i = 0; $i -lt $loops; $i++) {
+        Clear-Host
+        
+        $text = $DelayText[$i % $DelayText.Count]
+        & $CallbackDisplayer $text   # invoke callback with the text
+        
+        if ($InMillisecond) {
+            Start-Sleep -Milliseconds $DelayTime
+        }
+        else {
+            Start-Sleep -Seconds $DelayTime
+        }
+    }
+}
+
 function Show-BoxTitle {
     param([string]$Title)
 
@@ -195,6 +221,17 @@ while ($true) {
 
             break
         }
+    }
+
+    if ($choice -eq "q") {
+        Display-Delay `
+            -DelayText @("Preparing closing", "Preparing closing.", "Preparing closing..", "Preparing closing...") `
+            -DelayTime 250 `
+            -CallbackDisplayer { param($t) Show-BoxTitle $t } `
+            -LoopCount 1 `
+            -InMillisecond $true
+        Clear-Host
+        exit 0
     }
 }
 
