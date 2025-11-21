@@ -158,46 +158,45 @@ while ($true) {
         $total = $saves.Count
         continue
     }
-}
 
-if ($choice -eq "0") { break }
-if ($choice -eq "n") {
-    $maxpage = [Math]::Ceiling($total / $per_page)
-    if ($page -lt $maxpage) { $page++ }
-    continue
-}
-if ($choice -eq "p") {
-    if ($page -gt 1) { $page-- }
-    continue
-}
+    if ($choice -eq "0") { break }
+    if ($choice -eq "n") {
+        $maxpage = [Math]::Ceiling($total / $per_page)
+        if ($page -lt $maxpage) { $page++ }
+        continue
+    }
+    if ($choice -eq "p") {
+        if ($page -gt 1) { $page-- }
+        continue
+    }
 
-if ($choice -match '^[1-9]$') {
-    $global = ($page - 1) * $per_page + [int]$choice - 1
-    if ($global -lt $total) {
-        $selected = $saves[$global]
-        Write-Host "`nSelected: $($selected.Name)" -ForegroundColor Cyan
+    if ($choice -match '^[1-9]$') {
+        $global = ($page - 1) * $per_page + [int]$choice - 1
+        if ($global -lt $total) {
+            $selected = $saves[$global]
+            Write-Host "`nSelected: $($selected.Name)" -ForegroundColor Cyan
 
-        Copy-Item $selected.FullName $Dest -Force
+            Copy-Item $selected.FullName $Dest -Force
 
-        Push-Location $Dest
-        if ($selected.Extension -eq ".zip") {
-            Expand-Archive -Path $selected.Name -DestinationPath . -Force
-        }
-        else {
-            try { tar -xf $selected.Name }
-            catch {
-                Write-Host "ERROR extracting file with tar." -ForegroundColor Red
-                pause
-                exit 1
+            Push-Location $Dest
+            if ($selected.Extension -eq ".zip") {
+                Expand-Archive -Path $selected.Name -DestinationPath . -Force
             }
-        }
-        Remove-Item $selected.Name -Force
-        Pop-Location
+            else {
+                try { tar -xf $selected.Name }
+                catch {
+                    Write-Host "ERROR extracting file with tar." -ForegroundColor Red
+                    pause
+                    exit 1
+                }
+            }
+            Remove-Item $selected.Name -Force
+            Pop-Location
 
-        break
+            break
+        }
     }
 }
-
 
 
 Clear-Host
