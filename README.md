@@ -107,8 +107,6 @@ Works on Linux, macOS, or Windows (Windows 10/11 with WSL2 preferred for Docker)
 
 Docker → Install ([Docker-desktop](https://www.docker.com/products/docker-desktop))
 
-WSL2 → Install ([WSL2](https://learn.microsoft.com/en-us/windows/wsl/install)) 
-
 Python 3.8+ → ([Python](https://www.python.org/downloads))
 
 ---
