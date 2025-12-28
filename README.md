@@ -152,8 +152,6 @@ cd ghd-python
 
 ## 💡 Usage
 
----
-
 ### Windows - Powershell
 
 ```powershell
