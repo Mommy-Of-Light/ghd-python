@@ -232,3 +232,6 @@ __pycache__/
 
 # Shell history (optional)
 *.history
+
+# Personal files
+run.sh
