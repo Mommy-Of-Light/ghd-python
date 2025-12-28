@@ -30,16 +30,18 @@ def human_size(n):
     return f"{n:.1f}PB"
 
 def pager_lines(lines, lines_per_page=25):
+    import os
     n = len(lines)
     visible = lines_per_page
     last_was_blank = False
 
+    def clear_screen():
+        os.system('cls' if os.name == 'nt' else 'clear')
+
     while True:
-        # clear_screen()
         last_was_blank = False
         
-        if visible > 25:
-            clear_screen()
+        clear_screen()
 
         printed = 0
         for i in range(min(visible, n)):
@@ -60,10 +62,12 @@ def pager_lines(lines, lines_per_page=25):
         if visible >= n:
             return
 
-        c = input("--More-- (Enter=+1 line, Space=+25 lines, q=quit) ")
+        c = input("--More-- (Enter=+1 line, Space=+25 lines, 'end'=show all, q=quit) ")
         if c == "q":
             return
         elif c == " ":
             visible += lines_per_page
+        elif c.lower() == "end":
+            visible = n
         else:
             visible += 1
