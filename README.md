@@ -99,7 +99,7 @@ It's somthing that already exist but this is just a small project idea that i wa
 
 #### Operating System
 
-Works on Linux, macOS, or Windows (Windows 10/11 with WSL2 preferred for Docker).
+Works on  Windows (Windows 10/11 with WSL2 preferred for Docker).
 
 ---
 
@@ -148,25 +148,9 @@ git clone https://github.com/Mommy-Of-Light/gdh-python.git
 cd ghd-python
 ```
 
-### Linux/Mac (additional steps)
-
-```bash
-chmod +x run.sh
-```
-
 ---
 
 ## 💡 Usage
-
-### Linux/Mac
-
-Execute one of the 3
-
-```bash
-./run.sh
-sh run.sh
-bash run.sh
-```
 
 ---
 
@@ -207,8 +191,7 @@ file-manager/
 ├── dockercompose.yaml
 ├── Dockerfile
 ├── README.md
-├── run.ps1
-└── run.sh
+└── run.ps1
 ```
 
 ---
