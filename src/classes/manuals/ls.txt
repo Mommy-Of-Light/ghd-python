@@ -1,0 +1,52 @@
+LS(1)                        Custom CLI Manual                       LS(1)
+
+NAME
+    ls - list directory contents
+
+SYNOPSIS
+    ls [OPTIONS] [PATH]
+
+DESCRIPTION
+    Lists the contents of a directory. By default, lists names of files
+    and directories in the current directory.
+
+OPTIONS
+    -a      Include hidden files (those starting with "."). By default,
+            hidden files are not shown.
+    -l      Long listing format: shows permissions, size, modification
+            time, and name.
+
+ARGUMENTS
+    PATH    The directory path to list. Can be relative or absolute.
+            Defaults to the current directory (".")
+
+LONG LISTING FORMAT (-l)
+    Each entry displays:
+        Permissions   File type and permissions (e.g., -rw-r--r--)
+        Size          File size in human-readable format (or "-" for directories)
+        Modified Time Last modification time (YYYY-MM-DD HH:MM)
+        Name          File or directory name
+
+EXAMPLES
+    ls
+        List the current directory (names only).
+
+    ls /path/to/dir
+        List a specific directory.
+
+    ls -a
+        Include hidden files.
+
+    ls -l
+        Long listing format.
+
+    ls -la /path/to/dir
+        Long listing with hidden files.
+
+ERRORS
+    If the specified path does not exist, prints:
+        No such path: /path/to/nonexistent
+
+NOTES
+    - Directories are indicated with a trailing "/".
+    - Sorting is alphabetical, case-insensitive.
