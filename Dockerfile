@@ -25,6 +25,7 @@ COPY src/classes /usr/local/fm/classes
 RUN dos2unix /usr/local/fm/main.py
 
 # (Optional) convert line endings in class folder too
+COPY src/classes /usr/local/fm/classes
 RUN find /usr/local/fm/classes -type f -exec dos2unix {} \;
 
 # Make main script executable

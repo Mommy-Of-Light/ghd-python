@@ -14,7 +14,6 @@ import argparse
 import code
 import runpy
 from pathlib import Path
-from pathlib import Path
 import readline
 from classes.utils import make_abs_path, human_size, pager_lines, HISTFILE
 
@@ -71,7 +70,7 @@ class CommandHandler:
         "mv       - mv [source] [dest] ",
         "rename   - rename [options] [pattern] [replacement] [files] ",
         "search   - search [pattern] ",
-        "tree     -	tree [path] ",
+        "tree     - tree [path] ",
         "info     - info [command] ",
         "help     - help / ?",
         "preview  - preview [file] ",
@@ -88,7 +87,7 @@ class CommandHandler:
         "move     - move [source] [dest]",
         "ren      - ren [pattern] [replacement] [files] ",
         "export   - export VAR=value ",
-        "python   - python [file] "
+        "python   - python [file] ",
         "man      - man [command] ",
     ]
 
@@ -125,7 +124,7 @@ class CommandHandler:
         "ren": "to do",
         "export": "to do",
         "python": "to do",
-        "man": "Realy! Are you serious",
+        "man": "to do",
     }
 
     PATH_LIKE = {
@@ -703,10 +702,24 @@ class CommandHandler:
             for cmd in self.COMMANDS_LIST:
                 print(f" - {cmd}")
             print("\nUse 'man <command>' to learn more about a specific command.")
-        else:
-            cmd_name = args[0]
-            if cmd_name in self.COMMANDS_LIST_MAN:
-                print(f"Manual for '{cmd_name}':\n")
-                print(self.COMMANDS_LIST_MAN[cmd_name])
-            else:
-                print(f"No manual entry for '{cmd_name}'.")
+            return
+
+        cmd_name = args[0]
+
+        if cmd_name not in self.COMMANDS_LIST_MAN:
+            print(f"No manual entry for '{cmd_name}'.")
+            return
+
+        # /usr/local/fm/classes
+        base_dir = Path(__file__).resolve().parent
+
+        # /usr/local/fm/classes/manuals/<command>.txt
+        man_path = base_dir / "manuals" / f"{cmd_name}.txt"
+
+        try:
+            with man_path.open("r", encoding="utf-8") as f:
+                lines = list(f)
+            pager_lines(lines, lines_per_page=25)
+        except FileNotFoundError:
+            # fallback to built-in help text
+            print(self.COMMANDS_LIST_MAN[cmd_name])
