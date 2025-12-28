@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import readline, shlex
+import readline, shlex, os
 from pathlib import Path
 from classes.commands import CommandHandler
 from classes.utils import HISTFILE
@@ -25,6 +25,7 @@ class FileManagerCLI:
         return self.cmd_handler.complete(text, state)
 
     def run(self):
+        os.system('cls' if os.name == 'nt' else 'clear')
         print("Console File Manager ready. Type 'help' for commands.")
         try:
             while True:
