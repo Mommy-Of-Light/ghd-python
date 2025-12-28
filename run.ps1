@@ -185,7 +185,7 @@ while ($true) {
         continue
     }
 
-    if ($choice -eq "0") { break }
+    if ($choice -eq "0" -or $choice -eq "") { break }
     if ($choice -eq "n") {
         $maxpage = [Math]::Ceiling($total / $per_page)
         if ($page -lt $maxpage) { $page++ }
@@ -247,10 +247,64 @@ docker-compose run --rm fm
 Clear-Host
 
 Clear-Host
+Read-Host "Execution finished. Press Enter to clean workspace and exit."
+
 Write-Host "`nCleaning workspace..." -ForegroundColor Cyan
 Get-ChildItem $Dest -Recurse -Force | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
-Clear-Host
+Read-Host "Workspace cleaned. Press Enter to continue."
 
-Clear-Host
-Write-Host "`nDone." -ForegroundColor Green
+Write-Host "`nCleaning Docker images..." -ForegroundColor Cyan
+docker image rm console-file-manager:latest -f
+Read-Host "Docker image removed. Press Enter to continue."
+
+Write-Host "`nCleaning dangling Docker images..." -ForegroundColor Cyan
+$dangling = docker images -f "dangling=true" -q
+if ($dangling) {
+    docker rmi $dangling -f
+    Read-Host "Dangling images removed. Press Enter to continue."
+}
+else {
+    Write-Host "No dangling images found." -ForegroundColor Green
+    Read-Host "Press Enter to continue."
+}
+
+Write-Host "`nCleaning unused Docker volumes..." -ForegroundColor Cyan
+$volumes = docker volume ls -qf "dangling=true"
+if ($volumes) {
+    docker volume rm $volumes
+    Read-Host "Unused volumes removed. Press Enter to continue."
+}
+else {
+    Write-Host "No unused volumes found." -ForegroundColor Green
+    Read-Host "Press Enter to continue."
+}
+
+Write-Host "`nCleaning unused Docker networks..." -ForegroundColor Cyan
+$networks = docker network ls -qf "dangling=true"
+if ($networks) {
+    docker network rm $networks
+    Read-Host "Unused networks removed. Press Enter to continue."
+}
+else {
+    Write-Host "No unused networks found." -ForegroundColor Green
+    Read-Host "Press Enter to continue."
+}
+
+Write-Host "`nCleaning stopped containers..." -ForegroundColor Cyan
+$containers = docker ps -a -q -f "status=exited"
+if ($containers) {
+    docker rm $containers -f
+    Read-Host "Stopped containers removed. Press Enter to continue."
+}
+else {
+    Write-Host "No stopped containers found." -ForegroundColor Green
+    Read-Host "Press Enter to continue."
+}
+
+Write-Host "`nCleaning build cache..." -ForegroundColor Cyan
+docker builder prune -f
+Read-Host "Build cache cleaned. Press Enter to continue."
+
+Write-Host "`nAll cleanup operations completed." -ForegroundColor Green
+Read-Host "Press Enter to exit."
 Clear-Host
