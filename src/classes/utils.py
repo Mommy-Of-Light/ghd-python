@@ -5,6 +5,11 @@ import stat, datetime
 
 HISTFILE = Path.home() / ".pyhist"
 
+
+def clear_screen():
+    os.system("cls" if os.name == "nt" else "clear")
+
+
 def make_abs_path(p: str, workspace: Path = Path("/home/user")) -> Path:
     path = Path(p).expanduser()
     if not path.is_absolute():
@@ -25,19 +30,40 @@ def human_size(n):
     return f"{n:.1f}PB"
 
 def pager_lines(lines, lines_per_page=25):
-    i = 0
     n = len(lines)
-    while i < n:
-        end = min(i + lines_per_page, n)
-        for idx, line in enumerate(lines[i:end], start=i+1):
-            print(f"{idx:4}: {line}", end="")
-        i = end
-        if i >= n:
-            break
-        c = input("--More-- (Enter=1 line, Space=page, q=quit) ")
+    visible = lines_per_page
+    last_was_blank = False
+
+    while True:
+        # clear_screen()
+        last_was_blank = False
+        
+        if visible > 25:
+            clear_screen()
+
+        printed = 0
+        for i in range(min(visible, n)):
+            line = lines[i].rstrip("\r\n")
+
+            # Collapse multiple blank lines
+            if line == "":
+                if last_was_blank:
+                    continue
+                print()
+                last_was_blank = True
+            else:
+                print(line)
+                last_was_blank = False
+
+            printed += 1
+
+        if visible >= n:
+            return
+
+        c = input("--More-- (Enter=+1 line, Space=+25 lines, q=quit) ")
         if c == "q":
-            break
+            return
         elif c == " ":
-            lines_per_page = 25
+            visible += lines_per_page
         else:
-            lines_per_page = 1
+            visible += 1
