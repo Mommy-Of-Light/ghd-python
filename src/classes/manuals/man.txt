@@ -35,4 +35,3 @@ SEE ALSO
 
 AUTHOR
     The Developer Who Wanted You to Smile
-
