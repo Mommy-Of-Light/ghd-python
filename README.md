@@ -139,16 +139,77 @@ python --version
 pip --version
 ```
 
----
+### For Linux
 
-### ⚙️ Set Up
+If the `unzip` package is not installed, install it with the command corresponding to your distribution.
 
-#### Launch Docker - Important
+#### Debian / Ubuntu / Linux Mint
 
-#### Clone the project
 ```bash
-git clone https://github.com/Mommy-Of-Light/gdh-python.git
-cd ghd-python
+sudo apt update
+sudo apt install unzip
+```
+
+#### Fedora
+
+```bash
+sudo dnf install unzip
+```
+
+#### RHEL / CentOS
+
+```bash
+sudo dnf install unzip
+```
+
+For older CentOS versions:
+
+```bash
+sudo yum install unzip
+```
+
+#### Arch Linux / Manjaro
+
+```bash
+sudo pacman -S unzip
+```
+
+#### openSUSE
+
+```bash
+sudo zypper install unzip
+```
+
+#### Alpine Linux
+
+```bash
+sudo apk add unzip
+```
+
+#### Void Linux
+
+```bash
+sudo xbps-install -S unzip
+```
+
+#### Gentoo
+
+```bash
+sudo emerge app-arch/unzip
+```
+
+#### NixOS
+
+```bash
+nix-shell -p unzip
+```
+
+Or add `unzip` to your system configuration.
+
+#### Verify installation
+
+```bash
+unzip -v
 ```
 
 ---
@@ -159,6 +220,14 @@ cd ghd-python
 
 ```powershell
 .\run.ps1
+```
+
+---
+
+### Linux / WSL / Git Bash
+
+```bash
+./run.sh
 ```
 
 ---
