@@ -123,7 +123,7 @@ function Show-BoxTitle {
 function Show-Menu {
     Clear-Host
 
-    Show-Header "AVAILABLE SAVES"
+    Show-Header "AVAILABLE SAVES FROM NEWEST TO OLDEST"
     Show-BoxTitle "Select a workspace to load or delete a save"
 
     $start = ($page - 1) * $per_page
