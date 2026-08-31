@@ -230,7 +230,7 @@ while ($true) {
             -DelayText @("Preparing closing", "Preparing closing.", "Preparing closing..", "Preparing closing...") `
             -DelayTime 250 `
             -CallbackDisplayer { param($t) Show-BoxTitle $t } `
-            -LoopCount 3 `
+            -LoopCount 1 `
             -InMillisecond $true
         Clear-Host
         exit 0
@@ -241,7 +241,7 @@ Display-Delay `
     -DelayText @("Preparing the installation", "Preparing the installation.", "Preparing the installation..", "Preparing the installation...") `
     -DelayTime 250 `
     -CallbackDisplayer { param($t) Show-BoxTitle $t } `
-    -LoopCount 3 `
+    -LoopCount 1 `
     -InMillisecond $true
 Clear-Host
 
@@ -252,7 +252,7 @@ Clear-Host
 
 Clear-Host
 Write-Host "`nRunning container..." -ForegroundColor Cyan
-docker-compose run --rm fm
+docker compose run --rm fm
 Clear-Host
 
 Display-Delay `
