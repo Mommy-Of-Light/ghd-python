@@ -851,7 +851,13 @@ class CommandHandler:
         base_dir = Path(__file__).resolve().parent
 
         # /usr/local/fm/classes/manuals/<command>.txt
-        man_path = base_dir / "manuals" / f"{cmd_name}.txt"
+        
+        # if txt file exists, use it; otherwise, search for non extension file like manuals/<command> and use it as fallback
+        if (base_dir / "manuals" / f"{cmd_name}.txt").exists():
+            man_path = base_dir / "manuals" / f"{cmd_name}.txt"
+        else:
+            # fallback to non-extension file
+            man_path = base_dir / "manuals" / cmd_name
 
         try:
             with man_path.open("r", encoding="utf-8") as f:
