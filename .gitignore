@@ -234,4 +234,4 @@ __pycache__/
 *.history
 
 # Personal files
-*.sh
+# *.sh
