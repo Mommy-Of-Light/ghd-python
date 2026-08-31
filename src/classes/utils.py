@@ -22,6 +22,7 @@ def make_abs_path(p: str, workspace: Path = Path("/home/user")) -> Path:
         return workspace
     return path
 
+
 def human_size(n):
     for unit in ["B", "KB", "MB", "GB", "TB"]:
         if n < 1024:
@@ -29,21 +30,23 @@ def human_size(n):
         n /= 1024
     return f"{n:.1f}PB"
 
+
 def pager_lines(lines, lines_per_page=25):
     import os
+    import readline
+
     n = len(lines)
     visible = lines_per_page
-    last_was_blank = False
 
     def clear_screen():
-        os.system('cls' if os.name == 'nt' else 'clear')
+        os.system("cls" if os.name == "nt" else "clear")
 
     while True:
-        last_was_blank = False
-        
         clear_screen()
 
         printed = 0
+        last_was_blank = False
+
         for i in range(min(visible, n)):
             line = lines[i].rstrip("\r\n")
 
@@ -51,6 +54,7 @@ def pager_lines(lines, lines_per_page=25):
             if line == "":
                 if last_was_blank:
                     continue
+
                 print()
                 last_was_blank = True
             else:
@@ -62,7 +66,15 @@ def pager_lines(lines, lines_per_page=25):
         if visible >= n:
             return
 
+        # Save current history state
+        history_length = readline.get_current_history_length()
+
         c = input("--More-- (Enter=+1 line, Space=+25 lines, 'end'=show all, q=quit) ")
+
+        # Remove the pager input from readline history
+        while readline.get_current_history_length() > history_length:
+            readline.remove_history_item(readline.get_current_history_length() - 1)
+
         if c == "q":
             return
         elif c == " ":
