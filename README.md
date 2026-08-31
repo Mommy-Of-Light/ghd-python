@@ -61,6 +61,9 @@ It's somthing that already exist but this is just a small project idea that i wa
 | ------- | -------------------------- | -------------- |
 | preview | Preview file content.      | preview [file] |
 | edit    | Open a file in an editor.  | edit [file]    |
+| nano    | Open a file in an editor.  | nano [file]    |
+| vim     | Open a file in an editor.  | vim [file]     |
+| vi      | Open a file in an editor.  | vi [file]      |
 | echo    | Print text to terminal.    | echo [text]    |
 | clear   | Clear the terminal screen. | clear          |
 | cls     | Windows version of clear.  | cls            |
