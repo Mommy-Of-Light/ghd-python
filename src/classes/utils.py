@@ -33,6 +33,7 @@ def human_size(n):
 
 def pager_lines(lines, lines_per_page=25):
     import os
+    import sys
     import readline
 
     n = len(lines)
@@ -41,10 +42,114 @@ def pager_lines(lines, lines_per_page=25):
     def clear_screen():
         os.system("cls" if os.name == "nt" else "clear")
 
+    def clear_pager_line():
+        """
+        Clear the current terminal line and move the cursor to column 0.
+        """
+        if os.name == "nt":
+            # Windows console
+            print("\r" + " " * 120 + "\r", end="", flush=True)
+        else:
+            # Linux / Unix terminal
+            print("\033[2K\r", end="", flush=True)
+
+    def pager_input():
+        """
+        Read pager input without using readline history.
+        """
+
+        if os.name == "nt":
+            import msvcrt
+
+            chars = []
+
+            while True:
+                char = msvcrt.getwch()
+
+                # Enter
+                if char in ("\r", "\n"):
+                    print()
+                    return ""
+
+                # Space
+                if char == " ":
+                    print()
+                    return " "
+
+                # q
+                if char.lower() == "q":
+                    print("q")
+                    return "q"
+
+                # Backspace
+                if char == "\b":
+                    if chars:
+                        chars.pop()
+                        print("\b \b", end="", flush=True)
+                    continue
+
+                # Normal character
+                if char.isprintable():
+                    chars.append(char)
+                    print(char, end="", flush=True)
+
+                    # "end"
+                    if "".join(chars).lower() == "end":
+                        print()
+                        return "end"
+
+        else:
+            import termios
+            import tty
+
+            chars = []
+
+            old_settings = termios.tcgetattr(sys.stdin)
+
+            try:
+                tty.setraw(sys.stdin.fileno())
+
+                while True:
+                    char = sys.stdin.read(1)
+
+                    # Enter
+                    if char in ("\r", "\n"):
+                        print()
+                        return ""
+
+                    # Space
+                    if char == " ":
+                        print()
+                        return " "
+
+                    # q
+                    if char.lower() == "q":
+                        print("q")
+                        return "q"
+
+                    # Backspace
+                    if char in ("\x7f", "\b"):
+                        if chars:
+                            chars.pop()
+                            print("\b \b", end="", flush=True)
+                        continue
+
+                    # Normal character
+                    if char.isprintable():
+                        chars.append(char)
+                        print(char, end="", flush=True)
+
+                        # "end"
+                        if "".join(chars).lower() == "end":
+                            print()
+                            return "end"
+
+            finally:
+                termios.tcsetattr(sys.stdin, termios.TCSADRAIN, old_settings)
+
     while True:
         clear_screen()
 
-        printed = 0
         last_was_blank = False
 
         for i in range(min(visible, n)):
@@ -57,29 +162,36 @@ def pager_lines(lines, lines_per_page=25):
 
                 print()
                 last_was_blank = True
+
             else:
                 print(line)
                 last_was_blank = False
 
-            printed += 1
-
+        # Everything has been displayed
         if visible >= n:
             return
 
-        # Save current history state
-        history_length = readline.get_current_history_length()
+        # Pager prompt
+        print(
+            "--More-- " "(Enter=+1 line, Space=+25 lines, " "'end'=show all, q=quit) ",
+            end="",
+            flush=True,
+        )
 
-        c = input("--More-- (Enter=+1 line, Space=+25 lines, 'end'=show all, q=quit) ")
+        c = pager_input()
 
-        # Remove the pager input from readline history
-        while readline.get_current_history_length() > history_length:
-            readline.remove_history_item(readline.get_current_history_length() - 1)
+        # Clear the pager line before returning/continuing
+        clear_pager_line()
 
         if c == "q":
             return
+
         elif c == " ":
             visible += lines_per_page
+
         elif c.lower() == "end":
             visible = n
+
         else:
+            # Enter
             visible += 1
