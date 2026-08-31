@@ -1,0 +1,42 @@
+VIM(1)                    Funny CLI Manual                     VIM(1)
+
+NAME
+    vim — Open a file in the built-in terminal text editor.
+
+SYNOPSIS
+    vim <file>
+
+DESCRIPTION
+    The 'vim' command opens a file using the built-in terminal text editor.
+    It behaves exactly like the 'edit' command and provides a familiar
+    command name for users who prefer the traditional vim command.
+
+    This is not actually Vim. No modal editing, no mysterious commands,
+    and hopefully no accidental escape-room experience.
+
+ARGUMENTS
+    file    The file to open in the terminal editor.
+    Can be a relative or absolute path.
+
+USAGE
+    > vim file.txt
+        Opens file.txt in the built-in terminal editor.
+    
+EXAMPLES
+    > vim README.txt
+        Opens README.txt for editing.
+    
+    > vim config.ini
+        Opens config.ini in the terminal editor.
+
+FUN FACTS
+    - vim is an alias for edit.
+    - The command uses the same built-in TerminalEditor.
+    - You do not need to install Vim inside the container.
+    - Your muscle memory may still try to type :wq.
+
+SEE ALSO
+    vi(1), edit(1), nano(1), cat(1), preview(1)
+
+AUTHOR
+    The Developer Who Wanted You to Smile

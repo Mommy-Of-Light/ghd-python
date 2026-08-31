@@ -1,0 +1,35 @@
+HELP(1)                    Funny CLI Manual                     HELP(1)
+
+NAME
+    help — Display a list of available commands.
+
+SYNOPSIS
+    help
+
+DESCRIPTION
+    The 'help' command displays a list of all commands available in the CLI.
+    It is useful when you have forgotten a command, discovered a new command,
+    or simply have no idea what you are doing.
+
+    Unlike 'man', which explains a specific command in detail, 'help' gives
+    you the quick list. Think of it as the table of contents.
+
+USAGE
+    > help
+        Displays all available commands.
+
+EXAMPLES
+    > help
+        Shows the complete list of commands supported by the CLI.
+
+FUN FACTS
+    - help is usually the first command people try.
+    - If you need help using help, try man help.
+    - The command list comes directly from the CLI command registry.
+    - Knowing what commands exist is generally a good start.
+
+SEE ALSO
+    man(1), ls(1), info(1)
+
+AUTHOR
+    The Developer Who Wanted You to Smile

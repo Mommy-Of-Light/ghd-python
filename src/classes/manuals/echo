@@ -1,0 +1,47 @@
+ECHO(1)                    Funny CLI Manual                     ECHO(1)
+
+NAME
+    echo — Display text in the terminal.
+
+SYNOPSIS
+    echo <text>
+
+DESCRIPTION
+    The 'echo' command prints the provided text to the terminal.
+
+    Multiple arguments are joined together with spaces, allowing you to
+    write a complete sentence without worrying about the terminal
+    understanding you.
+
+ARGUMENTS
+    text    The text to display.
+    Multiple words can be provided as separate arguments.
+
+USAGE
+    > echo Hello
+        Displays Hello.
+
+    > echo Hello World
+        Displays Hello World.
+
+EXAMPLES
+    > echo Welcome to the CLI
+        Prints the message "Welcome to the CLI".
+
+    > echo This is a test
+        Prints the provided sentence.
+
+    > echo
+        Prints an empty line.
+
+FUN FACTS
+    - echo does not modify files.
+    - Multiple arguments are automatically separated by spaces.
+    - echo is one of the simplest commands in the CLI.
+    - Sometimes you just need the computer to say something back.
+
+SEE ALSO
+    help(1), man(1)
+
+AUTHOR
+    The Developer Who Wanted You to Smile

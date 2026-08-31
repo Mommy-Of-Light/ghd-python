@@ -1,0 +1,41 @@
+NANO(1)                    Funny CLI Manual                     NANO(1)
+
+NAME
+    nano — Open a file in the built-in terminal text editor.
+
+SYNOPSIS
+    nano <file>
+
+DESCRIPTION
+    The 'nano' command opens a file using the built-in terminal text editor.
+    It behaves exactly like the 'edit' command and provides a familiar
+    command name for users who are accustomed to nano.
+
+    It is not actually nano. It's nano's slightly suspicious cousin.
+
+ARGUMENTS
+    file    The file to open in the terminal editor.
+    Can be a relative or absolute path.
+
+USAGE
+    > nano file.txt
+        Opens file.txt in the built-in terminal editor.
+
+EXAMPLES
+    > nano README.txt
+        Opens README.txt for editing.
+
+    > nano config.ini
+        Opens config.ini in the terminal editor.
+
+FUN FACTS
+    - nano is simply an alias for edit.
+    - Both commands use the same built-in TerminalEditor.
+    - No external nano installation is required.
+    - You can use whichever command feels more natural.
+
+SEE ALSO
+    edit(1), cat(1), preview(1), head(1), tail(1)
+
+AUTHOR
+        The Developer Who Wanted You to Smile

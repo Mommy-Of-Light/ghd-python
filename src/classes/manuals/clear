@@ -1,0 +1,40 @@
+CLEAR(1)                   Funny CLI Manual                    CLEAR(1)
+
+NAME
+    clear — Clear the terminal screen.
+
+SYNOPSIS
+    clear
+
+DESCRIPTION
+    The 'clear' command clears everything currently displayed in the terminal
+    and gives you a fresh screen.
+
+    Because sometimes the terminal gets too messy and pretending it never
+    happened is easier than cleaning it manually.
+
+USAGE
+    > clear
+        Clears the terminal screen.
+
+ALIASES
+    cls     Alias for clear.
+
+EXAMPLES
+    > clear
+        Clears the terminal.
+
+    > cls
+        Does exactly the same thing as clear.
+
+FUN FACTS
+    - clear uses the appropriate command for the operating system.
+    - On Windows, it uses cls.
+    - On Linux and other Unix-like systems, it uses clear.
+    - cls exists so Windows users can feel at home.
+
+SEE ALSO
+    help(1), man(1)
+
+AUTHOR
+    The Developer Who Wanted You to Smile

@@ -1,0 +1,42 @@
+VI(1)                     Funny CLI Manual                      VI(1)
+
+NAME
+    vi — Open a file in the built-in terminal text editor.
+
+SYNOPSIS
+    vi <file>
+
+DESCRIPTION
+    The 'vi' command opens a file using the built-in terminal text editor.
+    It is an alias for the 'edit' command and provides a familiar command
+    name for users accustomed to traditional Unix systems.
+
+    It looks like vi, it sounds like vi, but thankfully it does not require
+    you to remember 47 different keyboard commands.
+
+ARGUMENTS
+    file    The file to open in the terminal editor.
+    Can be a relative or absolute path.
+
+USAGE
+    > vi file.txt
+        Opens file.txt in the built-in terminal editor.
+
+EXAMPLES
+    > vi README.txt
+        Opens README.txt for editing.
+
+    > vi notes.txt
+        Opens notes.txt in the terminal editor.
+
+FUN FACTS
+    - vi is an alias for edit.
+    - vi and vim both use the same TerminalEditor.
+    - No external vi installation is required.
+    - If you type :q out of habit, the editor may judge you silently.
+
+SEE ALSO
+    vim(1), edit(1), nano(1), cat(1), preview(1)
+
+AUTHOR
+    The Developer Who Wanted You to Smile

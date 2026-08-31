@@ -1,0 +1,53 @@
+PREVIEW(1)                  Funny CLI Manual                  PREVIEW(1)
+
+NAME
+    preview — Display the beginning of a text file with a paginated view.
+
+SYNOPSIS
+    preview <file> [lines]
+
+DESCRIPTION
+    The 'preview' command displays the contents of a text file a few lines
+    at a time. It uses a pager so large files can be read without flooding
+    the terminal.
+
+    By default, 25 lines are displayed at a time. You can specify a different
+    number of lines per page.
+
+ARGUMENTS
+    file    The text file to preview.
+
+    lines   The number of lines displayed per page.
+            Defaults to 25.
+
+USAGE
+    > preview file.txt
+        Displays file.txt 25 lines at a time.
+
+    > preview file.txt 10
+        Displays file.txt 10 lines at a time.
+
+PAGER CONTROLS
+    Enter       Display 1 more line.
+    Space       Display 25 more lines.
+    end         Display the entire file.
+    q           Quit the preview.
+
+EXAMPLES
+    > preview README.txt
+        Opens README.txt with 25 lines displayed at a time.
+
+    > preview log.txt 10
+        Opens log.txt with 10 lines displayed at a time.
+
+FUN FACTS
+    - Large files no longer need to attack your terminal all at once.
+    - Space is basically a fast-forward button for reading.
+    - q lets you escape before reaching the end.
+    - The pager does not add its commands to your CLI history.
+
+SEE ALSO
+    cat(1), head(1), tail(1), man(1)
+
+AUTHOR
+    The Developer Who Wanted You to Smile

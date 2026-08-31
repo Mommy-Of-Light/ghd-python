@@ -1,0 +1,50 @@
+MV(1)                     Funny CLI Manual                     MV(1)
+
+NAME
+    mv — Move files and directories, because sometimes things belong
+    somewhere else.
+
+SYNOPSIS
+    mv <src> <dst>
+
+DESCRIPTION
+    The mv command moves a file or directory from a source path to a
+    destination path.
+
+    Unlike cp, the original file or directory is removed from its
+    original location after being moved.
+
+    The destination can be a file or directory depending on the source
+    and destination paths.
+
+USAGE
+    > mv <src> <dst>       # Moves the source to the destination.
+
+FUN FACTS
+    - mv stands for "move", not "maximum velocity".
+    - Moving a file does not create a second copy.
+    - Directories can be moved just like files.
+    - If you move something and forget where you put it, ls and pwd
+    are your new best friends.
+
+EXAMPLES
+    > mv notes.txt documents/notes.txt
+        Moves notes.txt into the documents directory.
+
+    > mv old.txt new.txt
+        Moves old.txt and gives it the name new.txt.
+
+    > mv documents old_documents
+        Moves the documents directory to old_documents.
+
+    > mv /home/user/file.txt /home/user/backup/file.txt
+        Moves file.txt to the backup directory.
+
+SEE ALSO
+    help(1), ls(1), cp(1), rm(1), cd(1), man(1)
+
+    Remember, mv does not make a copy.
+    It simply gives your file a new place to live.
+
+AUTHOR
+    The Developer Who Wanted to Rearrange Everything

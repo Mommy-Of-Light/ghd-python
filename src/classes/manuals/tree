@@ -1,0 +1,48 @@
+TREE(1)                    Funny CLI Manual                     TREE(1)
+
+NAME
+    tree — Display the contents of a directory as a tree.
+
+SYNOPSIS
+    tree [path] [depth]
+
+DESCRIPTION
+    The 'tree' command displays files and directories in a tree-like structure.
+    Directories are shown with a / at the end of their name.
+    By default, the tree starts from the current workspace and displays up to
+    3 levels deep.
+
+OPTIONS
+    path    The directory to start from.
+    Defaults to the current workspace.
+
+    depth   Maximum number of directory levels to display.
+            Defaults to 3.
+
+EXAMPLES
+    > tree
+        Displays the workspace directory and its contents up to 3 levels deep.
+
+    > tree projects
+        Displays the contents of the projects directory.
+
+    > tree . 5
+        Displays the current directory up to 5 levels deep.
+
+    > tree projects 2
+        Displays the projects directory up to 2 levels deep.
+
+FUN FACTS
+    - Directories always end with a / so you can spot them easily.
+    - Folders are displayed before files.
+    - Everything is sorted alphabetically.
+    - ├── means there are more entries after this one.
+    - └── means this is the last entry at this level.
+    - │   shows that the tree continues further down.
+    - tree is basically ls that decided to grow branches.
+
+SEE ALSO
+    ls(1), cd(1), pwd(1), search(1)
+
+AUTHOR
+    The Developer Who Wanted You to Smile

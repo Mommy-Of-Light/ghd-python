@@ -1,0 +1,45 @@
+RENAME(1)                     Funny CLI Manual                     RENAME(1)
+
+NAME
+    rename — Rename a file or directory, because names can be changed.
+
+SYNOPSIS
+    rename <old> <new>
+
+DESCRIPTION
+    The rename command changes the name or path of a file or directory.
+
+    The contents of the file or directory are not changed. Only its
+    name or location is modified.
+
+USAGE
+    > rename <old> <new>       # Renames the specified file or directory.
+
+FUN FACTS
+    - rename changes the name without changing what is inside.
+    - A file can go from boring.txt to amazing.txt without changing a
+    single byte.
+    - You can also use rename to move something to another path.
+    - Giving something a new name does not make it a new thing.
+
+EXAMPLES
+    > rename old.txt new.txt
+        Renames old.txt to new.txt.
+
+    > rename draft.txt final.txt
+        Renames draft.txt to final.txt.
+
+    > rename documents projects
+        Renames the documents directory to projects.
+
+    > rename notes.txt documents/notes.txt
+        Renames notes.txt and moves it into the documents directory.
+
+SEE ALSO
+    help(1), ls(1), mv(1), cp(1), rm(1), mkdir(1), man(1)
+
+    Remember, rename does not change what's inside.
+    It just gives it a new identity.
+
+AUTHOR
+    The Developer Who Finally Picked a Better Name

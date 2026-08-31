@@ -1,0 +1,44 @@
+EDIT(1)                    Funny CLI Manual                     EDIT(1)
+
+NAME
+    edit — Open a file in the built-in terminal text editor.
+
+SYNOPSIS
+    edit <file>
+
+DESCRIPTION
+    The 'edit' command opens a file using the built-in terminal text editor.
+    It allows you to modify the contents of a file directly from the CLI.
+
+    No graphical editor required. Just you, your keyboard, and a questionable
+    number of characters waiting to be typed.
+
+ARGUMENTS
+    file    The file to open in the terminal editor.
+    Can be a relative or absolute path.
+
+USAGE
+    > edit file.txt
+        Opens file.txt in the terminal editor.
+
+    > edit notes.txt
+        Opens notes.txt so it can be modified.
+
+EXAMPLES
+    > edit README.txt
+        Opens README.txt for editing.
+
+    > edit config.ini
+        Opens config.ini in the built-in editor.
+
+FUN FACTS
+    - The editor runs entirely inside the terminal.
+    - You do not need nano, vim, or another external editor.
+    - Files can be edited without leaving the CLI.
+    - If you make a mistake, remember: Ctrl+Z is your friend.
+
+SEE ALSO
+    cat(1), preview(1), head(1), tail(1), info(1)
+
+AUTHOR
+    The Developer Who Wanted You to Smile

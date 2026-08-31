@@ -1,0 +1,48 @@
+INFO(1)                    Funny CLI Manual                     INFO(1)
+
+NAME
+    info — Display detailed information about a file or directory.
+
+SYNOPSIS
+    info <path>
+
+DESCRIPTION
+    The 'info' command displays useful information about a file or directory.
+    It shows the path, type, size, permissions, modification date, and creation
+    date.
+
+    Basically, it asks your file: "So... tell me about yourself."
+
+ARGUMENTS
+    path    The file or directory to inspect.
+    Can be relative or absolute.
+
+EXAMPLES
+    > info myfile.txt
+        Displays detailed information about myfile.txt.
+
+    > info documents
+        Displays information about the documents directory.
+
+    > info /home/user/file.txt
+        Displays information about a file using its absolute path.
+
+OUTPUT
+    Path         The complete path of the file or directory.
+    Type         File or Directory.
+    Size         The size of the file in a human-readable format.
+    Permissions  The file permissions.
+    Modified     The date and time when the item was last modified.
+    Created      The creation date and time of the item.
+
+FUN FACTS
+    - Directories have a size too. Yes, even empty ones.
+    - Permissions tell you who can do what with the file.
+    - Modified and Created are not necessarily the same date.
+    - info is basically the file manager version of asking "Who are you?"
+
+SEE ALSO
+    ls(1), cd(1), pwd(1), tree(1)
+
+AUTHOR
+    The Developer Who Wanted You to Smile
