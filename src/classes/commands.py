@@ -651,13 +651,26 @@ class CommandHandler:
 
     def cmd_export(self, args):
         if not args:
-            print("Usage: export <zip|tar|tar.gz>")
+            print("Usage: export [name] <zip|tar|tar.gz>")
             return
 
-        # User provides extension only
-        user_ext = args[0].lower()
+        # --------------------------------------------------------
+        # Parse arguments
+        # --------------------------------------------------------
 
+        if len(args) == 1:
+            # Old syntax: export zip
+            user_name = None
+            user_ext = args[0].lower()
+        else:
+            # New syntax: export my_backup zip
+            user_name = args[0]
+            user_ext = args[1].lower()
+
+        # --------------------------------------------------------
         # Normalize extension
+        # --------------------------------------------------------
+
         if user_ext in ("zip", ".zip"):
             ext = ".zip"
         elif user_ext in ("tar", ".tar"):
@@ -668,34 +681,66 @@ class CommandHandler:
             print("Unsupported format. Use zip, tar, or tar.gz")
             return
 
-        # Timestamp
+        # --------------------------------------------------------
+        # Generate filename
+        # --------------------------------------------------------
+
         from datetime import datetime
 
-        timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+        if user_name:
+            # Remove an extension if the user included one
+            for possible_ext in (".tar.gz", ".tgz", ".zip", ".tar"):
+                if user_name.lower().endswith(possible_ext):
+                    user_name = user_name[:-len(possible_ext)]
+                    break
 
-        # Final output name (always 'data_timestamp.ext')
-        final_name = f"data_{timestamp}{ext}"
+            final_name = f"{user_name}{ext}"
+        else:
+            timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+            final_name = f"data_{timestamp}{ext}"
+
+        # --------------------------------------------------------
+        # Paths
+        # --------------------------------------------------------
 
         out_file = Path("/workspace/exports") / final_name
         workspace = self.cli.workspace
+
         out_file.parent.mkdir(parents=True, exist_ok=True)
+
+        # --------------------------------------------------------
+        # Export
+        # --------------------------------------------------------
 
         try:
             # ZIP
             if ext == ".zip":
                 import zipfile
 
-                with zipfile.ZipFile(out_file, "w", zipfile.ZIP_DEFLATED) as zf:
-                    for f in workspace.rglob("*"):
-                        zf.write(f, f.relative_to(workspace))
+                with zipfile.ZipFile(
+                    out_file,
+                    "w",
+                    zipfile.ZIP_DEFLATED
+                ) as zf:
 
-            # TAR or TAR.GZ
+                    for f in workspace.rglob("*"):
+                        if f.is_file():
+                            zf.write(
+                                f,
+                                f.relative_to(workspace)
+                            )
+
+            # TAR / TAR.GZ
             else:
                 import tarfile
 
                 mode = "w:gz" if ext == ".tar.gz" else "w"
+
                 with tarfile.open(out_file, mode) as tf:
-                    tf.add(workspace, arcname=workspace.name)
+                    tf.add(
+                        workspace,
+                        arcname=workspace.name
+                    )
 
             print(f"Workspace exported to {out_file}")
 
