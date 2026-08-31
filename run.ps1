@@ -20,7 +20,7 @@ if (-not (Get-Command docker-compose -ErrorAction SilentlyContinue)) {
 # Load save files
 $saves = @()
 if (Test-Path $Exports) {
-    $saves = Get-ChildItem $Exports -File | Sort-Object Name -Descending
+    $saves = Get-ChildItem $Exports -File | Sort-Object LastWriteTime -Descending
 }
 
 $total = $saves.Count

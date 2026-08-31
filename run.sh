@@ -78,8 +78,11 @@ fi
 # ============================================================
 
 mapfile -t SAVES < <(
-    find "$EXPORTS" -maxdepth 1 -type f -printf '%f\n' |
-    sort -r
+    find "$EXPORTS" -maxdepth 1 -type f -printf '%T@ %f\0' |
+    sort -z -nr |
+    while IFS= read -r -d '' entry; do
+        printf '%s\0' "${entry#* }"
+    done
 )
 
 TOTAL=${#SAVES[@]}
@@ -153,11 +156,14 @@ show_menu() {
 reload_saves() {
     SAVES=()
 
-    while IFS= read -r file; do
+    while IFS= read -r -d '' file; do
         SAVES+=("$file")
     done < <(
-        find "$EXPORTS" -maxdepth 1 -type f -printf '%f\n' |
-        sort -r
+        find "$EXPORTS" -maxdepth 1 -type f -printf '%T@ %f\0' |
+        sort -z -nr |
+        while IFS= read -r -d '' entry; do
+            printf '%s\0' "${entry#* }"
+        done
     )
 
     TOTAL=${#SAVES[@]}
