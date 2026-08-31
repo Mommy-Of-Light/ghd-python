@@ -141,6 +141,7 @@ function Show-Menu {
 
     Write-Host ""
     Write-Host "  d <number>  Delete save file" -ForegroundColor Red
+    Write-Host "  da  Delete all save files" -ForegroundColor Red
 
     if ($total -gt $per_page) {
         Write-Host ""
