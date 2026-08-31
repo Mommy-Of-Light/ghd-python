@@ -39,6 +39,9 @@ class CommandHandler:
         "help",
         "preview",
         "edit",
+        "nano",
+        "vim",
+        "vi",
         "clear",
         "cls",
         "echo",
@@ -75,6 +78,9 @@ class CommandHandler:
         "help     - help / ?",
         "preview  - preview [file] ",
         "edit     - edit [file] ",
+        "nano     - nano [file]",
+        "vim      - vim [file]",
+        "vi       - vi [file]",
         "clear    - clear ",
         "cls      - cls ",
         "echo     - echo [text] ",
@@ -145,6 +151,26 @@ class CommandHandler:
         "info",
         "preview",
         "edit",
+        "nano",
+        "vim",
+        "vi",
+        "python",
+    }
+
+    FILE_COMPLETE_COMMANDS = {
+        "cat", 
+        "head",
+        "tail",
+        "rm",
+        "touch",
+        "cp", 
+        "mv",
+        "rename",
+        "search",
+        "edit", 
+        "nano", 
+        "vim", 
+        "vi",
         "python",
     }
 
@@ -157,18 +183,28 @@ class CommandHandler:
     def complete(self, text, state):
         buffer = readline.get_line_buffer()
         begidx = readline.get_begidx()
-        tokens = []
+
         try:
             tokens = shlex.split(buffer[:begidx])
         except Exception:
-            pass
+            tokens = []
+
         if not tokens:
             options = [c for c in self.COMMANDS_LIST if c.startswith(text)]
             return options[state] if state < len(options) else None
+
         cmd = tokens[0]
+
+        # Editor commands -> files only
+        if cmd in self.FILE_COMPLETE_COMMANDS:
+            return self.file_completions(text, state)
+
+        # Other path commands
         if cmd in self.PATH_LIKE:
             return self.path_completions(text, state)
+
         options = [c for c in self.COMMANDS_LIST if c.startswith(text)]
+
         return options[state] if state < len(options) else None
 
     def path_completions(self, text, state):
@@ -194,6 +230,51 @@ class CommandHandler:
                     display += "/"
                 matches.append(display)
         matches.sort()
+        return matches[state] if state < len(matches) else None
+
+    def file_completions(self, text, state):
+        expanded = os.path.expanduser(text)
+
+        # Nothing typed -> current directory
+        if not text:
+            dirname = "."
+            prefix = ""
+        else:
+            dirname = os.path.dirname(expanded) or "."
+            prefix = os.path.basename(expanded)
+
+        try:
+            entries = os.listdir(dirname)
+        except (OSError, PermissionError):
+            entries = []
+
+        matches = []
+
+        for entry in entries:
+            if not entry.startswith(prefix):
+                continue
+
+            full_path = os.path.join(dirname, entry)
+
+            # Preserve what the user typed
+            if os.path.dirname(text):
+                display = os.path.join(
+                    os.path.dirname(text),
+                    entry
+                )
+            else:
+                display = entry
+
+            # Files
+            if os.path.isfile(full_path):
+                matches.append(display)
+
+            # Directories
+            elif os.path.isdir(full_path):
+                matches.append(display + "/")
+
+        matches.sort(key=str.lower)
+
         return matches[state] if state < len(matches) else None
 
     # -------------------------------
@@ -391,7 +472,7 @@ class CommandHandler:
             print("Touched", path)
         except Exception as e:
             print("touch error:", e)
-            
+
     def cmd_cp(self, args):
         if len(args) < 2:
             print("Usage: cp <src> <dst>")
@@ -514,17 +595,25 @@ class CommandHandler:
         if not args:
             print("Usage: edit <file>")
             return
+
         path = make_abs_path(args[0])
-        path.parent.mkdir(parents=True, exist_ok=True)
-        editor = (
-            os.environ.get("EDITOR")
-            or os.environ.get("VISUAL")
-            or ("notepad" if platform.system() == "Windows" else "nano")
-        )
+
         try:
-            subprocess.run([editor, str(path)])
+            from classes.editor import TerminalEditor
+
+            editor = TerminalEditor(path)
+            editor.run()
         except Exception as e:
-            print("edit error:", e)
+            print(f"edit error: {e}")
+
+    def cmd_nano(self, args):
+        self.cmd_edit(args)
+
+    def cmd_vim(self, args):
+        self.cmd_edit(args)
+
+    def cmd_vi(self, args):
+        self.cmd_edit(args)
 
     def cmd_clear(self, args):
         os.system("cls" if os.name == "nt" else "clear")
@@ -581,6 +670,7 @@ class CommandHandler:
 
         # Timestamp
         from datetime import datetime
+
         timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
 
         # Final output name (always 'data_timestamp.ext')
@@ -594,6 +684,7 @@ class CommandHandler:
             # ZIP
             if ext == ".zip":
                 import zipfile
+
                 with zipfile.ZipFile(out_file, "w", zipfile.ZIP_DEFLATED) as zf:
                     for f in workspace.rglob("*"):
                         zf.write(f, f.relative_to(workspace))
@@ -601,6 +692,7 @@ class CommandHandler:
             # TAR or TAR.GZ
             else:
                 import tarfile
+
                 mode = "w:gz" if ext == ".tar.gz" else "w"
                 with tarfile.open(out_file, mode) as tf:
                     tf.add(workspace, arcname=workspace.name)
@@ -609,8 +701,8 @@ class CommandHandler:
 
         except Exception as e:
             print("Export error:", e)
-    
-    def cmd_python(self, args):# Case B: Enter REPL if no arguments
+
+    def cmd_python(self, args):  # Case B: Enter REPL if no arguments
         # ---------- Case A: run python file ----------
         if args:
             first = args[0]
@@ -651,7 +743,7 @@ class CommandHandler:
         }
 
         buffer = ""
-        stdin = sys.__stdin__   # <-- BYPASS CLI history completely
+        stdin = sys.__stdin__  # <-- BYPASS CLI history completely
 
         while True:
             try:
@@ -695,7 +787,7 @@ class CommandHandler:
                 print(e)
 
             buffer = ""
-  
+
     def cmd_man(self, args):
         if not args:
             print("Available commands:")
