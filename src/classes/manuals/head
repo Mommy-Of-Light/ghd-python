@@ -1,0 +1,44 @@
+HEAD(1)                     Funny CLI Manual                     HEAD(1)
+
+NAME
+    head — Display the beginning of a file, because sometimes you only
+    need to see how things start.
+
+SYNOPSIS
+    head [OPTIONS] <file>
+
+DESCRIPTION
+    The head command displays the first lines of a file.
+
+    By default, it displays the first 10 lines. The number of lines can
+    be changed using the -n option.
+
+USAGE
+    > head <file>       # Displays the first 10 lines of the file.
+    > head -n 5 <file>  # Displays the first 5 lines of the file.
+    > head -n 20 <file> # Displays the first 20 lines of the file.
+
+FUN FACTS
+    - head only cares about the beginning of the file.
+    - The default is 10 lines, because apparently 10 is enough to get the general idea.
+    - head is useful for checking a file without reading the whole thing.
+    - If you need the end instead, there is another command for that.
+
+EXAMPLES
+    > head notes.txt
+        Displays the first 10 lines of notes.txt.
+
+    > head -n 5 notes.txt
+        Displays the first 5 lines of notes.txt.
+
+    > head -n 25 /home/user/config.txt
+        Displays the first 25 lines of config.txt.
+
+SEE ALSO
+    help(1), cat(1), tail(1), less(1), man(1)
+
+    Remember, head only gives you the beginning.
+    The rest of the file is still waiting.
+
+AUTHOR
+    The Developer Who Only Wanted the First Few Lines

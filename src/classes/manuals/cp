@@ -1,0 +1,50 @@
+CP(1)                     Funny CLI Manual                     CP(1)
+
+NAME
+    cp — Copy files and directories, because sometimes Ctrl+C and Ctrl+V
+    aren't available.
+
+SYNOPSIS
+    cp <src> <dst>
+
+DESCRIPTION
+    The cp command copies a file or directory from a source path to a
+    destination path.
+
+    Files are copied along with their metadata. Directories and all of
+    their contents are copied recursively.
+
+    Parent directories of the destination are created automatically when
+    copying a file.
+
+USAGE
+    > cp <src> <dst>       # Copies the source to the destination.
+
+FUN FACTS
+    - cp stands for "copy", not "Ctrl+P".
+    - Directories bring everything inside them along for the journey.
+    - Copying a file does not remove the original.
+    - If the destination needs a parent directory, cp creates it for you.
+
+EXAMPLES
+    > cp notes.txt backup.txt
+        Copies notes.txt to backup.txt.
+
+    > cp notes.txt backups/notes.txt
+        Copies notes.txt into the backups directory, creating the
+        directory if necessary.
+
+    > cp documents documents_backup
+        Copies the documents directory and everything inside it.
+
+    > cp /home/user/config.txt /home/user/backup/config.txt
+        Copies config.txt to the backup directory.
+
+SEE ALSO
+    help(1), ls(1), mv(1), rm(1), mkdir(1), man(1)
+
+    Remember, cp makes a copy.
+    The original stays exactly where you left it.
+
+AUTHOR
+    The Developer Who Wanted a Backup

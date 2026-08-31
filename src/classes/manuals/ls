@@ -1,0 +1,52 @@
+LS(1)                     Funny CLI Manual                     LS(1)
+
+NAME
+    ls — List directory contents.
+
+SYNOPSIS
+    ls [OPTIONS] [PATH]
+
+DESCRIPTION
+    The 'ls' command lists the contents of a directory. By default, it lists
+    files and directories in the current directory.
+
+    Hidden files are not shown by default, because apparently some files
+    prefer to remain mysterious.
+
+USAGE
+    > ls            # Lists the contents of the current directory.
+    > ls <path>     # Lists the contents of the specified directory.
+    > ls -a         # Includes hidden files and directories.
+    > ls -l         # Shows detailed information about each entry.
+    > ls -a -l      # Includes hidden files and detailed information.
+
+FUN FACTS
+    - Directories are displayed with a "/" so you know they're directories.
+    - Hidden files aren't actually invisible. They're just hiding.
+    - "ls -a" is how you discover files you didn't know were there.
+    - "ls -l" makes looking at files feel significantly more professional.
+
+EXAMPLES
+    > ls
+        Lists the files and directories in the current directory.
+
+    > ls documents
+        Lists the contents of the "documents" directory.
+
+    > ls -a
+        Lists everything, including hidden files.
+
+    > ls -l
+        Lists files with permissions, size, modification time, and name.
+
+    > ls -a -l documents
+        Lists all files in "documents" with detailed information.
+
+SEE ALSO
+    help(1), cd(1), man(1)
+
+    Remember, 'ls' is just your CLI asking:
+    "What's in here?"
+
+AUTHOR
+    The Developer Who Wanted to See Everything

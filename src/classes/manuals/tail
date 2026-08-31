@@ -1,0 +1,44 @@
+TAIL(1)                     Funny CLI Manual                     TAIL(1)
+
+NAME
+    tail — Display the end of a file, because sometimes the beginning
+    is old news.
+
+SYNOPSIS
+    tail [OPTIONS] <file>
+
+DESCRIPTION
+    The tail command displays the last lines of a file.
+
+    By default, it displays the last 10 lines. The number of lines can
+    be changed using the -n option.
+
+USAGE
+    > tail <file>       # Displays the last 10 lines of the file.
+    > tail -n 5 <file>  # Displays the last 5 lines of the file.
+    > tail -n 20 <file> # Displays the last 20 lines of the file.
+
+FUN FACTS
+    - tail only cares about the end of the file.
+    - The default is 10 lines, because the beginning has already had enough attention.
+    - tail is particularly useful for checking logs and recent events.
+    - Unlike a real tail, this one cannot wag.
+
+EXAMPLES
+    > tail notes.txt
+        Displays the last 10 lines of notes.txt.
+
+    > tail -n 5 notes.txt
+        Displays the last 5 lines of notes.txt.
+
+    > tail -n 25 /home/user/log.txt
+        Displays the last 25 lines of log.txt.
+
+SEE ALSO
+    help(1), cat(1), head(1), less(1), man(1)
+
+    Remember, when you only care about how things ended,
+    tail has your back.
+
+AUTHOR
+    The Developer Who Skipped Straight to the Ending

@@ -1,0 +1,44 @@
+RMDIR(1)                     Funny CLI Manual                     RMDIR(1)
+
+NAME
+    rmdir — Remove a directory and everything inside it, because
+    sometimes one file is simply not enough.
+
+SYNOPSIS
+    rmdir <dir>
+
+DESCRIPTION
+    The rmdir command removes the specified directory and all of its
+    contents.
+
+    Unlike the standard rmdir command, this version can remove
+    non-empty directories.
+
+USAGE
+    > rmdir <dir>       # Removes the specified directory and its contents.
+
+FUN FACTS
+    - rmdir normally sounds harmless, but this version means business.
+    - Everything inside the directory is removed recursively.
+    - There is no recycle bin waiting to save you.
+    - If the directory contains something important, you may want to
+    think twice before pressing Enter.
+
+EXAMPLES
+    > rmdir documents
+        Removes the documents directory and everything inside it.
+
+    > rmdir /home/user/old_project
+        Removes old_project and all of its contents.
+
+    > rmdir missing
+        Displays an error because the specified directory does not exist.
+
+SEE ALSO
+    help(1), ls(1), rm(1), cd(1), man(1)
+
+    Remember, rmdir does not just close the door.
+    It removes the entire house.
+
+AUTHOR
+    The Developer Who Asked "Do I Really Need This Folder?"

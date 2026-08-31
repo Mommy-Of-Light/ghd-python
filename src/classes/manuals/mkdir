@@ -1,0 +1,47 @@
+MKDIR(1)                     Funny CLI Manual                     MKDIR(1)
+
+NAME
+    mkdir — Create a directory, because empty space has to start somewhere.
+
+SYNOPSIS
+    mkdir <dir>
+
+DESCRIPTION
+    The mkdir command creates a new directory at the specified path.
+
+    Parent directories are created automatically if they do not already
+    exist.
+
+    If the specified directory already exists, mkdir refuses to overwrite
+    it and reports that it already exists.
+
+USAGE
+    > mkdir <dir>       # Creates the specified directory.
+
+FUN FACTS
+    - mkdir stands for "make directory".
+    - It can create an entire chain of missing parent directories.
+    - Creating a directory is considerably safer than deleting one.
+    - Empty directories are full of possibilities.
+
+EXAMPLES
+    > mkdir documents
+        Creates a new directory called documents.
+
+    > mkdir projects/python
+        Creates both projects and python if they do not already exist.
+
+    > mkdir /home/user/my_project
+        Creates my_project inside /home/user.
+
+    > mkdir documents
+        Reports an error if documents already exists.
+
+SEE ALSO
+    help(1), ls(1), cd(1), rmdir(1), man(1)
+
+    Remember, every great project starts with a directory.
+    And probably a README.
+
+AUTHOR
+    The Developer Who Needed Somewhere to Put Things

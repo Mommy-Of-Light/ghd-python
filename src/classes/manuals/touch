@@ -1,0 +1,51 @@
+TOUCH(1)                     Funny CLI Manual                     TOUCH(1)
+
+NAME
+    touch — Create a file, or update its timestamp, because sometimes
+    you just need something to exist.
+
+SYNOPSIS
+    touch <file>
+
+DESCRIPTION
+    The touch command creates an empty file at the specified path if it
+    does not already exist.
+
+    If the provided name does not contain a file extension, .txt is
+    automatically added.
+
+    If the file already exists, touch leaves its contents unchanged.
+
+USAGE
+    > touch <file>       # Creates the specified file.
+    > touch notes        # Creates notes.txt.
+    > touch notes.txt    # Creates notes.txt.
+
+FUN FACTS
+    - touch does not actually touch anything.
+    - Files without an extension automatically become .txt files.
+    - Creating an existing file does not erase its contents.
+    - Sometimes creating an empty file is the first step toward
+    creating something much less empty.
+
+EXAMPLES
+    > touch notes
+        Creates an empty file called notes.txt.
+
+    > touch notes.txt
+        Creates an empty file called notes.txt.
+
+    > touch /home/user/config.txt
+        Creates config.txt inside /home/user.
+
+    > touch notes.txt
+        Leaves the existing file and its contents unchanged.
+
+SEE ALSO
+    help(1), ls(1), cat(1), rm(1), mkdir(1), man(1)
+
+    Remember, touch creates the file.
+    What you put inside it is your problem.
+
+AUTHOR
+    The Developer Who Needed an Empty File

@@ -1,0 +1,44 @@
+CAT(1)                     Funny CLI Manual                     CAT(1)
+
+NAME
+    cat — Display the contents of a file, because opening an editor
+    would be far too much work.
+
+SYNOPSIS
+    cat <file>
+
+DESCRIPTION
+    The cat command reads a file and displays its contents directly in
+    the terminal.
+
+    The file is opened as text using UTF-8 encoding. Characters that
+    cannot be decoded are replaced instead of causing the command to
+    fail.
+
+USAGE
+    > cat <file>       # Displays the contents of the specified file.
+
+FUN FACTS
+    - cat does not actually summon a feline.
+    - The name comes from "concatenate", even though most people use it just to read files.
+    - cat is one of the fastest ways to discover what is inside a file.
+    - If you cat a very large file, your terminal may regret your decision.
+
+EXAMPLES
+    > cat notes.txt
+        Displays the contents of notes.txt.
+
+    > cat /home/user/config.txt
+        Displays the contents of config.txt using an absolute path.
+
+    > cat missing.txt
+        Displays an error because the requested file does not exist.
+
+SEE ALSO
+    help(1), ls(1), cd(1), man(1)
+
+    Remember, cat is basically opening a file,
+    but with considerably less clicking.
+
+AUTHOR
+    The Developer Who Wanted to Read a File

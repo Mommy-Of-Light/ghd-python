@@ -1,0 +1,45 @@
+RM(1)                     Funny CLI Manual                     RM(1)
+
+NAME
+    rm — Remove a file, because sometimes deleting things is the solution.
+
+SYNOPSIS
+    rm <file>
+
+DESCRIPTION
+    The rm command permanently deletes the specified file.
+
+    It only removes files. If the specified path is a directory, rm
+    refuses to remove it and tells you to use rmdir instead.
+
+USAGE
+    > rm <file>       # Deletes the specified file.
+
+FUN FACTS
+    - rm stands for "remove", not "really messed up".
+    - Deleted files are not moved to a recycle bin.
+    - rm refuses to remove directories, because rmdir has a job too.
+    - Always check what you're deleting. The filesystem does not have feelings, 
+      but you might.
+
+EXAMPLES
+    > rm notes.txt
+        Deletes notes.txt from the current directory.
+
+    > rm /home/user/old.txt
+        Deletes old.txt using an absolute path.
+
+    > rm missing.txt
+        Displays an error because the specified file does not exist.
+
+    > rm documents
+        Refuses to remove the directory and tells you to use rmdir.
+
+SEE ALSO
+    help(1), ls(1), rmdir(1), cat(1), man(1)
+
+    Remember, rm does not ask "Are you sure?"
+    It simply trusts your questionable decisions.
+
+AUTHOR
+    The Developer Who Deleted It Anyway

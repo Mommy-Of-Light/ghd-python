@@ -1,0 +1,45 @@
+CD(1)                     Funny CLI Manual                     CD(1)
+
+NAME
+    cd — Change the current directory, because staying in one place is boring.
+
+SYNOPSIS
+    cd [PATH]
+
+DESCRIPTION
+    The cd command changes the current working directory to the specified
+    path.
+
+    If no path is provided, cd returns to the workspace directory.
+
+USAGE
+    > cd <path>     # Changes to the specified directory.
+    > cd            # Returns to the workspace directory.
+
+FUN FACTS
+    - cd stands for "change directory", not "cool destination".
+    - You can use relative or absolute paths.
+    - Using cd .. lets you travel one directory upward.
+    - cd without arguments is basically the CLI equivalent of going home.
+
+EXAMPLES
+    > cd documents
+        Changes the current directory to the "documents" directory.
+
+    > cd /home/user
+        Changes the current directory to "/home/user".
+
+    > cd ..
+        Moves one directory upward.
+
+    > cd
+        Returns to the workspace directory.
+
+SEE ALSO
+    help(1), ls(1), pwd(1), man(1)
+
+    Remember, cd is basically teleportation for your filesystem.
+    It just takes a little typing.
+
+AUTHOR
+    The Developer Who Wanted to Go Somewhere
