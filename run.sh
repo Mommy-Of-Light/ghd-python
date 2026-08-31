@@ -349,7 +349,7 @@ echo -e "${CYAN}Running container...${RESET}"
 
 cd "$SCRIPT_DIR"
 
-docker compose run --rm fm
+docker compose run --rm --remove-orphans fm
 
 # ============================================================
 # Cleanup
@@ -362,6 +362,9 @@ clear_screen
 echo
 read -rp "Execution finished. Press Enter to clean workspace and exit."
 
+# Cleanup must never stop the script
+set +e
+
 # ============================================================
 # Clean workspace
 # ============================================================
@@ -369,9 +372,54 @@ read -rp "Execution finished. Press Enter to clean workspace and exit."
 echo
 echo -e "${CYAN}Cleaning workspace...${RESET}"
 
-find "$DEST" -mindepth 1 -maxdepth 1 -exec rm -rf {} +
+find "$DEST" -mindepth 1 -maxdepth 1 -exec rm -rf {} + 2>/dev/null
 
 read -rp "Workspace cleaned. Press Enter to continue."
+
+# ============================================================
+# Remove ALL containers attached to the Compose network FIRST
+# ============================================================
+
+echo
+echo -e "${CYAN}Cleaning Docker containers...${RESET}"
+
+NETWORK_NAME="ghd-python_default"
+
+# Get every container currently connected to the network
+NETWORK_CONTAINERS=$(docker network inspect "$NETWORK_NAME" \
+    -f '{{range .Containers}}{{.Name}} {{end}}' 2>/dev/null)
+
+if [ -n "$NETWORK_CONTAINERS" ]; then
+
+    echo -e "${YELLOW}Removing containers attached to $NETWORK_NAME...${RESET}"
+
+    for CONTAINER in $NETWORK_CONTAINERS; do
+        echo -e "  Removing: $CONTAINER"
+        docker rm -f "$CONTAINER" >/dev/null 2>&1 || true
+    done
+
+    echo -e "${GREEN}Network containers removed.${RESET}"
+
+else
+    echo -e "${GREEN}No containers attached to $NETWORK_NAME.${RESET}"
+fi
+
+read -rp "Containers cleaned. Press Enter to continue."
+
+# ============================================================
+# Compose cleanup
+# ============================================================
+
+echo
+echo -e "${CYAN}Cleaning Docker Compose...${RESET}"
+
+cd "$SCRIPT_DIR"
+
+docker compose down --remove-orphans --volumes >/dev/null 2>&1 || true
+
+echo -e "${GREEN}Docker Compose cleanup completed.${RESET}"
+
+read -rp "Press Enter to continue."
 
 # ============================================================
 # Remove Docker image
@@ -380,9 +428,11 @@ read -rp "Workspace cleaned. Press Enter to continue."
 echo
 echo -e "${CYAN}Cleaning Docker image...${RESET}"
 
-docker image rm "$IMAGE" -f 2>/dev/null || true
+docker image rm "$IMAGE" -f 2>/dev/null
 
-read -rp "Docker image removed. Press Enter to continue."
+echo -e "${GREEN}Docker image cleanup completed.${RESET}"
+
+read -rp "Press Enter to continue."
 
 # ============================================================
 # Dangling images
@@ -394,12 +444,13 @@ echo -e "${CYAN}Cleaning dangling Docker images...${RESET}"
 DANGLING=$(docker images -f "dangling=true" -q)
 
 if [ -n "$DANGLING" ]; then
-    docker rmi $DANGLING -f
-    read -rp "Dangling images removed. Press Enter to continue."
+    docker rmi $DANGLING -f 2>/dev/null
+    echo -e "${GREEN}Dangling images removed.${RESET}"
 else
     echo -e "${GREEN}No dangling images found.${RESET}"
-    read -rp "Press Enter to continue."
 fi
+
+read -rp "Press Enter to continue."
 
 # ============================================================
 # Unused volumes
@@ -411,29 +462,13 @@ echo -e "${CYAN}Cleaning unused Docker volumes...${RESET}"
 VOLUMES=$(docker volume ls -qf "dangling=true")
 
 if [ -n "$VOLUMES" ]; then
-    docker volume rm $VOLUMES
-    read -rp "Unused volumes removed. Press Enter to continue."
+    docker volume rm $VOLUMES 2>/dev/null
+    echo -e "${GREEN}Unused volumes removed.${RESET}"
 else
     echo -e "${GREEN}No unused volumes found.${RESET}"
-    read -rp "Press Enter to continue."
 fi
 
-# ============================================================
-# Unused networks
-# ============================================================
-
-echo
-echo -e "${CYAN}Cleaning unused Docker networks...${RESET}"
-
-NETWORKS=$(docker network ls -qf "dangling=true")
-
-if [ -n "$NETWORKS" ]; then
-    docker network rm $NETWORKS
-    read -rp "Unused networks removed. Press Enter to continue."
-else
-    echo -e "${GREEN}No unused networks found.${RESET}"
-    read -rp "Press Enter to continue."
-fi
+read -rp "Press Enter to continue."
 
 # ============================================================
 # Stopped containers
@@ -442,15 +477,54 @@ fi
 echo
 echo -e "${CYAN}Cleaning stopped containers...${RESET}"
 
-CONTAINERS=$(docker ps -a -q -f "status=exited")
+CONTAINERS=$(docker ps -aq -f "status=exited")
 
 if [ -n "$CONTAINERS" ]; then
-    docker rm $CONTAINERS -f
-    read -rp "Stopped containers removed. Press Enter to continue."
+    docker rm $CONTAINERS -f 2>/dev/null
+    echo -e "${GREEN}Stopped containers removed.${RESET}"
 else
     echo -e "${GREEN}No stopped containers found.${RESET}"
-    read -rp "Press Enter to continue."
 fi
+
+read -rp "Press Enter to continue."
+
+# ============================================================
+# Unused networks
+# ============================================================
+
+echo
+echo -e "${CYAN}Cleaning unused Docker networks...${RESET}"
+
+# The Compose network should now have no containers attached.
+if docker network inspect "$NETWORK_NAME" >/dev/null 2>&1; then
+
+    if docker network rm "$NETWORK_NAME" >/dev/null 2>&1; then
+        echo -e "${GREEN}Network removed: $NETWORK_NAME${RESET}"
+    else
+        echo -e "${YELLOW}Network could not be removed: $NETWORK_NAME${RESET}"
+    fi
+
+else
+    echo -e "${GREEN}Compose network does not exist.${RESET}"
+fi
+
+# Remove any other dangling networks
+NETWORKS=$(docker network ls -qf "dangling=true")
+
+if [ -n "$NETWORKS" ]; then
+
+    for NETWORK in $NETWORKS; do
+
+        # Don't try to remove the Compose network twice
+        if [ "$NETWORK" != "$(docker network inspect "$NETWORK_NAME" -f '{{.Id}}' 2>/dev/null)" ]; then
+            docker network rm "$NETWORK" >/dev/null 2>&1 || true
+        fi
+
+    done
+
+fi
+
+read -rp "Press Enter to continue."
 
 # ============================================================
 # Build cache
@@ -459,9 +533,11 @@ fi
 echo
 echo -e "${CYAN}Cleaning build cache...${RESET}"
 
-docker builder prune -f
+docker builder prune -f 2>/dev/null
 
-read -rp "Build cache cleaned. Press Enter to continue."
+echo -e "${GREEN}Build cache cleaned.${RESET}"
+
+read -rp "Press Enter to continue."
 
 # ============================================================
 # Finished
@@ -473,3 +549,5 @@ echo -e "${GREEN}All cleanup operations completed.${RESET}"
 read -rp "Press Enter to exit."
 
 clear_screen
+
+exit 0
