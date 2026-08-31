@@ -140,6 +140,7 @@ function Show-Menu {
     }
 
     Write-Host ""
+    Write-Host "  q. Quit" -ForegroundColor Yellow
     Write-Host "  d <number>  Delete save file" -ForegroundColor Red
     Write-Host "  da  Delete all save files" -ForegroundColor Red
 
@@ -229,13 +230,20 @@ while ($true) {
             -DelayText @("Preparing closing", "Preparing closing.", "Preparing closing..", "Preparing closing...") `
             -DelayTime 250 `
             -CallbackDisplayer { param($t) Show-BoxTitle $t } `
-            -LoopCount 1 `
+            -LoopCount 3 `
             -InMillisecond $true
         Clear-Host
         exit 0
     }
 }
 
+Display-Delay `
+    -DelayText @("Preparing the installation", "Preparing the installation.", "Preparing the installation..", "Preparing the installation...") `
+    -DelayTime 250 `
+    -CallbackDisplayer { param($t) Show-BoxTitle $t } `
+    -LoopCount 3 `
+    -InMillisecond $true
+Clear-Host
 
 Clear-Host
 Write-Host "`nBuilding Docker image..." -ForegroundColor Cyan
@@ -245,6 +253,14 @@ Clear-Host
 Clear-Host
 Write-Host "`nRunning container..." -ForegroundColor Cyan
 docker-compose run --rm fm
+Clear-Host
+
+Display-Delay `
+    -DelayText @("Preparing Cleaning", "Preparing Cleaning.", "Preparing Cleaning..", "Preparing Cleaning...") `
+    -DelayTime 250 `
+    -CallbackDisplayer { param($t) Show-BoxTitle $t } `
+    -LoopCount 3 `
+    -InMillisecond $true
 Clear-Host
 
 Clear-Host
