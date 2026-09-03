@@ -271,8 +271,17 @@ Get-ChildItem $Dest -Recurse -Force | Remove-Item -Recurse -Force -ErrorAction S
 Read-Host "Workspace cleaned. Press Enter to continue."
 
 Write-Host "`nCleaning Docker images..." -ForegroundColor Cyan
-docker image rm console-file-manager:latest -f
-Read-Host "Docker image removed. Press Enter to continue."
+
+$removeImg = Read-Host "Do you want to remove the Docker image 'console-file-manager:latest'? (y/N)"
+
+if ($removeImg -eq "y" -or $removeImg -eq "Y") {
+    docker image rm console-file-manager:latest -f
+    Write-Host "Docker image removed." -ForegroundColor Green
+} else {
+    Write-Host "Docker image not removed." -ForegroundColor Yellow
+}
+
+Read-Host "Press Enter to continue."
 
 Write-Host "`nCleaning dangling Docker images..." -ForegroundColor Cyan
 $dangling = docker images -f "dangling=true" -q
