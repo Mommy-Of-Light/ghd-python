@@ -434,7 +434,18 @@ read -rp "Press Enter to continue."
 echo
 echo -e "${CYAN}Cleaning Docker image...${RESET}"
 
-docker image rm "$IMAGE" -f 2>/dev/null
+# only remove the image if the user wants to, and if it exists
+if docker image inspect "$IMAGE" >/dev/null 2>&1; then
+    read -rp "Do you want to remove the Docker image $IMAGE? (y/n): " REMOVE_IMAGE
+    if [[ "$REMOVE_IMAGE" =~ ^[Yy]$ ]]; then
+        docker image rm "$IMAGE" -f 2>/dev/null
+        echo -e "${GREEN}Docker image $IMAGE removed.${RESET}"
+    else
+        echo -e "${YELLOW}Docker image $IMAGE not removed.${RESET}"
+    fi
+else
+    echo -e "${GREEN}Docker image $IMAGE does not exist.${RESET}"
+fi
 
 echo -e "${GREEN}Docker image cleanup completed.${RESET}"
 
