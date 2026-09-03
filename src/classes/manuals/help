@@ -1,35 +1,96 @@
-HELP(1)                    Funny CLI Manual                     HELP(1)
+HELP(1)                       Funny CLI Manual                       HELP(1)
 
 NAME
-    help — Display a list of available commands.
+    help, ? — Display available commands, because remembering what
+              you wrote yesterday is apparently unreasonable.
 
 SYNOPSIS
     help
+    ?
 
 DESCRIPTION
-    The 'help' command displays a list of all commands available in the CLI.
-    It is useful when you have forgotten a command, discovered a new command,
-    or simply have no idea what you are doing.
+    The 'help' command displays a list of all commands currently
+    available in the CLI.
 
-    Unlike 'man', which explains a specific command in detail, 'help' gives
-    you the quick list. Think of it as the table of contents.
+    For each command, it prints the command's help text when one exists.
+    If a command has aliases, those are displayed underneath it as well.
 
-USAGE
-    > help
-        Displays all available commands.
+    In short, this command answers the timeless developer question:
+
+        "Wait... what commands do I actually have?"
+
+    No judgment. We've all been there.
+
+ALIASES
+    ?
+        An alias for 'help'.
+
+        Because even typing four letters to ask for help can feel
+        like too much commitment.
+
+OUTPUT
+    The command begins with:
+
+        Available commands:
+
+    Each command is then listed with its help text.
+
+    If aliases exist, they appear beneath the command:
+
+        aliases: alias1, alias2
+
+    Aliases are sorted alphabetically, because even chaos deserves
+    a little organization.
 
 EXAMPLES
     > help
-        Shows the complete list of commands supported by the CLI.
+        Available commands:
+         - ls [-a/-l] [path]
+           aliases: dir, la, ll
+         - cd [path]
+         - pwd
+         - cat <file>
+         - head <file> [-n lines]
+         ...
+
+        Suddenly the CLI has documentation.
+
+    > ?
+        Available commands:
+         - ...
+
+        Same information.
+
+        Fewer keystrokes.
+
+        More mysterious energy.
+
+BEHAVIOR
+    Commands with explicit help text display that text.
+
+    Commands without help text display their command name instead.
+
+    Aliases are discovered automatically and displayed underneath
+    their corresponding commands.
+
+    The command does not execute anything else.
+
+    It merely tells you what you could be doing instead of asking
+    questions.
 
 FUN FACTS
-    - help is usually the first command people try.
-    - If you need help using help, try man help.
-    - The command list comes directly from the CLI command registry.
-    - Knowing what commands exist is generally a good start.
+    - 'help' documents the commands registered with the CLI.
+    - '?' provides a tiny shortcut for requesting assistance.
+    - Aliases are shown only when they actually exist.
+    - Alias names are sorted alphabetically.
+    - Commands without help text still appear, because mysterious
+      commands deserve representation too.
+    - Running 'help' is not a sign of weakness.
+    - Running 'help' repeatedly instead of reading the source code
+      is a perfectly valid development methodology.
 
 SEE ALSO
-    man(1), ls(1), info(1)
+    man(1), ls(1), cd(1), pwd(1), cat(1)
 
 AUTHOR
-    The Developer Who Wanted You to Smile
+    The Developer Who Forgot What They Named Their Own Commands

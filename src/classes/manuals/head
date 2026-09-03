@@ -1,44 +1,106 @@
-HEAD(1)                     Funny CLI Manual                     HEAD(1)
+HEAD(1)                       Funny CLI Manual                       HEAD(1)
 
 NAME
-    head — Display the beginning of a file, because sometimes you only
-    need to see how things start.
+    head — Print the beginning of a file, because reading the whole
+           thing is apparently a commitment.
 
 SYNOPSIS
-    head [OPTIONS] <file>
+    head <file> [-n lines]
 
 DESCRIPTION
-    The head command displays the first lines of a file.
+    The 'head' command prints the first few lines of a text file.
 
-    By default, it displays the first 10 lines. The number of lines can
-    be changed using the -n option.
+    By default, it displays the first 10 lines. Because sometimes you
+    don't need the whole 8,000-line log file—you just need to confirm
+    that everything is, in fact, on fire.
 
-USAGE
-    > head <file>       # Displays the first 10 lines of the file.
-    > head -n 5 <file>  # Displays the first 5 lines of the file.
-    > head -n 20 <file> # Displays the first 20 lines of the file.
+    The number of lines can be customized with '-n'.
 
-FUN FACTS
-    - head only cares about the beginning of the file.
-    - The default is 10 lines, because apparently 10 is enough to get the general idea.
-    - head is useful for checking a file without reading the whole thing.
-    - If you need the end instead, there is another command for that.
+    Files are read as UTF-8 text, with invalid characters replaced
+    rather than causing a dramatic terminal incident.
+
+ARGUMENTS
+    file
+        The file whose beginning you wish to inspect.
+
+        Required. 'head' has no interest in guessing which file you
+        meant.
+
+OPTIONS
+    -n lines
+        Number of lines to print.
+
+        Defaults to 10.
+
+        Set this to a reasonable number, or don't. The command will
+        faithfully obey your questionable decisions.
 
 EXAMPLES
-    > head notes.txt
-        Displays the first 10 lines of notes.txt.
+    > head README.md
+        Prints the first 10 lines of README.md.
 
-    > head -n 5 notes.txt
-        Displays the first 5 lines of notes.txt.
+        Enough to decide whether you actually want to read it.
 
-    > head -n 25 /home/user/config.txt
-        Displays the first 25 lines of config.txt.
+    > head -n 5 README.md
+        Prints only the first 5 lines.
+
+        Five lines. Surely nothing important happens after that.
+
+    > head -n 50 application.log
+        Prints the first 50 lines of the log.
+
+        Because 10 lines weren't nearly enough evidence.
+
+    > head config.yaml
+        Shows the top of your configuration file.
+
+        The place where indentation-based suffering begins.
+
+    > head -n 0 enormous.log
+        Prints nothing.
+
+        Technically flawless. Spiritually questionable.
+
+ERRORS
+    head error: <error>
+        The file could not be opened or read.
+
+        Possible causes include:
+        - The file doesn't exist.
+        - You don't have permission to read it.
+        - The path is wrong.
+        - The filesystem has once again chosen violence.
+
+USAGE ERRORS
+    If the arguments cannot be parsed, 'head' quietly exits.
+
+    No lecture. No drama. Just silence.
+
+OUTPUT
+    Up to the requested number of lines are printed exactly as they
+    appear in the file.
+
+    Line endings are preserved during output.
+
+    Invalid UTF-8 sequences are replaced with a replacement character,
+    allowing the command to continue despite the file's best attempts
+    at sabotage.
+
+FUN FACTS
+    - The default is 10 lines, because tradition apparently decided
+      that 10 is the universal number of "just enough."
+    - Unlike 'cat', 'head' knows when to stop.
+    - File completion is enabled, because remembering filenames is a
+      job better delegated to the computer.
+    - Passing a negative number is technically allowed by the argument
+      parser, but may result in the command printing nothing. Consider
+      this a philosophical feature.
+    - 'head' is especially useful for logs, CSVs, configuration files,
+      and determining whether a file starts with something regrettable.
 
 SEE ALSO
-    help(1), cat(1), tail(1), less(1), man(1)
-
-    Remember, head only gives you the beginning.
-    The rest of the file is still waiting.
+    cat(1), tail(1), less(1), grep(1), wc(1)
 
 AUTHOR
-    The Developer Who Only Wanted the First Few Lines
+    The Developer Who Said,
+    "I Only Need the First Few Lines."

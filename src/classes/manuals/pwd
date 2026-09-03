@@ -1,41 +1,53 @@
-PWD(1)                     Funny CLI Manual                     PWD(1)
+PWD(1)                         Funny CLI Manual                         PWD(1)
 
 NAME
-    pwd — Print the current working directory, because sometimes you
-    need to know where you actually are.
+    pwd — Print the current working directory, because sometimes
+          you have absolutely no idea where you are.
 
 SYNOPSIS
     pwd
 
 DESCRIPTION
-    The pwd command displays the absolute path of the current working
+    The 'pwd' command prints the absolute path of the current working
     directory.
 
-    It takes no arguments and simply tells you where you are in the
-    filesystem.
+    No arguments are required. No arguments are needed. No arguments
+    will save you from the existential question:
 
-USAGE
-    > pwd            # Displays the current working directory.
+        "Where am I?"
 
-FUN FACTS
-    - pwd stands for "print working directory".
-    - It is useful when you have completely lost track of where you are.
-    - Unlike a GPS, pwd only works with filesystems.
-    - Running pwd never tells you how you got there.
+    Fortunately, the filesystem knows.
 
 EXAMPLES
     > pwd
-        /home/user
+        /home/developer/project
 
-    > cd documents
+        Ah. There you are.
+
+    > cd src
     > pwd
-        /home/user/documents
+        /home/developer/project/src
+
+        You've moved. The evidence is right here.
+
+    > cd ..
+    > pwd
+        /home/developer/project
+
+        Back where you started. Character development pending.
+
+FUN FACTS
+    - 'pwd' stands for "print working directory."
+    - It takes no arguments because there's only one place you can
+      currently be.
+    - The output comes directly from the process's current working
+      directory.
+    - Unlike 'ls', 'pwd' doesn't judge what is in the directory.
+      It merely tells you where you are and lets you make your own
+      mistakes.
 
 SEE ALSO
-    help(1), cd(1), ls(1), man(1)
-
-    Remember, when you're lost in the filesystem,
-    pwd knows exactly where you are.
+    cd(1), ls(1), find(1)
 
 AUTHOR
-    The Developer Who Finally Found Their Way
+    The Developer Who Got Lost and Refused to Admit It

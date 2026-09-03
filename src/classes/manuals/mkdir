@@ -1,47 +1,99 @@
 MKDIR(1)                     Funny CLI Manual                     MKDIR(1)
 
 NAME
-    mkdir — Create a directory, because empty space has to start somewhere.
+    mkdir — Create a directory, because eventually you have to put
+            all those files somewhere.
 
 SYNOPSIS
     mkdir <dir>
 
 DESCRIPTION
-    The mkdir command creates a new directory at the specified path.
+    The 'mkdir' command creates a new directory at the specified path.
 
-    Parent directories are created automatically if they do not already
-    exist.
+    Parent directories are created automatically when necessary.
 
-    If the specified directory already exists, mkdir refuses to overwrite
-    it and reports that it already exists.
+    In other words, if you ask for:
 
-USAGE
-    > mkdir <dir>       # Creates the specified directory.
+        mkdir projects/2026/important-stuff
 
-FUN FACTS
-    - mkdir stands for "make directory".
-    - It can create an entire chain of missing parent directories.
-    - Creating a directory is considerably safer than deleting one.
-    - Empty directories are full of possibilities.
+    and 'projects' and '2026' don't exist yet, this command will happily
+    build the entire family tree for you.
+
+    However, if the target already exists, 'mkdir' refuses to overwrite
+    it and politely informs you that you're late to the party.
+
+ARGUMENTS
+    dir
+        The directory to create.
+
+        Required. If omitted, the command prints its usage and creates
+        nothing.
+
+BEHAVIOR
+    Parent directories are created automatically.
+
+    The target directory itself must not already exist.
+
+    Existing paths are left completely alone. This is one of the rare
+    commands in this CLI that exercises restraint.
+
+OUTPUT
+    On successful creation:
+
+        Created <path>
+
+    If the directory already exists:
+
+        Already exists: <path>
+
+    No destruction occurred. Everyone can relax.
+
+ERRORS
+    mkdir error: <error>
+        Something else went wrong while creating the directory.
+
+        Possible causes include:
+        - Permission denied.
+        - An intermediate path is not a directory.
+        - The filesystem is being difficult.
+        - You attempted something ambitious before having coffee.
 
 EXAMPLES
-    > mkdir documents
-        Creates a new directory called documents.
+    > mkdir projects
+        Created projects
 
-    > mkdir projects/python
-        Creates both projects and python if they do not already exist.
+        A place to put things. Very organized of you.
 
-    > mkdir /home/user/my_project
-        Creates my_project inside /home/user.
+    > mkdir projects/2026
+        Creates '2026' inside 'projects'.
 
-    > mkdir documents
-        Reports an error if documents already exists.
+        Assuming 'projects' already exists.
+
+    > mkdir projects/2026/important
+        Creates all missing parent directories along the way.
+
+        One command. Several directories. Maximum efficiency.
+
+    > mkdir already-here
+        Already exists: already-here
+
+        The directory got there first.
+
+    > mkdir
+        Usage: mkdir <dir>
+
+        You forgot to tell it what to build.
+
+FUN FACTS
+    - Parent directories are created automatically.
+    - Existing targets are never silently overwritten.
+    - 'mkdir' uses exclusive creation: if something is already there,
+      it says so.
+    - Unlike 'rmdir', this command is generally considered constructive.
+    - Every great filesystem empire begins with a single 'mkdir'.
 
 SEE ALSO
-    help(1), ls(1), cd(1), rmdir(1), man(1)
-
-    Remember, every great project starts with a directory.
-    And probably a README.
+    rmdir(1), cd(1), ls(1), pwd(1)
 
 AUTHOR
-    The Developer Who Needed Somewhere to Put Things
+    The Developer Who Finally Made a Folder for All Those Other Folders

@@ -1,45 +1,102 @@
-RM(1)                     Funny CLI Manual                     RM(1)
+RM(1)                         Funny CLI Manual                         RM(1)
 
 NAME
-    rm — Remove a file, because sometimes deleting things is the solution.
+    rm, del — Delete a file permanently, because "Are you sure?"
+              would apparently slow things down.
 
 SYNOPSIS
     rm <file>
+    del <file>
 
 DESCRIPTION
-    The rm command permanently deletes the specified file.
+    The 'rm' command deletes the specified file from the filesystem.
 
-    It only removes files. If the specified path is a directory, rm
-    refuses to remove it and tells you to use rmdir instead.
+    There is no confirmation prompt.
 
-USAGE
-    > rm <file>       # Deletes the specified file.
+    There is no recycle bin.
 
-FUN FACTS
-    - rm stands for "remove", not "really messed up".
-    - Deleted files are not moved to a recycle bin.
-    - rm refuses to remove directories, because rmdir has a job too.
-    - Always check what you're deleting. The filesystem does not have feelings, 
-      but you might.
+    There is only you, your decision, and the consequences.
+
+    Directories are deliberately rejected. If you want to remove a
+    directory, the command politely suggests using 'rmdir' instead.
+
+ALIASES
+    del
+        An alias for 'rm'.
+
+        For those who instinctively type 'del' because they've spent
+        too much time somewhere else.
+
+ARGUMENTS
+    file
+        The file to delete.
+
+        Required. If omitted, 'rm' refuses to guess what you want
+        destroyed.
+
+ERRORS
+    No such file: <path>
+        The specified file does not exist.
+
+        Excellent. Nothing was deleted. Crisis averted.
+
+    Use rmdir for directories.
+        You attempted to delete a directory with 'rm'.
+
+        The command has standards.
+
+    rm error: <error>
+        Something prevented deletion.
+
+        Permissions, filesystem problems, or perhaps the universe
+        intervened at the last possible moment.
+
+OUTPUT
+    On successful deletion:
+
+        Deleted <path>
+
+    A small message confirming that the file has ceased to exist.
 
 EXAMPLES
-    > rm notes.txt
-        Deletes notes.txt from the current directory.
+    > rm old-notes.txt
+        Deleted old-notes.txt
 
-    > rm /home/user/old.txt
-        Deletes old.txt using an absolute path.
+        One less file. One more opportunity for regret.
 
-    > rm missing.txt
-        Displays an error because the specified file does not exist.
+    > del old-notes.txt
+        Same thing, different dialect.
 
-    > rm documents
-        Refuses to remove the directory and tells you to use rmdir.
+    > rm mystery.log
+        Deleted mystery.log
+
+        If it contained something important, you should have named it
+        something less mysterious.
+
+    > rm .
+        If '.' resolves to a directory, the command refuses.
+
+        Nice try.
+
+    > rm important.txt
+        Deleted important.txt
+
+        There is no undo command.
+
+        You knew the risks.
+
+FUN FACTS
+    - 'rm' only deletes files, not directories.
+    - Hidden files are not protected by special magic. If you name one,
+      it can be deleted like any other file.
+    - There is no '-i' confirmation option.
+    - There is no trash can.
+    - 'del' exists for people whose muscle memory comes from a different
+      command-line universe.
+    - The command prints "Deleted" only after the filesystem agrees.
 
 SEE ALSO
-    help(1), ls(1), rmdir(1), cat(1), man(1)
-
-    Remember, rm does not ask "Are you sure?"
-    It simply trusts your questionable decisions.
+    rmdir(1), ls(1), cat(1), mv(1)
 
 AUTHOR
-    The Developer Who Deleted It Anyway
+    The Developer Who Strongly Believes in Consequences

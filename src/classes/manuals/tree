@@ -1,48 +1,140 @@
-TREE(1)                    Funny CLI Manual                     TREE(1)
+TREE(1)                       Funny CLI Manual                       TREE(1)
 
 NAME
-    tree — Display the contents of a directory as a tree.
+    tree — Display a directory as a tree, because a flat list was
+           apparently too peaceful.
 
 SYNOPSIS
     tree [path] [depth]
 
 DESCRIPTION
-    The 'tree' command displays files and directories in a tree-like structure.
-    Directories are shown with a / at the end of their name.
-    By default, the tree starts from the current workspace and displays up to
-    3 levels deep.
+    The 'tree' command recursively displays the contents of a directory
+    using branches, connectors, and just enough visual structure to make
+    your filesystem look like an actual civilization.
 
-OPTIONS
-    path    The directory to start from.
-    Defaults to the current workspace.
+    Directories are shown with a trailing '/'.
 
-    depth   Maximum number of directory levels to display.
-            Defaults to 3.
+    By default, the tree is displayed to a maximum depth of 3.
+
+    Directories are listed before files, and both groups are sorted
+    alphabetically without regard to case.
+
+    Because chaos belongs in the filesystem, not in the output.
+
+ARGUMENTS
+    path
+        The directory or filesystem entry to display.
+
+        Optional. If omitted, the CLI workspace is used.
+
+        In other words:
+
+            tree
+
+        means:
+
+            "Show me what I've done to this place."
+
+    depth
+        Maximum recursion depth.
+
+        Defaults to 3.
+
+        Increase it if you're brave. Decrease it if your project has
+        become an ecosystem.
+
+OUTPUT
+    The root entry is printed first without a connector.
+
+    Child entries use familiar tree branches:
+
+        ├── item
+        └── item
+
+    Nested entries are indented appropriately using vertical branch
+    markers.
+
+    Directories appear with '/':
+
+        project/
+        ├── src/
+        │   └── main.py
+        └── README.md
+
+    Beautiful. Informative. Mildly judgmental.
+
+SORTING
+    Entries are ordered as follows:
+
+        1. Directories
+        2. Files and other non-directories
+
+    Within each group, names are sorted alphabetically,
+    case-insensitively.
+
+    Because finding 'src/' buried between 47 unrelated files would
+    simply be rude.
+
+DEPTH
+    The root is depth 0.
+
+    Children are depth 1.
+
+    Grandchildren are depth 2.
+
+    And so on.
+
+    Once the requested maximum depth is reached, the command stops
+    descending.
+
+    The tree knows when to quit.
 
 EXAMPLES
     > tree
-        Displays the workspace directory and its contents up to 3 levels deep.
+        Displays the workspace up to depth 3.
 
-    > tree projects
-        Displays the contents of the projects directory.
+        A bird's-eye view of your filesystem empire.
 
-    > tree . 5
-        Displays the current directory up to 5 levels deep.
+    > tree src
+        Displays the tree starting at 'src'.
 
-    > tree projects 2
-        Displays the projects directory up to 2 levels deep.
+        Because the entire project was getting a little overwhelming.
+
+    > tree . 1
+        Shows only the root and its immediate children.
+
+        The filesystem equivalent of making eye contact and leaving.
+
+    > tree project 5
+        Goes five levels deep.
+
+        At this point you are no longer browsing.
+        You are exploring.
+
+    > tree .
+        Shows the current CLI workspace.
+
+        "Let me just see what's in here."
+
+        Famous last words.
 
 FUN FACTS
-    - Directories always end with a / so you can spot them easily.
-    - Folders are displayed before files.
-    - Everything is sorted alphabetically.
-    - ├── means there are more entries after this one.
-    - └── means this is the last entry at this level.
-    - │   shows that the tree continues further down.
-    - tree is basically ls that decided to grow branches.
+    - Directories are displayed before files.
+    - Sorting is case-insensitive.
+    - Directories receive a trailing '/'.
+    - The default depth is 3.
+    - Tree branches use Unicode box-drawing characters.
+    - The root gets special treatment and doesn't wear a connector.
+    - The command recursively visits directories only until the
+      requested depth is reached.
+    - It does not hide dotfiles. If they're there, they're invited
+      to the tree.
+    - A sufficiently deep tree may reveal architectural decisions
+      you'd rather not discuss.
 
 SEE ALSO
-    ls(1), cd(1), pwd(1), search(1)
+    ls(1), cd(1), pwd(1), search(1), find(1)
 
 AUTHOR
-    The Developer Who Wanted You to Smile
+    The Developer Who Wanted to Understand the Project
+    Without Opening the IDE

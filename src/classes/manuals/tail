@@ -1,44 +1,106 @@
-TAIL(1)                     Funny CLI Manual                     TAIL(1)
+TAIL(1)                       Funny CLI Manual                       TAIL(1)
 
 NAME
-    tail — Display the end of a file, because sometimes the beginning
-    is old news.
+    tail — Print the end of a file, because apparently the interesting
+           stuff always happens at the bottom.
 
 SYNOPSIS
-    tail [OPTIONS] <file>
+    tail <file> [-n lines]
 
 DESCRIPTION
-    The tail command displays the last lines of a file.
+    The 'tail' command prints the last few lines of a text file.
 
-    By default, it displays the last 10 lines. The number of lines can
-    be changed using the -n option.
+    By default, it displays the final 10 lines. Because unlike 'head',
+    'tail' understands that the important part of a log is usually
+    whatever happened five seconds ago.
 
-USAGE
-    > tail <file>       # Displays the last 10 lines of the file.
-    > tail -n 5 <file>  # Displays the last 5 lines of the file.
-    > tail -n 20 <file> # Displays the last 20 lines of the file.
+    The number of lines can be customized with '-n'.
 
-FUN FACTS
-    - tail only cares about the end of the file.
-    - The default is 10 lines, because the beginning has already had enough attention.
-    - tail is particularly useful for checking logs and recent events.
-    - Unlike a real tail, this one cannot wag.
+    The entire file is read into memory before the requested lines are
+    selected. This is perfectly reasonable until you point it at a
+    47-gigabyte log file.
+
+ARGUMENTS
+    file
+        The file whose ending you wish to inspect.
+
+        Required. 'tail' refuses to guess which file contains your
+        latest disaster.
+
+OPTIONS
+    -n lines
+        Number of lines to print.
+
+        Defaults to 10.
+
+        Increase it when 10 lines aren't enough to reconstruct the
+        crime scene.
 
 EXAMPLES
-    > tail notes.txt
-        Displays the last 10 lines of notes.txt.
+    > tail application.log
+        Prints the last 10 lines of the log.
 
-    > tail -n 5 notes.txt
-        Displays the last 5 lines of notes.txt.
+        Ah. There it is. The error.
 
-    > tail -n 25 /home/user/log.txt
-        Displays the last 25 lines of log.txt.
+    > tail -n 5 application.log
+        Prints only the final 5 lines.
+
+        Five lines should be enough to understand everything.
+
+        It will not be enough.
+
+    > tail -n 100 server.log
+        Prints the last 100 lines.
+
+        Now we're investigating.
+
+    > tail README.md
+        Prints the end of the README.
+
+        Skipping straight to the conclusion. Respectable.
+
+    > tail -n 0 enormous.log
+        Prints nothing.
+
+        You have successfully inspected the file without learning
+        anything about it.
+
+ERRORS
+    tail error: <error>
+        The file could not be opened or read.
+
+        Possible causes include:
+        - The file doesn't exist.
+        - You don't have permission to read it.
+        - The path is wrong.
+        - The file has decided to become your problem.
+
+USAGE ERRORS
+    If the arguments cannot be parsed, 'tail' quietly exits.
+
+    Because sometimes the best error message is simply an awkward
+    silence.
+
+OUTPUT
+    The final requested number of lines are printed exactly as read.
+
+    Files are interpreted as UTF-8 text. Invalid characters are replaced
+    rather than causing the command to give up on life.
+
+FUN FACTS
+    - The default is 10 lines, just like 'head'.
+    - Unlike traditional streaming implementations, this version reads
+      the entire file before finding its tail.
+    - File completion is enabled, because filenames are hard and tabs
+      are wonderful.
+    - 'tail' is particularly useful for logs, where the bottom of the
+      file is often where the bodies are buried.
+    - If the file has fewer than '-n' lines, congratulations: you get
+      the whole thing for free.
 
 SEE ALSO
-    help(1), cat(1), head(1), less(1), man(1)
-
-    Remember, when you only care about how things ended,
-    tail has your back.
+    head(1), cat(1), less(1), grep(1), wc(1)
 
 AUTHOR
-    The Developer Who Skipped Straight to the Ending
+    The Developer Who Said,
+    "Forget the Beginning. What Happened?"

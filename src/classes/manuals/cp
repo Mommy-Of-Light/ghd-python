@@ -1,50 +1,125 @@
-CP(1)                     Funny CLI Manual                     CP(1)
+CP(1)                         Funny CLI Manual                         CP(1)
 
 NAME
-    cp — Copy files and directories, because sometimes Ctrl+C and Ctrl+V
-    aren't available.
+    cp, copy — Copy files and directories, because sometimes Ctrl+C
+               and Ctrl+V need a command-line lifestyle.
 
 SYNOPSIS
     cp <src> <dst>
+    copy <src> <dst>
 
 DESCRIPTION
-    The cp command copies a file or directory from a source path to a
-    destination path.
+    The 'cp' command copies a file or an entire directory from one
+    location to another.
 
-    Files are copied along with their metadata. Directories and all of
-    their contents are copied recursively.
+    For files, it creates the destination's parent directories if
+    necessary and copies the file along with its metadata.
 
-    Parent directories of the destination are created automatically when
-    copying a file.
+    For directories, it copies the entire directory tree.
 
-USAGE
-    > cp <src> <dst>       # Copies the source to the destination.
+    In other words, 'cp' takes something you already have and creates
+    another one somewhere else. Capitalism, but for files.
 
-FUN FACTS
-    - cp stands for "copy", not "Ctrl+P".
-    - Directories bring everything inside them along for the journey.
-    - Copying a file does not remove the original.
-    - If the destination needs a parent directory, cp creates it for you.
+ALIASES
+    copy
+        An alias for 'cp'.
+
+        For users who prefer commands that explain themselves.
+
+ARGUMENTS
+    src
+        The source file or directory.
+
+        This is the thing you want more of.
+
+    dst
+        The destination path.
+
+        This is where the new thing will live.
+
+        Ideally, somewhere you actually intended.
+
+BEHAVIOR
+    If 'src' is a directory:
+
+        The entire directory tree is copied to 'dst'.
+
+    If 'src' is a file:
+
+        The destination's parent directory is created if necessary,
+        then the file is copied along with its metadata.
+
+    The command prints:
+
+        Copied
+
+    upon success.
+
+    That's it. No list of files. No ceremony. Just "Copied."
+
+ERRORS
+    cp error: <error>
+        Something went wrong during the copy.
+
+        Possible causes include:
+        - The source doesn't exist.
+        - The destination already exists in a way that prevents copying.
+        - Permission denied.
+        - The filesystem ran out of space.
+        - You attempted to copy something that the filesystem considers
+          deeply inconvenient.
+
+USAGE ERRORS
+    > cp README.md
+
+        Usage: cp <src> <dst>
+
+        A source without a destination is just a cry for help.
+
+    > copy README.md backup.md
+        Copied
+
+        Same operation. More words.
 
 EXAMPLES
-    > cp notes.txt backup.txt
-        Copies notes.txt to backup.txt.
+    > cp notes.txt notes-backup.txt
+        Copied
 
-    > cp notes.txt backups/notes.txt
-        Copies notes.txt into the backups directory, creating the
-        directory if necessary.
+        Congratulations. Your notes now have a backup.
 
-    > cp documents documents_backup
-        Copies the documents directory and everything inside it.
+    > cp report.pdf backups/report.pdf
+        Copied
 
-    > cp /home/user/config.txt /home/user/backup/config.txt
-        Copies config.txt to the backup directory.
+        The 'backups' directory will be created if necessary.
+
+        Look at you, planning ahead.
+
+    > cp project project-backup
+        Copied
+
+        The entire project has been cloned into another directory.
+
+        May your disk space rest in peace.
+
+    > copy important.txt somewhere/safe.txt
+        Copied
+
+        Same as 'cp', but with extra linguistic confidence.
+
+FUN FACTS
+    - Files are copied using metadata-preserving copy semantics.
+    - Missing parent directories for file destinations are created
+      automatically.
+    - Directories are copied recursively.
+    - The command does not ask for confirmation before copying.
+    - There is no progress bar, because sometimes you just have to
+      trust the process.
+    - 'copy' exists for people who believe command names should be
+      immediately understandable.
 
 SEE ALSO
-    help(1), ls(1), mv(1), rm(1), mkdir(1), man(1)
-
-    Remember, cp makes a copy.
-    The original stays exactly where you left it.
+    mv(1), rm(1), mkdir(1), rmdir(1), ls(1)
 
 AUTHOR
-    The Developer Who Wanted a Backup
+    The Developer Who Said,
+    "I Need Another Copy, Just In Case."

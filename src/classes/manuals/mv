@@ -1,50 +1,118 @@
-MV(1)                     Funny CLI Manual                     MV(1)
+MV(1)                         Funny CLI Manual                         MV(1)
 
 NAME
-    mv — Move files and directories, because sometimes things belong
-    somewhere else.
+    mv, move — Move a file or directory somewhere else, because
+               apparently it has outgrown its current home.
 
 SYNOPSIS
     mv <src> <dst>
+    move <src> <dst>
 
 DESCRIPTION
-    The mv command moves a file or directory from a source path to a
-    destination path.
+    The 'mv' command moves the specified source to the destination.
 
-    Unlike cp, the original file or directory is removed from its
-    original location after being moved.
+    Unlike 'cp', which makes a copy and leaves the original behind,
+    'mv' takes the original with it.
 
-    The destination can be a file or directory depending on the source
-    and destination paths.
+    The source goes in.
 
-USAGE
-    > mv <src> <dst>       # Moves the source to the destination.
+    The destination comes out.
 
-FUN FACTS
-    - mv stands for "move", not "maximum velocity".
-    - Moving a file does not create a second copy.
-    - Directories can be moved just like files.
-    - If you move something and forget where you put it, ls and pwd
-    are your new best friends.
+    The source's previous location is left wondering what happened.
+
+    Files and directories are both supported.
+
+ALIASES
+    move
+        An alias for 'mv'.
+
+        For people who prefer their commands to use complete words
+        instead of mysterious Unix abbreviations.
+
+ARGUMENTS
+    src
+        The file or directory you wish to move.
+
+        Also known as: "the thing that is about to leave."
+
+    dst
+        The destination path.
+
+        Also known as: "the thing's new address."
+
+BEHAVIOR
+    The source is moved using the filesystem's move operation.
+
+    Depending on the destination and filesystem, this may be a simple
+    rename or a more involved move.
+
+    On success, the command prints:
+
+        Moved
+
+    No further explanation is provided.
+
+    The files know what they did.
+
+ERRORS
+    mv error: <error>
+        Something prevented the move.
+
+        Possible causes include:
+        - The source does not exist.
+        - The destination is invalid.
+        - Permission denied.
+        - The destination is occupied in an inconvenient way.
+        - The filesystem has decided that relocation is currently
+          outside its jurisdiction.
+
+USAGE ERRORS
+    > mv old.txt
+
+        Usage: mv <src> <dst>
+
+        A source without a destination is not a move.
+        It's just standing around.
+
+    > move draft.txt final.txt
+        Moved
+
+        Same operation. More syllables.
 
 EXAMPLES
-    > mv notes.txt documents/notes.txt
-        Moves notes.txt into the documents directory.
+    > mv draft.txt final.txt
+        Moved
 
-    > mv old.txt new.txt
-        Moves old.txt and gives it the name new.txt.
+        The draft has been promoted.
 
-    > mv documents old_documents
-        Moves the documents directory to old_documents.
+    > mv old-project projects/old-project
+        Moved
 
-    > mv /home/user/file.txt /home/user/backup/file.txt
-        Moves file.txt to the backup directory.
+        The project has relocated to a more respectable neighborhood.
+
+    > mv file.txt archive/
+        Moved
+
+        Assuming the destination behaves as expected, your file now
+        has a new home.
+
+    > move notes.txt important/
+        Moved
+
+        Same as 'mv', but nobody has to remember what "mv" means.
+
+FUN FACTS
+    - 'mv' works with both files and directories.
+    - Unlike 'cp', the original source does not remain behind.
+    - The command delegates the actual move to Python's
+      filesystem utilities.
+    - There is no confirmation prompt.
+    - There is no undo command.
+    - 'move' exists for users who believe vowels are important.
 
 SEE ALSO
-    help(1), ls(1), cp(1), rm(1), cd(1), man(1)
-
-    Remember, mv does not make a copy.
-    It simply gives your file a new place to live.
+    cp(1), rm(1), rmdir(1), mkdir(1), ls(1)
 
 AUTHOR
-    The Developer Who Wanted to Rearrange Everything
+    The Developer Who Said,
+    "It's Time for You to Be Somewhere Else."

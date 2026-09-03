@@ -1,53 +1,100 @@
 PREVIEW(1)                  Funny CLI Manual                  PREVIEW(1)
 
 NAME
-    preview — Display the beginning of a text file with a paginated view.
+    preview — Preview the beginning of a file, because sometimes
+              "cat" is a commitment and you just want a sneak peek.
 
 SYNOPSIS
     preview <file> [lines]
 
 DESCRIPTION
-    The 'preview' command displays the contents of a text file a few lines
-    at a time. It uses a pager so large files can be read without flooding
-    the terminal.
+    The 'preview' command displays the first portion of a text file
+    through the CLI's pager.
 
-    By default, 25 lines are displayed at a time. You can specify a different
-    number of lines per page.
+    By default, it shows the first 25 lines.
+
+    Unlike 'cat', which enthusiastically dumps the entire file onto
+    your terminal, 'preview' understands the concept of moderation.
+
+    It's basically saying:
+
+        "Let's see what we're dealing with before we commit."
 
 ARGUMENTS
-    file    The text file to preview.
+    file
+        The file to preview.
 
-    lines   The number of lines displayed per page.
-            Defaults to 25.
+        Required. If omitted, the command provides usage instructions
+        and previews absolutely nothing.
 
-USAGE
-    > preview file.txt
-        Displays file.txt 25 lines at a time.
+    lines
+        The maximum number of lines to preview.
 
-    > preview file.txt 10
-        Displays file.txt 10 lines at a time.
+        Optional. Defaults to 25.
 
-PAGER CONTROLS
-    Enter       Display 1 more line.
-    Space       Display 25 more lines.
-    end         Display the entire file.
-    q           Quit the preview.
+        Increase this when 25 lines aren't enough to establish the
+        situation. Decrease it when they are already too many.
 
-EXAMPLES
-    > preview README.txt
-        Opens README.txt with 25 lines displayed at a time.
+OUTPUT
+    The requested number of lines are passed to the CLI pager.
 
-    > preview log.txt 10
-        Opens log.txt with 10 lines displayed at a time.
+    This means the output may be displayed in a paginated or
+    otherwise interactive manner, depending on how 'pager_lines'
+    is implemented.
+
+    In other words, 'preview' doesn't just throw everything at your
+    face. It attempts to be civilized.
+
+ERRORS
+    preview error: <error>
+        Something went wrong while opening or previewing the file.
+
+        Possible causes include:
+        - The file doesn't exist.
+        - Permission denied.
+        - The path is invalid.
+        - The file contains something the filesystem would rather
+          not discuss.
+
+USAGE ERRORS
+    > preview
+
+        Usage: preview <file> [lines]
+
+        You requested a preview without telling the command what
+        to preview.
+
+    > preview README.md
+        Shows the first 25 lines of README.md.
+
+        Enough to decide whether this README is worth reading.
+
+    > preview README.md 5
+        Shows only the first 5 lines.
+
+        The executive summary of the executive summary.
+
+    > preview application.log 100
+        Shows up to 100 lines through the pager.
+
+        You've gone from "preview" to "investigation."
 
 FUN FACTS
-    - Large files no longer need to attack your terminal all at once.
-    - Space is basically a fast-forward button for reading.
-    - q lets you escape before reaching the end.
-    - The pager does not add its commands to your CLI history.
+    - The default preview size is 25 lines.
+    - Output is sent through 'pager_lines', rather than printed
+      directly.
+    - Files are opened as UTF-8 text.
+    - Invalid characters are replaced rather than causing a meltdown.
+    - File completion is enabled, because tab completion knows
+      filenames better than you do.
+    - A preview is technically just looking at the beginning of
+      something before deciding whether you regret opening it.
+    - 'cat' shows you everything.
+    - 'preview' has boundaries.
 
 SEE ALSO
-    cat(1), head(1), tail(1), man(1)
+    cat(1), head(1), tail(1), less(1), help(1)
 
 AUTHOR
-    The Developer Who Wanted You to Smile
+    The Developer Who Said,
+    "Don't Show Me the Whole Thing. Just Give Me a Little Preview."

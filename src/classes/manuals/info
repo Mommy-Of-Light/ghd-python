@@ -1,48 +1,122 @@
-INFO(1)                    Funny CLI Manual                     INFO(1)
+INFO(1)                       Funny CLI Manual                       INFO(1)
 
 NAME
-    info — Display detailed information about a file or directory.
+    info — Inspect a filesystem entry and reveal its vital statistics,
+           because apparently files have résumés now.
 
 SYNOPSIS
     info <path>
 
 DESCRIPTION
-    The 'info' command displays useful information about a file or directory.
-    It shows the path, type, size, permissions, modification date, and creation
-    date.
+    The 'info' command displays detailed information about a file or
+    directory.
 
-    Basically, it asks your file: "So... tell me about yourself."
+    It reports the path, type, size, permissions, modification time,
+    and creation/change time.
+
+    In other words, instead of merely asking:
+
+        "What is this?"
+
+    you can now interrogate it properly.
 
 ARGUMENTS
-    path    The file or directory to inspect.
-    Can be relative or absolute.
+    path
+        The file or directory to inspect.
 
-EXAMPLES
-    > info myfile.txt
-        Displays detailed information about myfile.txt.
-
-    > info documents
-        Displays information about the documents directory.
-
-    > info /home/user/file.txt
-        Displays information about a file using its absolute path.
+        Required. If omitted, the command provides a usage reminder
+        and investigates absolutely nothing.
 
 OUTPUT
-    Path         The complete path of the file or directory.
-    Type         File or Directory.
-    Size         The size of the file in a human-readable format.
-    Permissions  The file permissions.
-    Modified     The date and time when the item was last modified.
-    Created      The creation date and time of the item.
+    The command displays:
+
+        Path
+            The absolute path of the requested entry.
+
+        Type
+            Either "Directory" or "File".
+
+        Size
+            The size of the entry in human-readable form.
+
+        Permissions
+            The filesystem permission bits, formatted in familiar
+            Unix-style notation.
+
+        Modified
+            The last modification timestamp.
+
+        Created
+            The filesystem creation/change timestamp as reported by
+            the platform.
+
+    Example:
+
+        Path: /home/user/project
+        Type: Directory
+        Size: 4.0 KB
+        Permissions: drwxr-xr-x
+        Modified: 2026-09-03 10:42:17
+        Created: 2026-09-01 08:15:03
+
+    Basically, a background check for your files.
+
+ERRORS
+    info error: <error>
+        Something prevented the command from obtaining information.
+
+        Possible causes include:
+        - The path does not exist.
+        - Permission denied.
+        - The filesystem is feeling secretive.
+        - You asked for information about something that has
+          mysteriously vanished.
+
+USAGE ERRORS
+    > info
+
+        Usage: info <path>
+
+        The command needs someone to investigate.
+
+        You forgot to provide the suspect.
+
+EXAMPLES
+    > info README.md
+        Displays the file's size, permissions, and timestamps.
+
+        Finally, proof that the README exists.
+
+    > info src
+        Displays information about the 'src' directory.
+
+        It's a directory. It has permissions. It has a past.
+        It has seen things.
+
+    > info mysterious-file
+        info error: ...
+
+        The mystery continues.
+
+    > info .
+        Displays information about the current directory.
+
+        The filesystem equivalent of checking your own passport.
 
 FUN FACTS
-    - Directories have a size too. Yes, even empty ones.
-    - Permissions tell you who can do what with the file.
-    - Modified and Created are not necessarily the same date.
-    - info is basically the file manager version of asking "Who are you?"
+    - Both files and directories can be inspected.
+    - Sizes are displayed using the CLI's human-readable size formatter.
+    - Permissions are formatted using Python's filesystem mode
+      representation.
+    - Timestamps are converted into local datetime values.
+    - The command does not modify anything.
+    - This may be the safest command in the entire CLI.
+    - You can finally know exactly how large that suspicious file is
+      without opening it.
 
 SEE ALSO
-    ls(1), cd(1), pwd(1), tree(1)
+    ls(1), tree(1), pwd(1), search(1), stat(1)
 
 AUTHOR
-    The Developer Who Wanted You to Smile
+    The Developer Who Needed to Know
+    "What Exactly Is This Thing?"

@@ -1,52 +1,122 @@
 SEARCH(1)                     Funny CLI Manual                     SEARCH(1)
 
 NAME
-    search — Search for files and directories, because sometimes you
-    have absolutely no idea where you put something.
+    search — Find files and directories matching a pattern, because
+             "I know it's somewhere in here" is not a search strategy.
 
 SYNOPSIS
     search <pattern> [path]
 
 DESCRIPTION
-    The search command recursively searches through a directory for files
-    and directories matching the specified pattern.
+    The 'search' command recursively explores a directory tree and
+    prints every file and directory whose name matches the supplied
+    pattern.
 
-    If no path is provided, the search starts from the workspace directory.
+    If no starting path is provided, the search begins in the CLI
+    workspace.
 
-    Patterns use wildcard matching, allowing you to search for names
-    without knowing the exact filename.
+    It searches both files and directories, because sometimes the thing
+    you're looking for is not a file at all. Sometimes it's a folder
+    you created three months ago and immediately forgot about.
 
-USAGE
-    > search <pattern>          # Searches the workspace.
-    > search <pattern> <path>   # Searches from the specified path.
+    Matching uses filename patterns understood by 'fnmatch', allowing
+    familiar wildcards such as '*' and '?'.
 
-FUN FACTS
-    - search can look through directories inside directories inside
-    directories. It has patience.
-    - Wildcards let you search without knowing the complete name.
-    - Searching is usually faster than remembering where you put things.
-    - If search finds nothing, it is either broken or you really did
-    lose the file.
+ARGUMENTS
+    pattern
+        The filename pattern to search for.
+
+        Required.
+
+        Examples:
+
+            *.txt
+            *.py
+            config.*
+            test_?.py
+
+    path
+        Optional directory from which to begin the search.
+
+        If omitted, the CLI workspace is searched.
+
+        Choose wisely. Searching from '.' is reasonable.
+        Searching from the root of the universe is ambitious.
+
+BEHAVIOR
+    The command walks through the starting directory recursively.
+
+    Both files and directories are checked against the pattern.
+
+    Every matching path is printed.
+
+    There is no ranking, fuzzy matching, or artificial intelligence
+    involved.
+
+    Just good old-fashioned filesystem wandering.
+
+OUTPUT
+    Matching paths are printed one per line.
+
+    Example:
+
+        /home/user/project/src/main.py
+        /home/user/project/tests/main.py
+
+    If nothing matches, nothing is printed.
+
+    Silence means either "no results" or "you spelled it wrong."
 
 EXAMPLES
-    > search *.txt
-        Finds all files and directories ending with .txt in the
-        workspace.
+    > search "*.py"
+        Finds every Python file beneath the workspace.
 
-    > search notes*
-        Finds files and directories whose names start with notes.
+        Somewhere in there is the script you were looking for.
 
-    > search *.py /home/user
-        Searches for Python files starting from /home/user.
+    > search "*.log" logs
+        Searches recursively inside 'logs' for log files.
 
-    > search config /home/user/projects
-        Searches the projects directory for entries matching config.
+        Because apparently there are now enough logs to require
+        an investigation.
+
+    > search "config.*"
+        Finds files and directories whose names begin with 'config.'
+
+        config.json
+        config.yaml
+        config.backup
+        config.backup.final
+        config.backup.final.REALLY_FINAL
+
+    > search "test_?.py"
+        Finds Python files matching a single-character wildcard.
+
+        test_a.py? Yes.
+        test_1.py? Also yes.
+        test_everything.py? Calm down.
+
+    > search "needle" .
+        Searches the current directory tree for exactly matching names.
+
+        Not the contents.
+
+        The command is looking for a thing named "needle", not a
+        needle-shaped sentence hiding inside a file.
+
+FUN FACTS
+    - The search is recursive.
+    - Both files AND directories can match.
+    - Matching is performed against names, not file contents.
+    - Wildcards such as '*' and '?' are supported through fnmatch.
+    - The default starting point is the CLI workspace.
+    - Results are printed as filesystem paths.
+    - If there are no matches, the command says absolutely nothing.
+    - This is technically a search command, but it has not yet
+      developed opinions about relevance.
 
 SEE ALSO
-    help(1), ls(1), cd(1), find(1), man(1)
-
-    Remember, search is what you use when your file exists,
-    you just have no idea where.
+    ls(1), find(1), grep(1), cat(1)
 
 AUTHOR
-    The Developer Who Lost Their File Again
+    The Developer Who Said,
+    "I Know It's Here Somewhere."

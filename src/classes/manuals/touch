@@ -1,51 +1,123 @@
-TOUCH(1)                     Funny CLI Manual                     TOUCH(1)
+TOUCH(1)                      Funny CLI Manual                      TOUCH(1)
 
 NAME
-    touch — Create a file, or update its timestamp, because sometimes
-    you just need something to exist.
+    touch — Create a file if it doesn't exist, or politely remind an
+            existing file that you still know where it lives.
 
 SYNOPSIS
     touch <file>
 
 DESCRIPTION
-    The touch command creates an empty file at the specified path if it
-    does not already exist.
+    The 'touch' command creates the specified file if it does not
+    already exist.
 
-    If the provided name does not contain a file extension, .txt is
-    automatically added.
+    If the filename has no extension, '.txt' is automatically added.
 
-    If the file already exists, touch leaves its contents unchanged.
+    So:
 
-USAGE
-    > touch <file>       # Creates the specified file.
-    > touch notes        # Creates notes.txt.
-    > touch notes.txt    # Creates notes.txt.
+        touch notes
 
-FUN FACTS
-    - touch does not actually touch anything.
-    - Files without an extension automatically become .txt files.
-    - Creating an existing file does not erase its contents.
-    - Sometimes creating an empty file is the first step toward
-    creating something much less empty.
+    becomes:
+
+        touch notes.txt
+
+    If the file already exists, 'touch' leaves it alone and reports
+    that it has been touched.
+
+    No files are harmed during this process.
+
+ARGUMENTS
+    file
+        The name or path of the file to touch.
+
+        Required. If omitted, the command refuses to touch anything
+        on principle.
+
+FILE EXTENSIONS
+    If the supplied name contains no '.', the command automatically
+    appends '.txt'.
+
+        touch notes
+            → notes.txt
+
+        touch notes.md
+            → notes.md
+
+        touch archive.tar.gz
+            → archive.tar.gz
+
+    Because apparently this command has opinions about filenames.
+
+OUTPUT
+    On success:
+
+        Touched <path>
+
+    Whether the file was created or already existed, the command
+    considers the mission accomplished.
+
+ERRORS
+    touch error: <error>
+        Something prevented the file from being touched.
+
+        Possible causes include:
+        - Permission denied.
+        - The parent directory doesn't exist.
+        - The path is invalid.
+        - The filesystem has declared the file emotionally unavailable.
+
+USAGE ERRORS
+    > touch
+
+        Usage: touch <file>
+
+        You forgot the file.
+
+        You cannot touch what you cannot name.
 
 EXAMPLES
     > touch notes
-        Creates an empty file called notes.txt.
+        Touched /some/path/notes.txt
 
-    > touch notes.txt
-        Creates an empty file called notes.txt.
+        You asked for 'notes'. You got 'notes.txt'.
 
-    > touch /home/user/config.txt
-        Creates config.txt inside /home/user.
+    > touch README.md
+        Touched /some/path/README.md
 
-    > touch notes.txt
-        Leaves the existing file and its contents unchanged.
+        A perfectly respectable extension.
+
+    > touch todo.txt
+        Touched /some/path/todo.txt
+
+        The to-do list now exists.
+
+        Unfortunately, the tasks probably still do too.
+
+    > touch existing.txt
+        Touched /some/path/existing.txt
+
+        It was already there.
+
+        But now it has been acknowledged.
+
+    > touch very.important
+        Touched /some/path/very.important
+
+        The presence of a dot has convinced the command that this
+        is already an appropriately named file.
+
+FUN FACTS
+    - Missing extensions automatically become '.txt'.
+    - Existing files are allowed because 'exist_ok=True' said so.
+    - The command does not complain if the file already exists.
+    - A filename containing any '.' is considered to have an extension,
+      even if the dot is technically just part of the name.
+    - Despite its name, no physical touching occurs.
+    - Your computer remains disappointingly intangible.
 
 SEE ALSO
-    help(1), ls(1), cat(1), rm(1), mkdir(1), man(1)
-
-    Remember, touch creates the file.
-    What you put inside it is your problem.
+    mkdir(1), rm(1), cat(1), head(1), tail(1)
 
 AUTHOR
-    The Developer Who Needed an Empty File
+    The Developer Who Needed a File
+    and Refused to Create It Manually

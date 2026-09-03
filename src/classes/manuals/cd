@@ -1,45 +1,82 @@
-CD(1)                     Funny CLI Manual                     CD(1)
+CD(1)                         Funny CLI Manual                         CD(1)
 
 NAME
-    cd — Change the current directory, because staying in one place is boring.
+    cd — Change the current working directory, because apparently
+         walking there wasn't an option.
 
 SYNOPSIS
-    cd [PATH]
+    cd [path]
 
 DESCRIPTION
-    The cd command changes the current working directory to the specified
-    path.
+    The 'cd' command changes the current working directory to the
+    specified path.
 
-    If no path is provided, cd returns to the workspace directory.
+    If no path is provided, 'cd' returns you to the CLI workspace,
+    presumably because you've wandered far enough.
 
-USAGE
-    > cd <path>     # Changes to the specified directory.
-    > cd            # Returns to the workspace directory.
+    The command uses the path resolver to turn the target into an
+    absolute path before attempting the journey.
 
-FUN FACTS
-    - cd stands for "change directory", not "cool destination".
-    - You can use relative or absolute paths.
-    - Using cd .. lets you travel one directory upward.
-    - cd without arguments is basically the CLI equivalent of going home.
+ARGUMENTS
+    path
+        The directory you would like to travel to.
+
+        Optional. If omitted, the CLI workspace becomes the destination.
+
+BEHAVIOR
+    With a path:
+
+        > cd projects
+            Moves into 'projects'.
+
+    Without a path:
+
+        > cd
+            Returns to the CLI workspace.
+
+    If something goes wrong, the command prints the error rather than
+    pretending everything is fine.
+
+ERRORS
+    cd error: <error>
+        The requested journey has been cancelled.
+
+        Possible causes include:
+        - The path does not exist.
+        - You do not have permission to enter it.
+        - The filesystem has decided today is not your day.
+        - Something else went catastrophically sideways.
 
 EXAMPLES
-    > cd documents
-        Changes the current directory to the "documents" directory.
+    > cd src
+        Enters the 'src' directory.
 
-    > cd /home/user
-        Changes the current directory to "/home/user".
+        A short trip. Probably.
 
-    > cd ..
-        Moves one directory upward.
+    > cd /tmp
+        Goes directly to /tmp.
+
+        Your files may or may not survive the experience.
 
     > cd
-        Returns to the workspace directory.
+        Returns to the CLI workspace.
+
+        Home sweet home.
+
+    > cd definitely-not-here
+        cd error: [some filesystem complaint]
+
+        The directory has chosen not to participate.
+
+FUN FACTS
+    - 'cd' changes the process's current working directory.
+    - It accepts exactly zero or one path from the CLI's perspective.
+    - Unlike 'ls', there are no aliases. There is only 'cd'.
+    - Running 'cd' with no arguments is the CLI equivalent of
+      "take me home."
 
 SEE ALSO
-    help(1), ls(1), pwd(1), man(1)
-
-    Remember, cd is basically teleportation for your filesystem.
-    It just takes a little typing.
+    ls(1), pwd(1), mkdir(1), rm(1)
 
 AUTHOR
-    The Developer Who Wanted to Go Somewhere
+    The Developer Who Got Tired of Typing Absolute Paths

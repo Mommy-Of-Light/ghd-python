@@ -2,43 +2,104 @@ RMDIR(1)                     Funny CLI Manual                     RMDIR(1)
 
 NAME
     rmdir — Remove a directory and everything inside it, because
-    sometimes one file is simply not enough.
+            apparently "rmdir" has chosen violence.
 
 SYNOPSIS
     rmdir <dir>
 
 DESCRIPTION
-    The rmdir command removes the specified directory and all of its
-    contents.
+    The 'rmdir' command removes the specified directory recursively.
 
-    Unlike the standard rmdir command, this version can remove
-    non-empty directories.
+    And by recursively, we mean:
 
-USAGE
-    > rmdir <dir>       # Removes the specified directory and its contents.
+        "The directory, its children, their children, and anything else
+         hiding in there are all going away."
 
-FUN FACTS
-    - rmdir normally sounds harmless, but this version means business.
-    - Everything inside the directory is removed recursively.
-    - There is no recycle bin waiting to save you.
-    - If the directory contains something important, you may want to
-    think twice before pressing Enter.
+    Unlike 'rm', which politely refuses to touch directories, 'rmdir'
+    has no such hesitation.
+
+    There is no confirmation prompt.
+
+    There is no recycle bin.
+
+    There is no undo.
+
+    There is only 'shutil.rmtree()' and your rapidly increasing heart rate.
+
+ARGUMENTS
+    dir
+        The directory to remove.
+
+        Required. If omitted, the command displays its usage and
+        deletes absolutely nothing. A rare moment of restraint.
+
+ERRORS
+    No such directory: <path>
+        The requested directory does not exist.
+
+        Good news: your destructive ambitions have been thwarted.
+
+    rmdir error: <error>
+        Something went wrong while removing the directory.
+
+        Possible causes include:
+        - Permission denied.
+        - The filesystem object is having a bad day.
+        - Something inside the directory refused to cooperate.
+        - You have angered the filesystem gods.
+
+OUTPUT
+    On successful removal:
+
+        Removed <path>
+
+    This means the directory and everything beneath it have been
+    removed.
+
+    If you needed anything from there, this is an excellent time
+    to remember the importance of backups.
 
 EXAMPLES
-    > rmdir documents
-        Removes the documents directory and everything inside it.
+    > rmdir old-project
+        Removed old-project
 
-    > rmdir /home/user/old_project
-        Removes old_project and all of its contents.
+        Years of questionable code: gone.
 
-    > rmdir missing
-        Displays an error because the specified directory does not exist.
+    > rmdir build
+        Removes the entire build directory.
+
+        Clean build. Clean conscience.
+
+    > rmdir node_modules
+        Removed node_modules
+
+        Your disk space has been liberated.
+
+    > rmdir important-folder
+        Removed important-folder
+
+        Was it important?
+
+        It is now a historical question.
+
+    > rmdir missing-folder
+        No such directory: ...
+
+        The command searched for your target and found only sadness.
+
+FUN FACTS
+    - Despite its name, this command does not merely remove empty
+      directories.
+    - It uses recursive removal, so non-empty directories are fair game.
+    - There is no confirmation flag.
+    - There is no "please think about this" flag.
+    - Unlike 'rm', directories are its entire personality.
+    - If you accidentally delete the wrong directory, 'rmdir' will
+      not apologize.
 
 SEE ALSO
-    help(1), ls(1), rm(1), cd(1), man(1)
-
-    Remember, rmdir does not just close the door.
-    It removes the entire house.
+    rm(1), mkdir(1), ls(1), cd(1)
 
 AUTHOR
-    The Developer Who Asked "Do I Really Need This Folder?"
+    The Developer Who Asked,
+    "What's the Worst That Could Happen?"

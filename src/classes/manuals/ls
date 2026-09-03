@@ -1,52 +1,130 @@
-LS(1)                     Funny CLI Manual                     LS(1)
+LS(1)                         Funny CLI Manual                         LS(1)
 
 NAME
-    ls — List directory contents.
+    ls, ll, la, dir — List the contents of a directory, with varying
+    degrees of nosiness.
 
 SYNOPSIS
-    ls [OPTIONS] [PATH]
+    ls [OPTIONS] [path]
+    ll [path]
+    la [path]
+    dir [path]
 
 DESCRIPTION
-    The 'ls' command lists the contents of a directory. By default, it lists
-    files and directories in the current directory.
+    The 'ls' command looks inside a directory and tells you what it found.
 
-    Hidden files are not shown by default, because apparently some files
-    prefer to remain mysterious.
+    By default, it politely ignores files whose names begin with '.',
+    because some things are better left unseen.
 
-USAGE
-    > ls            # Lists the contents of the current directory.
-    > ls <path>     # Lists the contents of the specified directory.
-    > ls -a         # Includes hidden files and directories.
-    > ls -l         # Shows detailed information about each entry.
-    > ls -a -l      # Includes hidden files and detailed information.
+    Directories are displayed with a trailing '/', so you can tell your
+    folders from your files without having to emotionally inspect them.
 
-FUN FACTS
-    - Directories are displayed with a "/" so you know they're directories.
-    - Hidden files aren't actually invisible. They're just hiding.
-    - "ls -a" is how you discover files you didn't know were there.
-    - "ls -l" makes looking at files feel significantly more professional.
+    If the requested path does not exist, 'ls' reports the tragedy and
+    leaves you to deal with it.
+
+ALIASES
+    ll
+        Equivalent to 'ls -l'. Because typing two extra characters is
+        apparently too much work.
+
+    la
+        Equivalent to 'ls -a'. For when you're ready to confront the
+        hidden files you've been avoiding.
+
+    dir
+        Equivalent to 'ls'. For users who like their command names
+        slightly more verbose and Windows-flavored.
+
+OPTIONS
+    -a
+        Show all entries, including hidden files.
+
+        Use this when you suspect there is a .secret-file lurking
+        somewhere and you simply must know.
+
+    -l
+        Use long format.
+
+        Displays permissions, human-readable size, modification time,
+        and the name. In other words: 'ls', but now judging your files
+        by their metadata.
+
+ARGUMENTS
+    path
+        Directory to list. Defaults to '.' if omitted.
+
+        Because even when you provide absolutely nothing, we still
+        know where you probably meant.
+
+OUTPUT
+    Normal mode:
+        Files are listed alphabetically, case-insensitively.
+        Directories receive a trailing '/'.
+
+    Long mode:
+        Each entry includes:
+
+            permissions  size  modification-time  name
+
+        Directories display '-' instead of a file size, presumably
+        because measuring a directory's size would invite questions
+        nobody wants to answer.
 
 EXAMPLES
     > ls
-        Lists the files and directories in the current directory.
+        Lists the current directory.
 
-    > ls documents
-        Lists the contents of the "documents" directory.
+        Congratulations. You have successfully looked around.
+
+    > ls src
+        Lists the contents of 'src'.
+
+        Ah yes, the place where the important stuff supposedly lives.
 
     > ls -a
-        Lists everything, including hidden files.
+        Shows hidden files too.
+
+        .git has entered the chat.
 
     > ls -l
-        Lists files with permissions, size, modification time, and name.
+        Shows detailed information about every visible entry.
 
-    > ls -a -l documents
-        Lists all files in "documents" with detailed information.
+        For when "there are some files here" is simply not enough
+        information.
+
+    > ll
+        The lazy person's long listing.
+
+        Same information, fewer keystrokes. Humanity advances.
+
+    > la
+        Shows everything, including hidden entries.
+
+        You weren't supposed to see that.
+
+    > dir
+        Lists the current directory.
+
+        Same as 'ls', but wearing a slightly different hat.
+
+    > ls definitely-not-a-real-directory
+        No such path: ...
+
+        The filesystem has declined your invitation.
+
+FUN FACTS
+    - Entries are sorted alphabetically without caring about case.
+    - Hidden files are excluded by default, because plausible deniability
+      is an important filesystem feature.
+    - Directories get '/', which is basically a tiny sign saying
+      "there's more nonsense in here."
+    - 'll' is not a real separate command. It is 'ls' wearing '-l'.
+    - 'la' is similarly 'ls' wearing '-a'.
+    - 'dir' exists so nobody can accuse this CLI of lacking aliases.
 
 SEE ALSO
-    help(1), cd(1), man(1)
-
-    Remember, 'ls' is just your CLI asking:
-    "What's in here?"
+    cd(1), pwd(1), mkdir(1), rm(1), find(1)
 
 AUTHOR
-    The Developer Who Wanted to See Everything
+    The Developer Who Looked at 'ls' and Thought,
+    "This Could Use More Personality."

@@ -1,44 +1,94 @@
-CAT(1)                     Funny CLI Manual                     CAT(1)
+CAT(1)                         Funny CLI Manual                         CAT(1)
 
 NAME
-    cat — Display the contents of a file, because opening an editor
-    would be far too much work.
+    cat — Print the contents of a file, because opening an editor
+          would be far too sophisticated.
 
 SYNOPSIS
     cat <file>
 
 DESCRIPTION
-    The cat command reads a file and displays its contents directly in
-    the terminal.
+    The 'cat' command reads the specified file and prints its entire
+    contents directly to the terminal.
 
-    The file is opened as text using UTF-8 encoding. Characters that
-    cannot be decoded are replaced instead of causing the command to
-    fail.
+    It accepts a file path, resolves it to an absolute path, opens it
+    as UTF-8 text, and dumps everything onto your screen.
 
-USAGE
-    > cat <file>       # Displays the contents of the specified file.
+    Everything.
 
-FUN FACTS
-    - cat does not actually summon a feline.
-    - The name comes from "concatenate", even though most people use it just to read files.
-    - cat is one of the fastest ways to discover what is inside a file.
-    - If you cat a very large file, your terminal may regret your decision.
+    There is no pagination. There is no "Are you sure?". There is only
+    the file and the terminal, locked in an intimate relationship.
+
+ARGUMENTS
+    file
+        The file to read and print.
+
+        Required. If omitted, 'cat' refuses to guess what you meant
+        and politely reminds you how commands work.
+
+ERRORS
+    cat error: <error>
+        Something went wrong while opening or reading the file.
+
+        Possible causes include:
+        - The file does not exist.
+        - The path points somewhere unexpected.
+        - You lack permission to read it.
+        - The filesystem has developed opinions.
+
+USAGE ERRORS
+    > cat
+
+        Usage: cat <file>
+
+        You forgot the file.
+
+OUTPUT
+    The complete contents of the specified file are printed to stdout.
+
+    Files are opened using UTF-8 encoding. Characters that cannot be
+    decoded are replaced rather than causing the command to explode.
+
+    In other words: "I may not understand this character, but I will
+    absolutely continue."
 
 EXAMPLES
-    > cat notes.txt
-        Displays the contents of notes.txt.
+    > cat README.md
+        Prints the entire README.
 
-    > cat /home/user/config.txt
-        Displays the contents of config.txt using an absolute path.
+        Yes, the entire thing. Even the 400-line one.
+
+    > cat config.json
+        Displays your configuration.
+
+        A thrilling way to discover what you accidentally committed.
+
+    > cat secrets.txt
+        Displays secrets.txt.
+
+        This is probably fine.
+
+        It is not fine.
 
     > cat missing.txt
-        Displays an error because the requested file does not exist.
+        cat error: ...
+
+        The file has chosen to remain mysterious.
+
+FUN FACTS
+    - The command is named 'cat', traditionally short for "concatenate",
+      despite this implementation mostly just printing one file.
+    - UTF-8 is used because it's 2026 and we have standards now.
+    - Invalid characters are replaced instead of causing a decoding
+      meltdown.
+    - File completion is enabled, because manually typing filenames is
+      apparently beneath us.
+    - Path completion is enabled too, because the filesystem is large
+      and your memory is not.
 
 SEE ALSO
-    help(1), ls(1), cd(1), man(1)
-
-    Remember, cat is basically opening a file,
-    but with considerably less clicking.
+    ls(1), cd(1), pwd(1), less(1), more(1)
 
 AUTHOR
-    The Developer Who Wanted to Read a File
+    The Developer Who Said,
+    "I Just Need to Quickly Look at This File."
