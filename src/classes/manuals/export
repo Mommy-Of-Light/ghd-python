@@ -1,0 +1,181 @@
+EXPORT(1)                     Funny CLI Manual                     EXPORT(1)
+
+NAME
+    export — Package the entire workspace into an archive, because
+             eventually someone will ask, "Can you just send me everything?"
+
+SYNOPSIS
+    export <zip|tar|tar.gz>
+    export [name] <zip|tar|tar.gz>
+
+DESCRIPTION
+    The 'export' command creates an archive containing the contents of
+    the CLI workspace and saves it under /workspace/exports.
+
+    It supports ZIP, TAR, and GZIP-compressed TAR archives.
+
+    You can either let the command invent a timestamped filename or
+    provide your own name.
+
+    In short:
+
+        export zip
+        export my_backup zip
+        export project.tar.gz tar.gz
+
+    Because manually collecting 847 files into a ZIP is a hobby
+    nobody asked for.
+
+ARGUMENTS
+    name
+        Optional name for the generated archive.
+
+        If provided, any trailing supported archive extension is
+        removed before the selected format is added.
+
+        For example:
+
+            export backup.zip tar
+
+        produces:
+
+            backup.tar
+
+    format
+        Required archive format.
+
+        Supported formats are:
+
+            zip
+            .zip
+            tar
+            .tar
+            gz
+            tgz
+            .tgz
+            tar.gz
+            .tar.gz
+
+        The formats 'gz' and 'tgz' are normalized to '.tar.gz'.
+
+DEFAULT NAME
+    If no name is provided, the archive receives a timestamped name:
+
+        data_YYYYMMDD-HHMMSS.<format>
+
+    For example:
+
+        data_20260903-144210.zip
+
+    Because naming files manually is apparently another problem
+    that timestamps can solve.
+
+OUTPUT
+    All exported archives are written to:
+
+        /workspace/exports
+
+    The directory is created automatically if it does not already
+    exist.
+
+ARCHIVE CONTENTS
+    ZIP
+        Every file in the workspace is recursively added to the ZIP.
+
+        Files are stored using paths relative to the workspace root.
+
+    TAR
+        The entire workspace is added recursively to the TAR archive
+        using the workspace directory's name as the archive root.
+
+    TAR.GZ
+        Same contents as TAR, but compressed with gzip.
+
+BEHAVIOR
+    The command accepts both an older one-argument syntax and a newer
+    two-argument syntax:
+
+        export zip
+            Creates a timestamped ZIP archive.
+
+        export my_backup zip
+            Creates 'my_backup.zip'.
+
+    Format matching is case-insensitive.
+
+    If an unsupported format is supplied, the command prints:
+
+        Unsupported format. Use zip, tar, or tar.gz
+
+    The workspace is then left safely unexported.
+
+ERRORS
+    Usage: export [name] <zip|tar|tar.gz>
+        No arguments were supplied.
+
+    Unsupported format. Use zip, tar, or tar.gz
+        The requested archive format is not supported.
+
+    Export error: <error>
+        Something went wrong while creating the archive.
+
+        The filesystem has once again chosen violence.
+
+SUCCESS
+    On success, the command prints:
+
+        Workspace exported to <path>
+
+    At which point your entire workspace has been carefully stuffed
+    into an archive and deposited in /workspace/exports.
+
+EXAMPLES
+    > export zip
+        Creates something like:
+
+            /workspace/exports/data_20260903-144210.zip
+
+        The timestamp handles the naming crisis for you.
+
+    > export backup zip
+        Creates:
+
+            /workspace/exports/backup.zip
+
+    > export project.tar.gz tar.gz
+        Creates:
+
+            /workspace/exports/project.tar.gz
+
+        A compressed archive with a name that already knows exactly
+        what it is.
+
+    > export project.zip tar
+        Creates:
+
+            /workspace/exports/project.tar
+
+        The supplied archive extension is removed and replaced with
+        the requested format.
+
+FUN FACTS
+    - ZIP archives use DEFLATE compression.
+    - TAR archives are uncompressed.
+    - TAR.GZ archives use gzip compression.
+    - ZIP exports contain workspace files using paths relative to
+      the workspace.
+    - TAR exports include the workspace directory itself as the
+      archive root.
+    - The export directory is created automatically.
+    - Format names are case-insensitive.
+    - The command supports both the old one-argument syntax and the
+      newer named syntax.
+    - Nothing says "backup strategy" quite like naming your archive
+      'data_20260903-144210.zip' and hoping for the best.
+
+SEE ALSO
+    ls(1), info(1), search(1), tree(1)
+
+AUTHOR
+    The Developer Who Said,
+    "Just Zip the Whole Thing."

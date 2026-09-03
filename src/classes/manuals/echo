@@ -1,47 +1,63 @@
-ECHO(1)                    Funny CLI Manual                     ECHO(1)
+ECHO(1)                       Funny CLI Manual                       ECHO(1)
 
 NAME
-    echo — Display text in the terminal.
+    echo — Print text to the terminal, because apparently typing it
+          yourself wasn't interactive enough.
 
 SYNOPSIS
     echo <text>
 
 DESCRIPTION
-    The 'echo' command prints the provided text to the terminal.
+    The 'echo' command prints the supplied text to the terminal.
 
-    Multiple arguments are joined together with spaces, allowing you to
-    write a complete sentence without worrying about the terminal
-    understanding you.
+    All arguments are joined together with a single space and then
+    printed as one line.
+
+    It is simple, predictable, and completely uninterested in your
+    philosophical opinions about newline handling.
 
 ARGUMENTS
-    text    The text to display.
-    Multiple words can be provided as separate arguments.
+    text
+        The text to print.
 
-USAGE
-    > echo Hello
-        Displays Hello.
+        Multiple arguments are joined with a single space.
 
-    > echo Hello World
-        Displays Hello World.
+        If no arguments are provided, 'echo' simply prints a blank
+        line. Sometimes silence really is golden.
+
+OUTPUT
+    The command prints:
+
+        " ".join(args)
+
+    followed by the normal newline produced by 'print()'.
 
 EXAMPLES
-    > echo Welcome to the CLI
-        Prints the message "Welcome to the CLI".
+    > echo Hello
+        Hello
+
+    > echo Hello world
+        Hello world
 
     > echo This is a test
-        Prints the provided sentence.
+        This is a test
 
     > echo
-        Prints an empty line.
+        
+
+        Congratulations. You have successfully printed nothing.
 
 FUN FACTS
-    - echo does not modify files.
-    - Multiple arguments are automatically separated by spaces.
-    - echo is one of the simplest commands in the CLI.
-    - Sometimes you just need the computer to say something back.
+    - Multiple arguments are separated by exactly one space.
+    - The command does not perform variable expansion.
+    - It does not interpret shell quoting or escape sequences itself.
+    - No arguments produces a blank line.
+    - It is probably the most emotionally stable command in the CLI.
+    - When debugging, 'echo' is always there for you.
 
 SEE ALSO
-    help(1), man(1)
+    clear(1), help(1), pwd(1)
 
 AUTHOR
-    The Developer Who Wanted You to Smile
+    The Developer Who Said,
+    "Let's Start With Something That Just Prints Stuff."

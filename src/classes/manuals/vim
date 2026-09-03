@@ -1,42 +1,94 @@
-VIM(1)                    Funny CLI Manual                     VIM(1)
+VIM(1)                       Funny CLI Manual                       VIM(1)
 
 NAME
-    vim — Open a file in the built-in terminal text editor.
+    vim — Open a file in the terminal editor using a Vim-style
+          command name, without actually launching Vim.
 
 SYNOPSIS
     vim <file>
 
 DESCRIPTION
-    The 'vim' command opens a file using the built-in terminal text editor.
-    It behaves exactly like the 'edit' command and provides a familiar
-    command name for users who prefer the traditional vim command.
+    The 'vim' command is an alternate name for the CLI's default
+    'edit' command.
 
-    This is not actually Vim. No modal editing, no mysterious commands,
-    and hopefully no accidental escape-room experience.
+    Despite its name, this command does NOT invoke the actual Vim
+    editor.
+
+    Instead, it passes all arguments directly to 'edit', which
+    creates and runs the application's TerminalEditor.
+
+    In practical terms:
+
+        vim <file>
+
+    is effectively:
+
+        edit <file>
+
+    'edit' remains the canonical command. 'vim' simply exists for
+    users whose muscle memory prefers typing 'vim'.
+
+EDITOR SELECTION
+    edit
+        The default and recommended command for the built-in editor.
+
+    nano
+        Familiar Unix-style name for the same TerminalEditor.
+        Does NOT launch GNU nano.
+
+    vim
+        Vim-style command name for the same TerminalEditor.
+        Does NOT launch Vim.
+
+    vi
+        Classic vi-style command name for the same TerminalEditor.
+        Does NOT launch vi.
+
+    The command names differ.
+    The editor does not.
 
 ARGUMENTS
-    file    The file to open in the terminal editor.
-    Can be a relative or absolute path.
+    file
+        The file to open in the terminal editor.
 
-USAGE
-    > vim file.txt
-        Opens file.txt in the built-in terminal editor.
-    
+        Required by the underlying 'edit' command.
+
+BEHAVIOR
+    All arguments received by 'vim' are passed unchanged to:
+
+        self.cmd_edit(args)
+
+    Therefore, path handling, editor behavior, and error reporting
+    are all inherited from 'edit'.
+
+    It is 'edit' with a Vim-shaped name.
+
 EXAMPLES
-    > vim README.txt
-        Opens README.txt for editing.
-    
-    > vim config.ini
-        Opens config.ini in the terminal editor.
+    > edit config.py
+        The canonical way to open config.py.
+
+    > vim config.py
+        Opens config.py in the same TerminalEditor.
+
+        You typed 'vim'.
+        No Vim was harmed in the execution of this command.
+
+    > vim README.md
+        Opens README.md using the default editor implementation.
 
 FUN FACTS
-    - vim is an alias for edit.
-    - The command uses the same built-in TerminalEditor.
-    - You do not need to install Vim inside the container.
-    - Your muscle memory may still try to type :wq.
+    - 'edit' is the canonical editor command.
+    - 'vim' is only an alternate command name.
+    - Actual Vim is not required.
+    - No Vim configuration files are loaded by this command.
+    - No Vim installation is involved.
+    - File completion is enabled.
+    - The command delegates directly to 'edit'.
+    - The name says Vim. The implementation says "surprise."
 
 SEE ALSO
-    vi(1), edit(1), nano(1), cat(1), preview(1)
+    edit(1), nano(1), vi(1), cat(1), preview(1)
 
 AUTHOR
-    The Developer Who Wanted You to Smile
+    The Developer Who Said,
+    "Some Users Type Vim. Let's Not Fight Them."

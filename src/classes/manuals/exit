@@ -1,0 +1,77 @@
+EXIT(1)                        Funny CLI Manual                        EXIT(1)
+
+NAME
+    exit — Leave the CLI, because eventually even the terminal needs
+           some alone time.
+
+SYNOPSIS
+    exit
+    quit
+
+DESCRIPTION
+    The 'exit' command terminates the CLI immediately and returns
+    control to the operating system.
+
+    It does so by calling:
+
+        sys.exit(0)
+
+    which indicates a successful, completely intentional departure.
+
+    No dramatic farewell is printed. No confirmation is requested.
+    You simply leave.
+
+ALIASES
+    quit
+        An alternate name for 'exit', for users who prefer their
+        terminal commands to sound slightly more conversational.
+
+BEHAVIOR
+    When executed, the command terminates the current process with
+    exit status 0.
+
+    Exit status 0 means:
+
+        "Everything is fine. I meant to do that."
+
+    Any unsaved work or state maintained by the CLI is not handled
+    by this command itself. If something needed saving, hopefully
+    you remembered before pressing the big red button.
+
+ARGUMENTS
+    None.
+
+    Any supplied arguments are ignored by this function.
+
+EXAMPLES
+    > exit
+        The CLI closes successfully.
+
+    > quit
+        Does exactly the same thing.
+
+        Different word. Same escape hatch.
+
+    > exit
+        You leave the CLI.
+
+        The terminal remains.
+        Your problems remain.
+        At least this process doesn't.
+
+FUN FACTS
+    - 'exit' terminates the process with status code 0.
+    - 'quit' is its alias.
+    - No confirmation prompt is displayed.
+    - No goodbye message is printed.
+    - Exit status 0 tells the operating system that everything
+      ended successfully.
+    - Sometimes the most powerful command is the one that simply
+      knows when to leave.
+
+SEE ALSO
+    clear(1), history(1), help(1)
+
+AUTHOR
+    The Developer Who Said,
+    "Okay, That's Enough Terminal for Today."

@@ -631,7 +631,7 @@ class CommandHandler:
     @command(help_text="history")
     def cmd_history(self, args):
         for i in range(1, readline.get_current_history_length() + 1):
-            print(f"{i:4}: {readline.get_history_item(i)}")
+            print(f"{i:6}: {readline.get_history_item(i)}")
 
     @command(help_text="exit / quit", aliases={"quit": []})
     def cmd_exit(self, args):
@@ -726,7 +726,11 @@ class CommandHandler:
         except Exception as e:
             print("Export error:", e)
 
-    @command(help_text="import <file>", path_like=True, file_complete=True)
+    @command(
+        help_text="python [<file>|<expression>]",
+        path_like=True,
+        file_complete=True,
+    )
     def cmd_python(self, args):  # Case B: Enter REPL if no arguments
         # ---------- Case A: run python file ----------
         if args:

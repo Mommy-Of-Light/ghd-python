@@ -1,0 +1,81 @@
+HISTORY(1)                    Funny CLI Manual                    HISTORY(1)
+
+NAME
+    history — Display your command history, because apparently
+              forgetting what you typed five minutes ago is a feature.
+
+SYNOPSIS
+    history
+
+DESCRIPTION
+    The 'history' command displays the commands currently stored in
+    the terminal's readline history.
+
+    Each history entry is printed with its numeric position, because
+    your past mistakes deserve proper indexing.
+
+    The history is provided by Python's 'readline' module.
+
+OUTPUT
+    Each entry is displayed in the following format:
+
+        <number>: <command>
+
+    The command number is right-aligned in a six-character field.
+
+    For example:
+
+             1: ls
+             2: cd projects
+             3: echo hello
+             4: history
+
+    The wider number field keeps things nicely aligned, even when
+    your command history becomes long enough to require adult supervision.
+
+BEHAVIOR
+    The command queries:
+
+        readline.get_current_history_length()
+
+    and retrieves each history entry using:
+
+        readline.get_history_item(i)
+
+    History numbering starts at 1, following readline's convention.
+
+    If the history is empty, nothing is printed.
+
+    No filtering, searching, editing, or cleanup is performed.
+    This command simply reveals what readline remembers.
+
+EXAMPLES
+    > history
+             1: ls
+             2: cd src
+             3: edit main.py
+             4: clear
+             5: history
+
+    > history
+        Displays the increasingly questionable decisions that led
+        to the current state of the terminal.
+
+FUN FACTS
+    - History entries are numbered starting from 1.
+    - Numbers are padded to six characters for alignment.
+    - The command reads directly from readline's current history.
+    - It does not clear or modify the history.
+    - Running 'history' adds another command to the history, because
+      the terminal has a sense of humor.
+    - The six-character padding is ready for histories containing
+      up to 999,999 entries without ruining the alignment.
+    - Yes, the command you're using to inspect history becomes part
+      of the history you're inspecting. Recursive embarrassment.
+
+SEE ALSO
+    clear(1), echo(1), help(1), pwd(1)
+
+AUTHOR
+    The Developer Who Said,
+    "Wait... What Did I Type Before That?"

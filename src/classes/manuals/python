@@ -1,0 +1,192 @@
+PYTHON(1)                     Funny CLI Manual                     PYTHON(1)
+
+NAME
+    python — Run Python files, evaluate expressions, execute code,
+             or summon an interactive Python shell without leaving the CLI.
+
+SYNOPSIS
+    python
+    python <file>
+    python <expression>
+
+DESCRIPTION
+    The 'python' command brings Python execution directly into the CLI.
+
+    It has three personalities, because apparently one was not enough:
+
+        python
+            Enter an interactive Python shell.
+
+        python <file>
+            Run a Python script from the workspace.
+
+        python <expression>
+            Evaluate or execute the supplied Python code.
+
+    The command checks whether the first argument is an existing
+    '.py' file. If so, it runs that file as '__main__'. Otherwise,
+    the entire argument list is joined into a single Python expression
+    or statement.
+
+    No external Python process is spawned for scripts or expressions.
+    The code runs directly through Python's own execution machinery.
+
+MODES
+    Interactive REPL
+        With no arguments, 'python' enters an interactive Python shell.
+
+        The prompt is:
+
+            >>>
+
+        and becomes:
+
+            ...
+
+        when entering a multi-line statement.
+
+        Type 'exit', 'exit()', 'quit', or 'quit()' to leave.
+
+    Script Execution
+        If the first argument points to an existing '.py' file inside
+        the CLI workspace, that script is executed with:
+
+            runpy.run_path(..., run_name="__main__")
+
+        Before execution, the command prints:
+
+            Running script: <path>
+
+    Expression Evaluation
+        If the arguments do not identify a Python file, they are joined
+        with spaces and evaluated with 'eval()'.
+
+        If the result is not None, it is printed.
+
+    Statement Execution
+        If evaluation raises a SyntaxError, the command tries 'exec()'
+        instead.
+
+        This allows statements and other executable Python code to be
+        entered without needing to manually invoke an interpreter.
+
+ARGUMENTS
+    file
+        An existing Python file with a '.py' extension.
+
+        The file is resolved relative to the CLI workspace.
+
+    expression
+        Any Python expression or executable statement supplied as
+        command-line arguments.
+
+        Multiple arguments are joined with a single space before
+        evaluation.
+
+INTERACTIVE SHELL
+    The interactive shell provides a small execution context containing:
+
+        workspace
+            The CLI workspace path.
+
+        fm
+            The current file-manager/CLI command object.
+
+    The shell reads directly from 'sys.__stdin__', deliberately bypassing
+    the CLI's normal history handling.
+
+    Multi-line Python is supported. The command keeps collecting lines
+    when Python reports an incomplete block.
+
+    Pressing Ctrl+C prints:
+
+        KeyboardInterrupt
+
+    and resets the current input buffer without leaving the shell.
+
+EXITING
+    The Python shell can be exited with any of:
+
+        exit
+        exit()
+        quit
+        quit()
+
+    End-of-file on stdin also exits the shell.
+
+    On exit, the command prints:
+
+        Exited Python shell.
+
+ERRORS
+    Python script error: <error>
+        The selected Python file failed while being executed.
+
+    Python evaluation error: <error>
+        The supplied expression could not be evaluated.
+
+    Python execution error: <error>
+        Evaluation determined that the input should be executed as
+        statements, but execution failed.
+
+    Syntax errors encountered while entering interactive code are
+    displayed directly and reset the current input buffer when the
+    input is not merely incomplete.
+
+EXAMPLES
+    > python
+        Enters the interactive Python shell.
+
+            >>> 2 + 2
+            4
+
+        Civilization has peaked.
+
+    > python hello.py
+        Runs hello.py from the CLI workspace.
+
+            Running script: /workspace/hello.py
+
+    > python 2 + 2
+        Evaluates the expression and prints:
+
+            4
+
+    > python print("Hello, world!")
+        Executes the supplied Python expression.
+
+            Hello, world!
+
+    > python x = 42
+        Evaluation fails because this is not an expression, so the
+        command falls back to 'exec()' and executes the assignment.
+
+    > python for i in range(3):
+    ...     print(i)
+
+        Executes multi-line Python in the interactive shell.
+
+FUN FACTS
+    - With no arguments, this command becomes its own miniature
+      Python shell.
+    - Existing '.py' files are executed as '__main__'.
+    - Expressions are evaluated with 'eval()'.
+    - Syntax that cannot be evaluated as an expression is attempted
+      with 'exec()'.
+    - Script execution and expression evaluation use empty globals
+      and locals.
+    - The interactive shell has access to 'workspace' and 'fm'.
+    - Interactive input bypasses the CLI's readline history entirely.
+    - Ctrl+C clears the current multi-line buffer instead of killing
+      the entire CLI.
+    - The command supports multi-line Python because one-line Python
+      eventually becomes everyone's problem.
+    - Yes, you can use Python to control the file manager that launched
+      Python. We call this "recursion with administrative privileges."
+
+SEE ALSO
+    edit(1), history(1), help(1), ls(1), cd(1)
+
+AUTHOR
+    The Developer Who Said,
+    "What If the CLI Could Just Run Python?"

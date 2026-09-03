@@ -1,40 +1,67 @@
-CLEAR(1)                   Funny CLI Manual                    CLEAR(1)
+CLEAR(1)                      Funny CLI Manual                      CLEAR(1)
 
 NAME
-    clear — Clear the terminal screen.
+    clear — Clear the terminal screen, because sometimes the only
+            solution to terminal chaos is pretending it never happened.
 
 SYNOPSIS
     clear
+    cls
 
 DESCRIPTION
-    The 'clear' command clears everything currently displayed in the terminal
-    and gives you a fresh screen.
+    The 'clear' command clears the current terminal screen.
 
-    Because sometimes the terminal gets too messy and pretending it never
-    happened is easier than cleaning it manually.
+    It detects the operating system and uses the appropriate system
+    command:
 
-USAGE
-    > clear
-        Clears the terminal screen.
+        Windows      → cls
+        Everything else → clear
+
+    Because terminals may differ, but the desire to make the mess
+    disappear is universal.
 
 ALIASES
-    cls     Alias for clear.
+    cls
+        An alternate name for 'clear', provided for users who grew up
+        on Windows or simply enjoy typing fewer syllables.
+
+BEHAVIOR
+    The command invokes the operating system's screen-clearing command
+    using 'os.system()'.
+
+    No arguments are required or processed.
+
+    It does not delete files, erase command history, or undo your
+    questionable life choices. It merely makes them harder to see.
 
 EXAMPLES
     > clear
-        Clears the terminal.
+        Clears the terminal screen.
 
     > cls
-        Does exactly the same thing as clear.
+        Does exactly the same thing.
+
+        Windows users: finally, some representation.
+
+    > clear
+        Followed immediately by accidentally scrolling up.
+
+        The terminal remembers.
+        The terminal always remembers.
 
 FUN FACTS
-    - clear uses the appropriate command for the operating system.
-    - On Windows, it uses cls.
-    - On Linux and other Unix-like systems, it uses clear.
-    - cls exists so Windows users can feel at home.
+    - 'clear' uses 'clear' on Unix-like systems.
+    - 'clear' uses 'cls' on Windows.
+    - The 'cls' alias works regardless of which operating system
+      you're actually running.
+    - The command does not require any arguments.
+    - It clears the screen, not your shell history.
+    - It also cannot clear your browser history, your git history,
+      or the memory of that production incident.
 
 SEE ALSO
-    help(1), man(1)
+    help(1), pwd(1), ls(1), cd(1)
 
 AUTHOR
-    The Developer Who Wanted You to Smile
+    The Developer Who Said,
+    "If I Can't Fix It, I'll Just Clear the Screen."

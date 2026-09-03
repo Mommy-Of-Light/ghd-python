@@ -1,37 +1,165 @@
-MAN(1)                     Funny CLI Manual                     MAN(1)
+MAN(1)                        Funny CLI Manual                        MAN(1)
 
 NAME
-    man — Display manuals for commands, or for man itself if you're feeling recursive.
+    man — Display the manual for a command, because apparently
+         remembering what your own software does is too much to ask.
+
+    man — Display manuals for commands, or for man itself if you're feeling
+         recursive.
 
 SYNOPSIS
-    man [command]
+    man
+    man <command>
 
 DESCRIPTION
+    The 'man' command displays documentation for commands available
+    in the CLI.
+
     The 'man' command is your friendly neighborhood guide to all things CLI.
+
     It tells you what other commands do, how to use them, and occasionally how to
     make yourself a sandwich (not guaranteed).
 
-USAGE
-    > man            # Shows a list of all commands, in case you forgot or are feeling lost.
-    > man <command>  # Shows a detailed explanation of the command.
-    > man man        # The universe folds in on itself, and you see this manual. Brace yourself.
+    With no arguments, it lists every registered command and reminds
+    you how to request a specific manual.
+
+    With a command name, it loads that command's manual from the
+    CLI's manuals directory and displays it through the built-in
+    pager.
+
+    In other words, 'man' is the part of the CLI that explains what
+    all the other parts of the CLI are supposed to be doing.
+
+    And naturally, if you ask 'man' about itself:
+
+        man man
+
+    The universe folds in on itself, and you see this manual. Brace yourself.
+
+COMMAND LISTING
+    When invoked without arguments, 'man' prints:
+
+        Available commands:
+
+    followed by every command returned by 'get_all_commands()'.
+
+    It then suggests:
+
+        Use 'man <command>' to learn more about a specific command.
+
+    No manual is opened in this mode.
+
+COMMAND LOOKUP
+    When a command is supplied, 'man' first checks whether the name
+    is an alias.
+
+    If it is, the alias is resolved to its actual command before
+    looking for the manual.
+
+    This means:
+
+        man ll
+
+    can resolve to the manual for:
+
+        ls
+
+    assuming 'll' is registered as an alias for 'ls'.
+
+    Because even documentation needs alias support.
+
+MANUAL FILES
+    Manuals are loaded from the CLI's 'manuals' directory.
+
+    The command first looks for:
+
+        <command>.txt
+
+    If that file does not exist, it falls back to:
+
+        <command>
+
+    Files are read as UTF-8 text.
+
+    The resulting manual is passed to the built-in pager with
+    25 lines per page.
+
+ERRORS
+    No manual entry for '<command>'.
+        The requested command does not exist.
+
+    No manual entry for '<command>'.
+        The command exists, but its manual file could not be found.
+
+    Yes, the same message covers both situations. Documentation
+    mysteries are best left mysterious.
+
+OUTPUT
+    With no command:
+
+        Available commands:
+         - ls
+         - cd
+         - pwd
+         ...
+
+        Use 'man <command>' to learn more about a specific command.
+
+    With a valid command, the corresponding manual is displayed
+    through the pager.
+
+EXAMPLES
+    > man
+        Lists all available commands.
+
+        Useful when you've forgotten what you built.
+
+    > man ls
+        Displays the manual for 'ls'.
+
+        Because even listing files deserves documentation.
+
+    > man ll
+        Resolves 'll' to its underlying command and displays the
+        corresponding manual.
+
+        The alias has been exposed.
+
+    > man python
+        Displays the Python command manual.
+
+        This may be longer than the command itself.
+
+    > man banana
+        Prints:
+
+            No manual entry for 'banana'.
+
+        A devastating blow to banana-based CLI administration.
+
+    > man man
+        Congratulations! You just stared into the abyss. The abyss blinked.
+        You blinked back.
 
 FUN FACTS
+    - 'man' can document aliases by resolving them before lookup.
+    - Manuals are stored as plain UTF-8 text files.
+    - '<command>.txt' is preferred over a file without an extension.
+    - Manuals are displayed through the CLI's pager.
+    - Pages are displayed in chunks of 25 lines.
+    - Running 'man man' displays this manual, assuming man.txt exists.
+    - The command can list everything without opening a single manual.
+    - This is documentation that documents the documentation system.
+    - We have officially entered metadocumentation territory.
     - Using 'man man' is technically called "metadocumentation."
     - It may cause mild existential crises in inexperienced programmers.
     - Repeated use can lead to spontaneous laughter and increased CLI wisdom.
 
-EXAMPLES
-    > man ls
-        Lists files in a directory. Also great for showing off your dotfiles.
-    > man cd
-        Changes your directory. Like teleportation, but slower.
-    > man man
-        Congratulations! You just stared into the abyss. The abyss blinked. You blinked back.
-
 SEE ALSO
-    help(1), ls(1), cd(1)
+    help(1), ls(1), python(1), history(1)
+
     Remember, 'man man' is the apex of CLI humor. Respect it.
 
 AUTHOR
-    The Developer Who Wanted You to Smile
+    The Developer Who Wrote the Manual
+    for the Command That Displays the Manuals.

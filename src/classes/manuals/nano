@@ -1,41 +1,88 @@
-NANO(1)                    Funny CLI Manual                     NANO(1)
+NANO(1)                       Funny CLI Manual                       NANO(1)
 
 NAME
-    nano — Open a file in the built-in terminal text editor.
+    nano — Open a file in the terminal editor using the familiar
+           Unix-style editor name, without actually launching GNU nano.
 
 SYNOPSIS
     nano <file>
 
 DESCRIPTION
-    The 'nano' command opens a file using the built-in terminal text editor.
-    It behaves exactly like the 'edit' command and provides a familiar
-    command name for users who are accustomed to nano.
+    The 'nano' command is an alternate name for the CLI's default
+    'edit' command.
 
-    It is not actually nano. It's nano's slightly suspicious cousin.
+    It does not launch the actual GNU nano editor. Instead, it passes
+    all arguments directly to 'edit', which creates and runs the
+    application's TerminalEditor.
+
+    In other words:
+
+        nano <file>
+
+    is effectively:
+
+        edit <file>
+
+    'edit' is the canonical command. 'nano' exists for users who
+    naturally reach for the familiar Unix editor name.
+
+EDITOR SELECTION
+    edit
+        The default and canonical command for opening the built-in
+        TerminalEditor.
+
+    nano
+        A familiar Unix-style name for the same built-in editor.
+        It does NOT launch GNU nano.
+
+    vim
+        A Vim-style name for the same built-in editor.
+        It does NOT launch Vim.
+
+    vi
+        A classic vi-style name for the same built-in editor.
+        It does NOT launch vi.
+
+    All four commands ultimately use the same TerminalEditor.
 
 ARGUMENTS
-    file    The file to open in the terminal editor.
-    Can be a relative or absolute path.
+    file
+        The file to open in the terminal editor.
 
-USAGE
-    > nano file.txt
-        Opens file.txt in the built-in terminal editor.
+        Required. If omitted, the underlying 'edit' command prints
+        its usage message.
+
+BEHAVIOR
+    All arguments received by 'nano' are passed directly to:
+
+        self.cmd_edit(args)
+
+    This means 'nano' inherits the path handling, editor behavior,
+    and error reporting of 'edit'.
+
+    Think of 'nano' as 'edit' wearing a familiar Unix nametag.
 
 EXAMPLES
-    > nano README.txt
-        Opens README.txt for editing.
+    > edit README.md
+        The canonical way to open README.md.
 
-    > nano config.ini
-        Opens config.ini in the terminal editor.
+    > nano README.md
+        Opens README.md in the same TerminalEditor.
+
+        You typed 'nano'. The computer heard 'edit'.
+        Everybody wins.
 
 FUN FACTS
-    - nano is simply an alias for edit.
-    - Both commands use the same built-in TerminalEditor.
-    - No external nano installation is required.
-    - You can use whichever command feels more natural.
+    - 'edit' is the default editor command.
+    - 'nano' is provided as a familiar alternative command name.
+    - GNU nano is not launched.
+    - The actual editor implementation is TerminalEditor.
+    - File completion is enabled.
+    - The command delegates directly to 'edit'.
 
 SEE ALSO
-    edit(1), cat(1), preview(1), head(1), tail(1)
+    edit(1), vim(1), vi(1), cat(1), preview(1)
 
 AUTHOR
-        The Developer Who Wanted You to Smile
+    The Developer Who Said,
+    "Let's Support Familiar Names Without Installing Four Editors."
